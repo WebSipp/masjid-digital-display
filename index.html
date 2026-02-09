@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Digital Masjid Baiturrahman STMIK Tazkia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1A4D8C 0%, #2E77BB 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .portal-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            padding: 40px;
+            text-align: center;
+            max-width: 900px;
+            width: 100%;
+        }
+        .logo { margin-bottom: 30px; }
+        .logo h1 {
+            color: #1A4D8C;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .logo p { color: #666; font-size: 1.1rem; }
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .app-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+        .app-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            border-color: #2E77BB;
+        }
+        .app-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #2E77BB;
+        }
+        .app-card:nth-child(2) .app-icon { color: #D4AF37; }
+        .app-card h2 {
+            color: #2C3E50;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        .app-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .app-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #2E77BB 0%, #1A4D8C 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .app-card:nth-child(2) .app-button {
+            background: linear-gradient(135deg, #D4AF37 0%, #8B6B3D 100%);
+        }
+        .app-button:hover { transform: scale(1.05); }
+        .instructions {
+            margin-top: 40px;
+            padding: 20px;
+            background: #F0F4F8;
+            border-radius: 10px;
+            text-align: left;
+        }
+        .instructions h3 {
+            color: #1A4D8C;
+            margin-bottom: 15px;
+        }
+        .instructions ul {
+            list-style-position: inside;
+            color: #555;
+        }
+        .instructions li { margin-bottom: 8px; }
+        @media (max-width: 768px) {
+            .portal-container { padding: 20px; }
+            .logo h1 { font-size: 2rem; }
+            .apps-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-container">
+        <div class="logo">
+            <h1><i class="fas fa-mosque"></i> MASJID BAITURRAHMAN</h1>
+            <p>STMIK TAZKIA - Display Digital & Admin Panel</p>
+        </div>
+        
+        <div class="apps-grid">
+            <a href="display.html" class="app-card">
+                <div class="app-icon"><i class="fas fa-tv"></i></div>
+                <h2>DISPLAY DIGITAL</h2>
+                <p>Tampilan utama untuk layar TV di masjid. Menampilkan jadwal shalat, waktu, hikmah, dan informasi penting lainnya.</p>
+                <div class="app-button">Buka Display</div>
+            </a>
+            
+            <a href="admin-panel.html" class="app-card">
+                <div class="app-icon"><i class="fas fa-cogs"></i></div>
+                <h2>ADMIN PANEL</h2>
+                <p>Panel administrasi untuk mengelola konten display. Update hikmah, pengumuman, wallpaper, dan data masjid.</p>
+                <div class="app-button">Buka Admin Panel</div>
+            </a>
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> Petunjuk Penggunaan:</h3>
+            <ul>
+                <li><strong>Display Digital:</strong> Buka di browser yang akan ditampilkan di TV/layar masjid. Gunakan mode fullscreen.</li>
+                <li><strong>Admin Panel:</strong> Buka di komputer/HP untuk mengelola konten.</li>
+                <li>Pastikan koneksi internet tersedia untuk sinkronisasi data.</li>
+                <li>Untuk tampilan optimal, gunakan browser Chrome atau Edge versi terbaru.</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
