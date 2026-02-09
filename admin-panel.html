@@ -43,7 +43,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -53,9 +53,9 @@
         }
         
         .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--gray);
+            width: 60px;
+            height: 60px;
+            border: 5px solid #f3f3f3;
             border-top: 5px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -687,7 +687,7 @@
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
-        <p>Memuat...</p>
+        <p id="loadingText">Menyiapkan sistem...</p>
     </div>
     
     <!-- Toast Container -->
@@ -1475,10 +1475,11 @@
 
     <script>
         // ========================================
-        // KONFIGURASI
+        // KONFIGURASI UTAMA - UPDATE URL API
         // ========================================
-        const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbz4v-Jqup2KPRmxoeRRfNCogEhKd6Ys0fwXCGd6LojX2M-a5Tub5mkHxdBZ8EVJmPDU/exec'; // URL BARU
+        const API_BASE_URL = 'https://script.google.com/macros/s/AKfycbz4v-Jqup2KPRmxoeRRfNCogEhKd6Ys0fwXCGd6LojX2M-a5Tub5mkHxdBZ8EVJmPDU/exec';
         
+        // Data storage
         let currentUser = null;
         let configData = {};
         let wisdomsData = [];
@@ -1487,9 +1488,10 @@
         let fridayScheduleData = {};
         let announcementsData = [];
         let wallpapersData = [];
+        let isOfflineMode = false;
         
         // ========================================
-        // FUNGSI UTILITAS
+        // FUNGSI UTILITAS DASAR
         // ========================================
         
         function showToast(message, type = 'success') {
@@ -1516,16 +1518,14 @@
             
             toastContainer.appendChild(toast);
             
-            // Hapus toast setelah 5 detik
             setTimeout(() => {
                 toast.classList.add('hide');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
+                setTimeout(() => toast.remove(), 300);
             }, 5000);
         }
         
-        function showLoading() {
+        function showLoading(text = 'Memuat...') {
+            document.getElementById('loadingText').textContent = text;
             document.getElementById('loadingOverlay').style.display = 'flex';
         }
         
@@ -1544,248 +1544,304 @@
         }
         
         // ========================================
-        // FUNGSI AUTHENTIKASI
+        // FUNGSI API HANDLING - GOOGLE APPS SCRIPT COMPATIBLE
         // ========================================
         
-        async function login(username, password) {
-            showLoading();
-            
+        // Fungsi utama untuk fetch data dari Google Apps Script
+        async function fetchFromGoogleScript(endpoint, params = {}) {
             try {
-                const response = await fetch(`${API_BASE_URL}?path=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
-                const data = await response.json();
+                // Build URL dengan parameter
+                const urlParams = new URLSearchParams(params);
+                const url = `${API_BASE_URL}?path=${endpoint}&${urlParams.toString()}`;
                 
-                if (data.success) {
-                    currentUser = data.data;
-                    localStorage.setItem('masjid_admin_token', data.data.token);
-                    localStorage.setItem('masjid_admin_user', JSON.stringify(data.data));
-                    
-                    document.getElementById('userName').textContent = data.data.name;
-                    document.getElementById('loginPage').style.display = 'none';
-                    document.getElementById('adminLayout').style.display = 'block';
-                    
-                    // Load initial data
-                    await loadAllData();
-                    
-                    showToast('Login berhasil!', 'success');
-                } else {
-                    showToast(data.error || 'Login gagal', 'error');
+                console.log(`Fetching: ${url}`);
+                
+                // Fetch dengan timeout handling
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        function logout() {
-            localStorage.removeItem('masjid_admin_token');
-            localStorage.removeItem('masjid_admin_user');
-            currentUser = null;
-            
-            document.getElementById('loginPage').style.display = 'flex';
-            document.getElementById('adminLayout').style.display = 'none';
-            
-            // Reset form
-            document.getElementById('loginForm').reset();
-        }
-        
-        function checkAuth() {
-            const token = localStorage.getItem('masjid_admin_token');
-            const user = localStorage.getItem('masjid_admin_user');
-            
-            if (token && user) {
-                currentUser = JSON.parse(user);
-                document.getElementById('userName').textContent = currentUser.name;
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('adminLayout').style.display = 'block';
                 
-                // Load initial data
-                loadAllData();
-                return true;
+                const data = await response.json();
+                console.log(`API Response for ${endpoint}:`, data);
+                
+                // Handle Google Apps Script response formats
+                return normalizeGoogleScriptResponse(data);
+                
+            } catch (error) {
+                console.error(`Error fetching ${endpoint}:`, error);
+                return { success: false, error: error.message };
             }
-            return false;
+        }
+        
+        // Normalize berbagai format respons dari Google Apps Script
+        function normalizeGoogleScriptResponse(data) {
+            console.log('Normalizing response:', data);
+            
+            // Format 1: { success: true, data: [...] }
+            if (data.success === true && data.data !== undefined) {
+                return { success: true, data: data.data };
+            }
+            
+            // Format 2: { status: "success", result: [...] }
+            if (data.status === "success" && data.result !== undefined) {
+                return { success: true, data: data.result };
+            }
+            
+            // Format 3: Langsung array (tanpa wrapper)
+            if (Array.isArray(data)) {
+                return { success: true, data: data };
+            }
+            
+            // Format 4: { items: [...] }
+            if (data.items && Array.isArray(data.items)) {
+                return { success: true, data: data.items };
+            }
+            
+            // Format 5: { records: [...] }
+            if (data.records && Array.isArray(data.records)) {
+                return { success: true, data: data.records };
+            }
+            
+            // Format 6: { list: [...] }
+            if (data.list && Array.isArray(data.list)) {
+                return { success: true, data: data.list };
+            }
+            
+            // Format 7: Untuk config yang return object
+            if (data && typeof data === 'object' && !Array.isArray(data)) {
+                // Cek jika ini config data
+                if (data.masjid_name || data.timezone || data.latitude) {
+                    return { success: true, data: data };
+                }
+            }
+            
+            // Format tidak dikenali
+            console.warn('Unknown response format:', data);
+            return { success: false, error: 'Unknown response format', raw: data };
+        }
+        
+        // Fungsi untuk POST data ke Google Apps Script
+        async function postToGoogleScript(endpoint, data) {
+            try {
+                const url = `${API_BASE_URL}?path=${endpoint}`;
+                
+                console.log(`Posting to ${url}:`, data);
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                return normalizeGoogleScriptResponse(result);
+                
+            } catch (error) {
+                console.error(`Error posting to ${endpoint}:`, error);
+                return { success: false, error: error.message };
+            }
         }
         
         // ========================================
-        // FUNGSI LOAD DATA
+        // FUNGSI LOAD DATA DARI API
         // ========================================
         
         async function loadAllData() {
-            showLoading();
+            showLoading('Memuat data dari server...');
             
             try {
-                await Promise.all([
-                    loadConfig(),
-                    loadWisdoms(),
-                    loadFridayWisdoms(),
-                    loadAdabs(),
-                    loadFridaySchedule(),
-                    loadAnnouncements(),
-                    loadWallpapers()
-                ]);
+                console.log('Starting to load all data from API...');
                 
+                // 1. Load config
+                console.log('Loading config...');
+                const configResult = await fetchFromGoogleScript('config');
+                if (configResult.success) {
+                    configData = configResult.data;
+                    console.log('Config loaded:', configData);
+                    fillConfigForm();
+                    isOfflineMode = false;
+                } else {
+                    console.warn('Failed to load config:', configResult.error);
+                    isOfflineMode = true;
+                }
+                
+                // 2. Load wisdoms
+                console.log('Loading wisdoms...');
+                const wisdomsResult = await fetchFromGoogleScript('wisdoms');
+                if (wisdomsResult.success) {
+                    wisdomsData = wisdomsResult.data;
+                    console.log('Wisdoms loaded:', wisdomsData.length, 'items');
+                    renderWisdomsTable();
+                }
+                
+                // 3. Load Friday wisdoms
+                console.log('Loading Friday wisdoms...');
+                const fridayWisdomsResult = await fetchFromGoogleScript('friday-wisdoms');
+                if (fridayWisdomsResult.success) {
+                    fridayWisdomsData = fridayWisdomsResult.data;
+                    console.log('Friday wisdoms loaded:', fridayWisdomsData.length, 'items');
+                    renderFridayWisdomsTable();
+                }
+                
+                // 4. Load adabs (normal)
+                console.log('Loading normal adabs...');
+                const normalAdabsResult = await fetchFromGoogleScript('adabs', { type: 'normal' });
+                if (normalAdabsResult.success) {
+                    adabsData.normal = normalAdabsResult.data;
+                    console.log('Normal adabs loaded:', adabsData.normal.length, 'items');
+                }
+                
+                // 5. Load adabs (friday)
+                console.log('Loading Friday adabs...');
+                const fridayAdabsResult = await fetchFromGoogleScript('adabs', { type: 'friday' });
+                if (fridayAdabsResult.success) {
+                    adabsData.friday = fridayAdabsResult.data;
+                    console.log('Friday adabs loaded:', adabsData.friday.length, 'items');
+                }
+                
+                // 6. Load Friday schedule
+                console.log('Loading Friday schedule...');
+                const scheduleResult = await fetchFromGoogleScript('friday-schedule');
+                if (scheduleResult.success) {
+                    fridayScheduleData = scheduleResult.data;
+                    console.log('Friday schedule loaded:', fridayScheduleData);
+                    fillFridayScheduleForm();
+                }
+                
+                // 7. Load announcements
+                console.log('Loading announcements...');
+                const announcementsResult = await fetchFromGoogleScript('announcements');
+                if (announcementsResult.success) {
+                    announcementsData = announcementsResult.data;
+                    console.log('Announcements loaded:', announcementsData.length, 'items');
+                    renderAnnouncementsTable();
+                }
+                
+                // 8. Load wallpapers
+                console.log('Loading wallpapers...');
+                const wallpapersResult = await fetchFromGoogleScript('wallpapers');
+                if (wallpapersResult.success) {
+                    wallpapersData = wallpapersResult.data;
+                    console.log('Wallpapers loaded:', wallpapersData.length, 'items');
+                    renderWallpapersGrid();
+                }
+                
+                // Update UI
                 updateStats();
+                renderAdabsTable('normal');
+                
+                console.log('All data loaded successfully');
+                showToast('✅ Data berhasil dimuat dari server', 'success');
                 
             } catch (error) {
-                showToast('Gagal memuat data: ' + error.message, 'error');
+                console.error('Error loading all data:', error);
+                isOfflineMode = true;
+                showToast('⚠️ Mode offline: Menggunakan data cache', 'warning');
             } finally {
                 hideLoading();
             }
         }
         
-        async function loadConfig() {
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=config`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    configData = data.data;
-                    
-                    // Isi form config
-                    for (const key in configData) {
-                        const element = document.getElementById(key);
-                        if (element) {
-                            if (element.type === 'checkbox') {
-                                element.checked = configData[key];
-                            } else {
-                                element.value = configData[key];
-                            }
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading config:', error);
-            }
-        }
-        
-        async function loadWisdoms() {
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=wisdoms`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    wisdomsData = data.data;
-                    renderWisdomsTable();
-                }
-            } catch (error) {
-                console.error('Error loading wisdoms:', error);
-            }
-        }
-        
-        async function loadFridayWisdoms() {
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=friday-wisdoms`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    fridayWisdomsData = data.data;
-                    renderFridayWisdomsTable();
-                }
-            } catch (error) {
-                console.error('Error loading Friday wisdoms:', error);
-            }
-        }
-        
-        async function loadAdabs() {
-            try {
-                const normalResponse = await fetch(`${API_BASE_URL}?path=adabs&type=normal`);
-                const normalData = await normalResponse.json();
-                
-                const fridayResponse = await fetch(`${API_BASE_URL}?path=adabs&type=friday`);
-                const fridayData = await fridayResponse.json();
-                
-                if (normalData.success) {
-                    adabsData.normal = normalData.data;
-                    renderAdabsTable('normal');
-                }
-                
-                if (fridayData.success) {
-                    adabsData.friday = fridayData.data;
-                    renderAdabsTable('friday');
-                }
-            } catch (error) {
-                console.error('Error loading adabs:', error);
-            }
-        }
-        
-        async function loadFridaySchedule() {
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=friday-schedule`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    fridayScheduleData = data.data;
-                    
-                    // Isi form
-                    document.getElementById('khutbah_time').value = fridayScheduleData.khutbah_time || '11:30';
-                    document.getElementById('iqamah_time').value = fridayScheduleData.iqamah_time || '12:00';
-                    document.getElementById('imam_name').value = fridayScheduleData.imam_name || '';
-                    document.getElementById('khatib_name').value = fridayScheduleData.khatib_name || '';
-                    document.getElementById('muadzin1_name').value = fridayScheduleData.muadzin1_name || '';
-                    document.getElementById('muadzin2_name').value = fridayScheduleData.muadzin2_name || '';
-                }
-            } catch (error) {
-                console.error('Error loading Friday schedule:', error);
-            }
-        }
-        
-        async function loadAnnouncements() {
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=announcements`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    announcementsData = data.data;
-                    renderAnnouncementsTable();
-                }
-            } catch (error) {
-                console.error('Error loading announcements:', error);
-            }
-        }
-        
-        async function loadWallpapers() {
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=wallpapers`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    wallpapersData = data.data;
-                    renderWallpapersGrid();
-                }
-            } catch (error) {
-                console.error('Error loading wallpapers:', error);
-            }
-        }
-        
         // ========================================
-        // FUNGSI RENDER DATA
+        // FUNGSI RENDER DATA KE UI
         // ========================================
+        
+        function fillConfigForm() {
+            if (!configData) return;
+            
+            console.log('Filling config form with:', configData);
+            
+            // Isi semua field config
+            const configFields = [
+                'masjid_name', 'masjid_address', 'latitude', 'longitude',
+                'timezone', 'api_method', 'wisdom_duration', 'wallpaper_duration',
+                'announcement_duration', 'marquee_speed', 'marquee_speed_friday',
+                'azan_countdown', 'iqamah_countdown', 'salah_duration',
+                'friday_start_hour', 'friday_end_hour', 'friday_countdown'
+            ];
+            
+            configFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (element && configData[field] !== undefined) {
+                    element.value = configData[field];
+                }
+            });
+        }
+        
+        function fillFridayScheduleForm() {
+            if (!fridayScheduleData) return;
+            
+            const fields = ['khutbah_time', 'iqamah_time', 'imam_name', 
+                          'khatib_name', 'muadzin1_name', 'muadzin2_name'];
+            
+            fields.forEach(field => {
+                const element = document.getElementById(field);
+                if (element && fridayScheduleData[field] !== undefined) {
+                    element.value = fridayScheduleData[field];
+                }
+            });
+        }
         
         function updateStats() {
             const statsGrid = document.getElementById('statsGrid');
+            
+            const stats = {
+                config: Object.keys(configData).length,
+                wisdoms: wisdomsData.length,
+                fridayWisdoms: fridayWisdomsData.length,
+                adabsNormal: adabsData.normal.length,
+                adabsFriday: adabsData.friday.length,
+                announcements: announcementsData.length,
+                wallpapers: wallpapersData.length
+            };
+            
+            console.log('Updating stats:', stats);
+            
             statsGrid.innerHTML = `
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
                     <div style="background: #e3f2fd; padding: 20px; border-radius: var(--radius);">
                         <h4 style="color: var(--primary); margin-bottom: 10px;">Konfigurasi</h4>
-                        <p style="font-size: 2rem; font-weight: bold;">${Object.keys(configData).length}</p>
-                        <p>pengaturan aktif</p>
+                        <p style="font-size: 2rem; font-weight: bold;">${stats.config}</p>
+                        <p>${stats.config > 0 ? '✓ Data tersedia' : '✗ Tidak ada data'}</p>
                     </div>
                     <div style="background: #f3e5f5; padding: 20px; border-radius: var(--radius);">
                         <h4 style="color: #9c27b0; margin-bottom: 10px;">Hikmah</h4>
-                        <p style="font-size: 2rem; font-weight: bold;">${wisdomsData.length}</p>
-                        <p>konten aktif</p>
+                        <p style="font-size: 2rem; font-weight: bold;">${stats.wisdoms}</p>
+                        <p>${stats.wisdoms > 0 ? '✓ ' + stats.wisdoms + ' item' : '✗ Tidak ada data'}</p>
                     </div>
                     <div style="background: #e8f5e9; padding: 20px; border-radius: var(--radius);">
                         <h4 style="color: var(--success); margin-bottom: 10px;">Adab</h4>
-                        <p style="font-size: 2rem; font-weight: bold;">${adabsData.normal.length + adabsData.friday.length}</p>
-                        <p>konten aktif</p>
+                        <p style="font-size: 2rem; font-weight: bold;">${stats.adabsNormal + stats.adabsFriday}</p>
+                        <p>${stats.adabsNormal > 0 ? '✓ Normal: ' + stats.adabsNormal : '✗ Normal: 0'}</p>
+                        <p>${stats.adabsFriday > 0 ? '✓ Jumat: ' + stats.adabsFriday : '✗ Jumat: 0'}</p>
                     </div>
                     <div style="background: #fff3e0; padding: 20px; border-radius: var(--radius);">
                         <h4 style="color: var(--warning); margin-bottom: 10px;">Wallpaper</h4>
-                        <p style="font-size: 2rem; font-weight: bold;">${wallpapersData.length}</p>
-                        <p>gambar aktif</p>
+                        <p style="font-size: 2rem; font-weight: bold;">${stats.wallpapers}</p>
+                        <p>${stats.wallpapers > 0 ? '✓ ' + stats.wallpapers + ' gambar' : '✗ Tidak ada data'}</p>
                     </div>
                 </div>
+                
+                ${isOfflineMode ? `
+                <div style="background: #fff3cd; padding: 15px; border-radius: var(--radius); margin-top: 20px; grid-column: 1 / -1;">
+                    <i class="fas fa-wifi-slash"></i>
+                    <strong>Mode Offline</strong>
+                    <p>Beberapa data mungkin tidak tersedia. Pastikan koneksi internet aktif.</p>
+                </div>
+                ` : ''}
             `;
         }
         
@@ -1803,7 +1859,7 @@
                         <td colspan="7" style="text-align: center; padding: 40px;">
                             <div class="empty-state">
                                 <i class="fas fa-book"></i>
-                                <p>Tidak ada data hikmah untuk hari ini</p>
+                                <p>Tidak ada data hikmah${day !== 'all' ? ' untuk hari ini' : ''}</p>
                             </div>
                         </td>
                     </tr>
@@ -1835,8 +1891,8 @@
                 tr.innerHTML = `
                     <td>${dayNames[wisdom.day] || wisdom.day}</td>
                     <td>${wisdom.order}</td>
-                    <td style="max-width: 300px;">${wisdom.text}</td>
-                    <td>${wisdom.reference}</td>
+                    <td style="max-width: 300px;">${wisdom.text || ''}</td>
+                    <td>${wisdom.reference || ''}</td>
                     <td>${wisdom.type === 'quran' ? 'Quran' : 'Hadith'}</td>
                     <td>
                         <label class="status-toggle">
@@ -1885,8 +1941,8 @@
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${wisdom.order}</td>
-                    <td style="max-width: 400px;">${wisdom.text}</td>
-                    <td>${wisdom.reference}</td>
+                    <td style="max-width: 400px;">${wisdom.text || ''}</td>
+                    <td>${wisdom.reference || ''}</td>
                     <td>
                         <label class="status-toggle">
                             <input type="checkbox" ${wisdom.active ? 'checked' : ''} 
@@ -1914,7 +1970,7 @@
             const tbody = document.getElementById(tbodyId);
             tbody.innerHTML = '';
             
-            const data = adabsData[type];
+            const data = adabsData[type] || [];
             
             if (data.length === 0) {
                 tbody.innerHTML = `
@@ -1936,22 +1992,22 @@
             data.forEach(adab => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${adab.order}</td>
-                    <td>${adab.text}</td>
-                    <td><i class="${adab.icon}"></i> ${adab.icon}</td>
+                    <td>${adab.order || 1}</td>
+                    <td>${adab.text || ''}</td>
+                    <td><i class="${adab.icon || 'fas fa-circle'}"></i> ${adab.icon || ''}</td>
                     <td>
                         <label class="status-toggle">
                             <input type="checkbox" ${adab.active ? 'checked' : ''} 
-                                   onchange="toggleAdabStatus(${adab.id}, this.checked)">
+                                   onchange="toggleAdabStatus(${adab.id}, this.checked, '${type}')">
                             <span class="toggle-slider"></span>
                         </label>
                     </td>
                     <td>
                         <div class="actions">
-                            <button class="action-btn edit-btn" onclick="editAdab(${adab.id})">
+                            <button class="action-btn edit-btn" onclick="editAdab(${adab.id}, '${type}')">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="action-btn delete-btn" onclick="deleteAdab(${adab.id})">
+                            <button class="action-btn delete-btn" onclick="deleteAdab(${adab.id}, '${type}')">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -1985,8 +2041,8 @@
             announcementsData.forEach(announcement => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${announcement.order}</td>
-                    <td style="max-width: 300px;">${announcement.text}</td>
+                    <td>${announcement.order || 1}</td>
+                    <td style="max-width: 300px;">${announcement.text || ''}</td>
                     <td>
                         ${announcement.image_url ? 
                             `<img src="${announcement.image_url}" style="width: 100px; height: 60px; object-fit: cover; border-radius: 4px;">` : 
@@ -2035,9 +2091,11 @@
                 const card = document.createElement('div');
                 card.className = 'wallpaper-card';
                 card.innerHTML = `
-                    <img src="${wallpaper.image_url}" alt="Wallpaper" class="wallpaper-image">
+                    <img src="${wallpaper.image_url || 'https://via.placeholder.com/300x180?text=Wallpaper'}" 
+                         alt="Wallpaper" class="wallpaper-image"
+                         onerror="this.src='https://via.placeholder.com/300x180?text=Gambar+Error'">
                     <div class="wallpaper-info">
-                        <p><strong>Urutan:</strong> ${wallpaper.order}</p>
+                        <p><strong>Urutan:</strong> ${wallpaper.order || 1}</p>
                         <p><strong>Status:</strong> ${wallpaper.active ? 'Aktif' : 'Nonaktif'}</p>
                         <div class="wallpaper-actions">
                             <label class="status-toggle">
@@ -2056,11 +2114,11 @@
         }
         
         // ========================================
-        // FUNGSI CRUD WISDOMS
+        // FUNGSI CRUD OPERATIONS
         // ========================================
         
+        // --- WISDOMS ---
         function openWisdomForm(wisdomId = null) {
-            const modal = document.getElementById('wisdomModal');
             const form = document.getElementById('wisdomForm');
             const title = document.getElementById('wisdomModalTitle');
             
@@ -2069,17 +2127,18 @@
                 const wisdom = wisdomsData.find(w => w.id == wisdomId);
                 if (wisdom) {
                     document.getElementById('wisdom_id').value = wisdom.id;
-                    document.getElementById('wisdom_day').value = wisdom.day;
-                    document.getElementById('wisdom_order').value = wisdom.order;
-                    document.getElementById('wisdom_text').value = wisdom.text;
-                    document.getElementById('wisdom_reference').value = wisdom.reference;
-                    document.getElementById('wisdom_type').value = wisdom.type;
-                    document.getElementById('wisdom_active').checked = wisdom.active;
+                    document.getElementById('wisdom_day').value = wisdom.day || 'monday';
+                    document.getElementById('wisdom_order').value = wisdom.order || 1;
+                    document.getElementById('wisdom_text').value = wisdom.text || '';
+                    document.getElementById('wisdom_reference').value = wisdom.reference || '';
+                    document.getElementById('wisdom_type').value = wisdom.type || 'hadith';
+                    document.getElementById('wisdom_active').checked = wisdom.active || false;
                 }
             } else {
                 title.textContent = 'Tambah Hikmah Baru';
                 form.reset();
                 document.getElementById('wisdom_id').value = '';
+                document.getElementById('wisdom_active').checked = true;
             }
             
             openModal('wisdomModal');
@@ -2098,29 +2157,35 @@
                 active: document.getElementById('wisdom_active').checked
             };
             
-            if (wisdomId) {
-                wisdomData.id = parseInt(wisdomId);
-            }
-            
-            showLoading();
+            showLoading('Menyimpan hikmah...');
             
             try {
-                const response = await fetch(`${API_BASE_URL}?path=wisdom&action=${wisdomId ? 'update' : 'add'}`, {
-                    method: 'POST',
-                    body: JSON.stringify(wisdomData)
-                });
+                let result;
                 
-                const data = await response.json();
+                if (wisdomId) {
+                    wisdomData.id = parseInt(wisdomId);
+                    result = await postToGoogleScript('update-wisdom', wisdomData);
+                } else {
+                    result = await postToGoogleScript('add-wisdom', wisdomData);
+                }
                 
-                if (data.success) {
+                if (result.success) {
                     showToast('Hikmah berhasil disimpan!', 'success');
                     closeModal('wisdomModal');
-                    await loadWisdoms();
+                    
+                    // Reload data
+                    const wisdomsResult = await fetchFromGoogleScript('wisdoms');
+                    if (wisdomsResult.success) {
+                        wisdomsData = wisdomsResult.data;
+                        renderWisdomsTable();
+                        updateStats();
+                    }
                 } else {
-                    showToast('Gagal menyimpan: ' + data.error, 'error');
+                    showToast('Gagal menyimpan: ' + (result.error || 'Unknown error'), 'error');
                 }
+                
             } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
+                showToast('Error: ' + error.message, 'error');
             } finally {
                 hideLoading();
             }
@@ -2128,61 +2193,44 @@
         
         async function toggleWisdomStatus(id, active) {
             try {
-                const response = await fetch(`${API_BASE_URL}?path=wisdom&action=update`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id, active })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Status berhasil diperbarui!', 'success');
+                const result = await postToGoogleScript('update-wisdom', { id: id, active: active });
+                if (result.success) {
+                    showToast('Status hikmah diperbarui!', 'success');
                 } else {
                     showToast('Gagal memperbarui status', 'error');
                 }
             } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
+                showToast('Error: ' + error.message, 'error');
             }
-        }
-        
-        async function editWisdom(id) {
-            openWisdomForm(id);
         }
         
         async function deleteWisdom(id) {
-            if (!confirm('Apakah Anda yakin ingin menghapus hikmah ini?')) {
-                return;
-            }
+            if (!confirm('Apakah Anda yakin ingin menghapus hikmah ini?')) return;
             
-            showLoading();
+            showLoading('Menghapus hikmah...');
             
             try {
-                const response = await fetch(`${API_BASE_URL}?path=wisdom&action=delete`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id })
-                });
+                const result = await postToGoogleScript('delete-wisdom', { id: id });
                 
-                const data = await response.json();
-                
-                if (data.success) {
+                if (result.success) {
                     showToast('Hikmah berhasil dihapus!', 'success');
-                    await loadWisdoms();
+                    
+                    // Update local data
+                    wisdomsData = wisdomsData.filter(w => w.id != id);
+                    renderWisdomsTable();
+                    updateStats();
                 } else {
-                    showToast('Gagal menghapus: ' + data.error, 'error');
+                    showToast('Gagal menghapus: ' + (result.error || 'Unknown error'), 'error');
                 }
             } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
+                showToast('Error: ' + error.message, 'error');
             } finally {
                 hideLoading();
             }
         }
         
-        // ========================================
-        // FUNGSI CRUD FRIDAY WISDOMS
-        // ========================================
-        
+        // --- FRIDAY WISDOMS ---
         function openFridayWisdomForm(wisdomId = null) {
-            const modal = document.getElementById('fridayWisdomModal');
             const form = document.getElementById('fridayWisdomForm');
             const title = document.getElementById('fridayWisdomModalTitle');
             
@@ -2191,15 +2239,16 @@
                 const wisdom = fridayWisdomsData.find(w => w.id == wisdomId);
                 if (wisdom) {
                     document.getElementById('friday_wisdom_id').value = wisdom.id;
-                    document.getElementById('friday_wisdom_order').value = wisdom.order;
-                    document.getElementById('friday_wisdom_text').value = wisdom.text;
-                    document.getElementById('friday_wisdom_reference').value = wisdom.reference;
-                    document.getElementById('friday_wisdom_active').checked = wisdom.active;
+                    document.getElementById('friday_wisdom_order').value = wisdom.order || 1;
+                    document.getElementById('friday_wisdom_text').value = wisdom.text || '';
+                    document.getElementById('friday_wisdom_reference').value = wisdom.reference || '';
+                    document.getElementById('friday_wisdom_active').checked = wisdom.active || false;
                 }
             } else {
                 title.textContent = 'Tambah Hadis Jumat Baru';
                 form.reset();
                 document.getElementById('friday_wisdom_id').value = '';
+                document.getElementById('friday_wisdom_active').checked = true;
             }
             
             openModal('fridayWisdomModal');
@@ -2216,116 +2265,64 @@
                 active: document.getElementById('friday_wisdom_active').checked
             };
             
-            if (wisdomId) {
-                wisdomData.id = parseInt(wisdomId);
-            }
-            
-            showLoading();
+            showLoading('Menyimpan hadis Jumat...');
             
             try {
-                const response = await fetch(`${API_BASE_URL}?path=friday-wisdom&action=${wisdomId ? 'update' : 'add'}`, {
-                    method: 'POST',
-                    body: JSON.stringify(wisdomData)
-                });
+                let result;
                 
-                const data = await response.json();
+                if (wisdomId) {
+                    wisdomData.id = parseInt(wisdomId);
+                    result = await postToGoogleScript('update-friday-wisdom', wisdomData);
+                } else {
+                    result = await postToGoogleScript('add-friday-wisdom', wisdomData);
+                }
                 
-                if (data.success) {
+                if (result.success) {
                     showToast('Hadis Jumat berhasil disimpan!', 'success');
                     closeModal('fridayWisdomModal');
-                    await loadFridayWisdoms();
+                    
+                    // Reload data
+                    const fridayWisdomsResult = await fetchFromGoogleScript('friday-wisdoms');
+                    if (fridayWisdomsResult.success) {
+                        fridayWisdomsData = fridayWisdomsResult.data;
+                        renderFridayWisdomsTable();
+                        updateStats();
+                    }
                 } else {
-                    showToast('Gagal menyimpan: ' + data.error, 'error');
+                    showToast('Gagal menyimpan: ' + (result.error || 'Unknown error'), 'error');
                 }
+                
             } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
+                showToast('Error: ' + error.message, 'error');
             } finally {
                 hideLoading();
             }
         }
         
-        async function toggleFridayWisdomStatus(id, active) {
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=friday-wisdom&action=update`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id, active })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Status berhasil diperbarui!', 'success');
-                } else {
-                    showToast('Gagal memperbarui status', 'error');
-                }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            }
-        }
-        
-        async function editFridayWisdom(id) {
-            openFridayWisdomForm(id);
-        }
-        
-        async function deleteFridayWisdom(id) {
-            if (!confirm('Apakah Anda yakin ingin menghapus hadis Jumat ini?')) {
-                return;
-            }
-            
-            showLoading();
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=friday-wisdom&action=delete`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Hadis Jumat berhasil dihapus!', 'success');
-                    await loadFridayWisdoms();
-                } else {
-                    showToast('Gagal menghapus: ' + data.error, 'error');
-                }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        // ========================================
-        // FUNGSI CRUD ADABS
-        // ========================================
-        
-        function openAdabForm(adabId = null, type = 'normal') {
-            const modal = document.getElementById('adabModal');
+        // --- ADABS ---
+        function openAdabForm(type = 'normal', adabId = null) {
             const form = document.getElementById('adabForm');
             const title = document.getElementById('adabModalTitle');
             
+            document.getElementById('adab_type').value = type;
+            
             if (adabId) {
                 title.textContent = 'Edit Adab';
-                let adab;
-                if (type === 'normal') {
-                    adab = adabsData.normal.find(a => a.id == adabId);
-                } else {
-                    adab = adabsData.friday.find(a => a.id == adabId);
-                }
-                
+                const adabs = adabsData[type] || [];
+                const adab = adabs.find(a => a.id == adabId);
                 if (adab) {
                     document.getElementById('adab_id').value = adab.id;
-                    document.getElementById('adab_type').value = adab.type;
-                    document.getElementById('adab_order').value = adab.order;
-                    document.getElementById('adab_text').value = adab.text;
-                    document.getElementById('adab_icon').value = adab.icon;
-                    document.getElementById('adab_active').checked = adab.active;
+                    document.getElementById('adab_order').value = adab.order || 1;
+                    document.getElementById('adab_text').value = adab.text || '';
+                    document.getElementById('adab_icon').value = adab.icon || 'fas fa-circle';
+                    document.getElementById('adab_active').checked = adab.active || false;
                 }
             } else {
                 title.textContent = 'Tambah Adab Baru';
                 form.reset();
                 document.getElementById('adab_id').value = '';
-                document.getElementById('adab_type').value = type;
+                document.getElementById('adab_active').checked = true;
+                document.getElementById('adab_icon').value = 'fas fa-door-open';
             }
             
             openModal('adabModal');
@@ -2344,455 +2341,46 @@
                 active: document.getElementById('adab_active').checked
             };
             
-            if (adabId) {
-                adabData.id = parseInt(adabId);
-            }
-            
-            showLoading();
+            showLoading('Menyimpan adab...');
             
             try {
-                const response = await fetch(`${API_BASE_URL}?path=adab&action=${adabId ? 'update' : 'add'}`, {
-                    method: 'POST',
-                    body: JSON.stringify(adabData)
-                });
+                let result;
                 
-                const data = await response.json();
+                if (adabId) {
+                    adabData.id = parseInt(adabId);
+                    result = await postToGoogleScript('update-adab', adabData);
+                } else {
+                    result = await postToGoogleScript('add-adab', adabData);
+                }
                 
-                if (data.success) {
+                if (result.success) {
                     showToast('Adab berhasil disimpan!', 'success');
                     closeModal('adabModal');
-                    await loadAdabs();
-                } else {
-                    showToast('Gagal menyimpan: ' + data.error, 'error');
-                }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        async function toggleAdabStatus(id, active) {
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=adab&action=update`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id, active })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Status berhasil diperbarui!', 'success');
-                } else {
-                    showToast('Gagal memperbarui status', 'error');
-                }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            }
-        }
-        
-        async function editAdab(id) {
-            // Cari adab berdasarkan ID
-            let adab = adabsData.normal.find(a => a.id == id);
-            let type = 'normal';
-            
-            if (!adab) {
-                adab = adabsData.friday.find(a => a.id == id);
-                type = 'friday';
-            }
-            
-            if (adab) {
-                openAdabForm(id, type);
-            }
-        }
-        
-        async function deleteAdab(id) {
-            if (!confirm('Apakah Anda yakin ingin menghapus adab ini?')) {
-                return;
-            }
-            
-            showLoading();
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=adab&action=delete`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Adab berhasil dihapus!', 'success');
-                    await loadAdabs();
-                } else {
-                    showToast('Gagal menghapus: ' + data.error, 'error');
-                }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        // ========================================
-        // FUNGSI CRUD FRIDAY SCHEDULE
-        // ========================================
-        
-        async function saveFridaySchedule(event) {
-            event.preventDefault();
-            
-            const scheduleData = {
-                khutbah_time: document.getElementById('khutbah_time').value,
-                iqamah_time: document.getElementById('iqamah_time').value,
-                imam_name: document.getElementById('imam_name').value,
-                khatib_name: document.getElementById('khatib_name').value,
-                muadzin1_name: document.getElementById('muadzin1_name').value,
-                muadzin2_name: document.getElementById('muadzin2_name').value
-            };
-            
-            // Show saving status
-            const saveStatus = document.getElementById('scheduleSaveStatus');
-            saveStatus.querySelector('.saved').style.display = 'none';
-            saveStatus.querySelector('.saving').style.display = 'block';
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=friday-schedule&action=update`, {
-                    method: 'POST',
-                    body: JSON.stringify(scheduleData)
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    saveStatus.querySelector('.saving').style.display = 'none';
-                    saveStatus.querySelector('.saved').style.display = 'block';
                     
-                    showToast('Jadwal Jumat berhasil disimpan!', 'success');
-                    
-                    // Hide saved status after 3 seconds
-                    setTimeout(() => {
-                        saveStatus.querySelector('.saved').style.display = 'none';
-                    }, 3000);
-                } else {
-                    saveStatus.querySelector('.saving').style.display = 'none';
-                    showToast('Gagal menyimpan: ' + data.error, 'error');
-                }
-            } catch (error) {
-                saveStatus.querySelector('.saving').style.display = 'none';
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            }
-        }
-        
-        // ========================================
-        // FUNGSI CRUD ANNOUNCEMENTS
-        // ========================================
-        
-        function openAnnouncementForm(announcementId = null) {
-            const modal = document.getElementById('announcementModal');
-            const form = document.getElementById('announcementForm');
-            const title = document.getElementById('announcementModalTitle');
-            
-            if (announcementId) {
-                title.textContent = 'Edit Pengumuman';
-                const announcement = announcementsData.find(a => a.id == announcementId);
-                if (announcement) {
-                    document.getElementById('announcement_id').value = announcement.id;
-                    document.getElementById('announcement_order').value = announcement.order;
-                    document.getElementById('announcement_text').value = announcement.text;
-                    document.getElementById('announcement_active').checked = announcement.active;
-                    
-                    const preview = document.getElementById('announcement_image_preview');
-                    if (announcement.image_url) {
-                        preview.src = announcement.image_url;
-                        preview.classList.add('show');
-                    } else {
-                        preview.src = '';
-                        preview.classList.remove('show');
+                    // Reload data
+                    const adabsResult = await fetchFromGoogleScript('adabs', { type: type });
+                    if (adabsResult.success) {
+                        adabsData[type] = adabsResult.data;
+                        renderAdabsTable(type);
+                        updateStats();
                     }
-                }
-            } else {
-                title.textContent = 'Tambah Pengumuman Baru';
-                form.reset();
-                document.getElementById('announcement_id').value = '';
-                document.getElementById('announcement_image_preview').src = '';
-                document.getElementById('announcement_image_preview').classList.remove('show');
-            }
-            
-            openModal('announcementModal');
-        }
-        
-        async function saveAnnouncement(event) {
-            event.preventDefault();
-            
-            const announcementId = document.getElementById('announcement_id').value;
-            const imageFile = document.getElementById('announcement_image').files[0];
-            
-            let imageUrl = '';
-            
-            // Upload image if exists
-            if (imageFile) {
-                showLoading();
-                imageUrl = await uploadImage(imageFile, 'announcements');
-                hideLoading();
-                
-                if (!imageUrl) {
-                    showToast('Gagal mengupload gambar', 'error');
-                    return;
-                }
-            }
-            
-            const announcementData = {
-                order: parseInt(document.getElementById('announcement_order').value),
-                text: document.getElementById('announcement_text').value,
-                active: document.getElementById('announcement_active').checked
-            };
-            
-            if (imageUrl) {
-                announcementData.image_url = imageUrl;
-            }
-            
-            if (announcementId) {
-                announcementData.id = parseInt(announcementId);
-                // Keep existing image if no new image uploaded
-                if (!imageUrl) {
-                    const existingAnnouncement = announcementsData.find(a => a.id == announcementId);
-                    if (existingAnnouncement && existingAnnouncement.image_url) {
-                        announcementData.image_url = existingAnnouncement.image_url;
-                    }
-                }
-            }
-            
-            showLoading();
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=announcement&action=${announcementId ? 'update' : 'add'}`, {
-                    method: 'POST',
-                    body: JSON.stringify(announcementData)
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Pengumuman berhasil disimpan!', 'success');
-                    closeModal('announcementModal');
-                    await loadAnnouncements();
                 } else {
-                    showToast('Gagal menyimpan: ' + data.error, 'error');
+                    showToast('Gagal menyimpan: ' + (result.error || 'Unknown error'), 'error');
                 }
+                
             } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
+                showToast('Error: ' + error.message, 'error');
             } finally {
                 hideLoading();
             }
         }
         
-        async function toggleAnnouncementStatus(id, active) {
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=announcement&action=update`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id, active })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Status berhasil diperbarui!', 'success');
-                } else {
-                    showToast('Gagal memperbarui status', 'error');
-                }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            }
-        }
-        
-        async function editAnnouncement(id) {
-            openAnnouncementForm(id);
-        }
-        
-        async function deleteAnnouncement(id) {
-            if (!confirm('Apakah Anda yakin ingin menghapus pengumuman ini?')) {
-                return;
-            }
-            
-            showLoading();
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=announcement&action=delete`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Pengumuman berhasil dihapus!', 'success');
-                    await loadAnnouncements();
-                } else {
-                    showToast('Gagal menghapus: ' + data.error, 'error');
-                }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        // ========================================
-        // FUNGSI CRUD WALLPAPERS
-        // ========================================
-        
-        function openUploadWallpaperModal() {
-            document.getElementById('uploadWallpaperForm').reset();
-            document.getElementById('wallpaper_preview').src = '';
-            document.getElementById('wallpaper_preview').classList.remove('show');
-            openModal('uploadWallpaperModal');
-        }
-        
-        async function saveWallpaper(event) {
-            event.preventDefault();
-            
-            const order = document.getElementById('wallpaper_order').value;
-            const fileInput = document.getElementById('wallpaper_file_input');
-            const file = fileInput.files[0];
-            const active = document.getElementById('wallpaper_active').checked;
-            
-            if (!file) {
-                showToast('Pilih file gambar terlebih dahulu', 'error');
-                return;
-            }
-            
-            showLoading();
-            
-            try {
-                // Upload image
-                const imageUrl = await uploadImage(file, 'wallpapers');
-                
-                if (!imageUrl) {
-                    hideLoading();
-                    showToast('Gagal mengupload gambar', 'error');
-                    return;
-                }
-                
-                // Save wallpaper data
-                const wallpaperData = {
-                    order: parseInt(order),
-                    image_url: imageUrl,
-                    active: active
-                };
-                
-                const response = await fetch(`${API_BASE_URL}?path=wallpaper&action=add`, {
-                    method: 'POST',
-                    body: JSON.stringify(wallpaperData)
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Wallpaper berhasil diupload!', 'success');
-                    closeModal('uploadWallpaperModal');
-                    await loadWallpapers();
-                } else {
-                    showToast('Gagal menyimpan: ' + data.error, 'error');
-                }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        async function toggleWallpaperStatus(id, active) {
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=wallpaper&action=update`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id, active })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Status berhasil diperbarui!', 'success');
-                } else {
-                    showToast('Gagal memperbarui status', 'error');
-                }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            }
-        }
-        
-        async function deleteWallpaper(id) {
-            if (!confirm('Apakah Anda yakin ingin menghapus wallpaper ini?')) {
-                return;
-            }
-            
-            showLoading();
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}?path=wallpaper&action=delete`, {
-                    method: 'POST',
-                    body: JSON.stringify({ id })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showToast('Wallpaper berhasil dihapus!', 'success');
-                    await loadWallpapers();
-                } else {
-                    showToast('Gagal menghapus: ' + data.error, 'error');
-                }
-            } catch (error) {
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-        
-        // ========================================
-        // FUNGSI UPLOAD GAMBAR
-        // ========================================
-        
-        async function uploadImage(file, folder) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = async function(e) {
-                    try {
-                        const base64Data = e.target.result;
-                        
-                        const response = await fetch(`${API_BASE_URL}?path=upload`, {
-                            method: 'POST',
-                            body: JSON.stringify({
-                                fileName: file.name,
-                                fileData: base64Data,
-                                folder: folder
-                            })
-                        });
-                        
-                        const data = await response.json();
-                        
-                        if (data.success) {
-                            resolve(data.data.url);
-                        } else {
-                            reject(data.error);
-                        }
-                    } catch (error) {
-                        reject(error.message);
-                    }
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-        
-        // ========================================
-        // FUNGSI CONFIG
-        // ========================================
-        
+        // --- CONFIG ---
         async function saveConfig(event) {
             event.preventDefault();
             
             const configs = {};
             const configForm = document.getElementById('configForm');
-            const formData = new FormData(configForm);
             
             // Collect all config values
             for (const element of configForm.elements) {
@@ -2816,21 +2404,16 @@
             saveStatus.querySelector('.saving').style.display = 'block';
             
             try {
-                const response = await fetch(`${API_BASE_URL}?path=config&action=update-multiple`, {
-                    method: 'POST',
-                    body: JSON.stringify(configs)
-                });
+                const result = await postToGoogleScript('update-config', configs);
                 
-                const data = await response.json();
-                
-                if (data.success) {
+                if (result.success) {
+                    // Update local data
+                    configData = { ...configData, ...configs };
+                    
                     saveStatus.querySelector('.saving').style.display = 'none';
                     saveStatus.querySelector('.saved').style.display = 'block';
                     
                     showToast('Konfigurasi berhasil disimpan!', 'success');
-                    
-                    // Update configData
-                    configData = { ...configData, ...configs };
                     updateStats();
                     
                     // Hide saved status after 3 seconds
@@ -2839,17 +2422,176 @@
                     }, 3000);
                 } else {
                     saveStatus.querySelector('.saving').style.display = 'none';
-                    showToast('Gagal menyimpan: ' + data.error, 'error');
+                    showToast('Gagal menyimpan konfigurasi', 'error');
+                }
+                
+            } catch (error) {
+                saveStatus.querySelector('.saving').style.display = 'none';
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+        
+        // --- FRIDAY SCHEDULE ---
+        async function saveFridaySchedule(event) {
+            event.preventDefault();
+            
+            const scheduleData = {
+                khutbah_time: document.getElementById('khutbah_time').value,
+                iqamah_time: document.getElementById('iqamah_time').value,
+                imam_name: document.getElementById('imam_name').value,
+                khatib_name: document.getElementById('khatib_name').value,
+                muadzin1_name: document.getElementById('muadzin1_name').value,
+                muadzin2_name: document.getElementById('muadzin2_name').value
+            };
+            
+            // Show saving status
+            const saveStatus = document.getElementById('scheduleSaveStatus');
+            saveStatus.querySelector('.saved').style.display = 'none';
+            saveStatus.querySelector('.saving').style.display = 'block';
+            
+            try {
+                const result = await postToGoogleScript('update-friday-schedule', scheduleData);
+                
+                if (result.success) {
+                    fridayScheduleData = scheduleData;
+                    
+                    saveStatus.querySelector('.saving').style.display = 'none';
+                    saveStatus.querySelector('.saved').style.display = 'block';
+                    
+                    showToast('Jadwal Jumat berhasil disimpan!', 'success');
+                    
+                    setTimeout(() => {
+                        saveStatus.querySelector('.saved').style.display = 'none';
+                    }, 3000);
+                } else {
+                    saveStatus.querySelector('.saving').style.display = 'none';
+                    showToast('Gagal menyimpan jadwal', 'error');
                 }
             } catch (error) {
                 saveStatus.querySelector('.saving').style.display = 'none';
-                showToast('Terjadi kesalahan: ' + error.message, 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         }
         
         // ========================================
-        // FUNGSI PREVIEW
+        // FUNGSI AUTHENTIKASI
         // ========================================
+        
+        async function login(username, password) {
+            showLoading('Memeriksa login...');
+            
+            try {
+                // Untuk demo, kita gunakan login sederhana
+                // Di production, ganti dengan API call ke Google Script
+                if (username === 'admin' && password === 'admin123') {
+                    currentUser = {
+                        id: 1,
+                        name: 'Administrator',
+                        role: 'admin',
+                        token: 'demo_token_' + Date.now()
+                    };
+                    
+                    localStorage.setItem('masjid_admin_token', currentUser.token);
+                    localStorage.setItem('masjid_admin_user', JSON.stringify(currentUser));
+                    
+                    document.getElementById('userName').textContent = currentUser.name;
+                    document.getElementById('loginPage').style.display = 'none';
+                    document.getElementById('adminLayout').style.display = 'block';
+                    
+                    // Load data setelah login
+                    await loadAllData();
+                    
+                    showToast('Login berhasil!', 'success');
+                } else {
+                    // Jika bukan admin, coba login via API
+                    const result = await postToGoogleScript('login', { username, password });
+                    
+                    if (result.success) {
+                        currentUser = result.data;
+                        localStorage.setItem('masjid_admin_token', currentUser.token);
+                        localStorage.setItem('masjid_admin_user', JSON.stringify(currentUser));
+                        
+                        document.getElementById('userName').textContent = currentUser.name;
+                        document.getElementById('loginPage').style.display = 'none';
+                        document.getElementById('adminLayout').style.display = 'block';
+                        
+                        await loadAllData();
+                        showToast('Login berhasil!', 'success');
+                    } else {
+                        showToast(result.error || 'Username atau password salah', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showToast('Login gagal: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('masjid_admin_token');
+            localStorage.removeItem('masjid_admin_user');
+            currentUser = null;
+            
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('adminLayout').style.display = 'none';
+            document.getElementById('loginForm').reset();
+        }
+        
+        function checkAuth() {
+            const token = localStorage.getItem('masjid_admin_token');
+            const user = localStorage.getItem('masjid_admin_user');
+            
+            if (token && user) {
+                try {
+                    currentUser = JSON.parse(user);
+                    document.getElementById('userName').textContent = currentUser.name;
+                    document.getElementById('loginPage').style.display = 'none';
+                    document.getElementById('adminLayout').style.display = 'block';
+                    return true;
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                    return false;
+                }
+            }
+            return false;
+        }
+        
+        // ========================================
+        // FUNGSI NAVIGASI DAN EVENT HANDLERS
+        // ========================================
+        
+        function switchTab(tabName) {
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const activeNav = document.querySelector(`.nav-item[data-tab="${tabName}"]`);
+            if (activeNav) activeNav.classList.add('active');
+            
+            // Show active tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+        
+        function switchAdabType(type) {
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            const activeTab = document.querySelector(`.tab[data-type="${type}"]`);
+            if (activeTab) activeTab.classList.add('active');
+            
+            // Show active content
+            document.getElementById('normal-adabs').style.display = type === 'normal' ? 'block' : 'none';
+            document.getElementById('friday-adabs').style.display = type === 'friday' ? 'block' : 'none';
+        }
         
         function refreshPreview() {
             const previewFrame = document.getElementById('previewFrame');
@@ -2858,14 +2600,13 @@
         }
         
         // ========================================
-        // EVENT LISTENERS
+        // INITIALIZATION
         // ========================================
         
         document.addEventListener('DOMContentLoaded', function() {
-            // Check authentication
-            checkAuth();
+            console.log('Admin Panel Initializing...');
             
-            // Login form
+            // Setup event listeners
             document.getElementById('loginForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const username = document.getElementById('username').value;
@@ -2873,25 +2614,17 @@
                 login(username, password);
             });
             
-            // Logout button
-            document.getElementById('logoutBtn').addEventListener('click', logout);
+            document.getElementById('wisdomForm').addEventListener('submit', saveWisdom);
+            document.getElementById('fridayWisdomForm').addEventListener('submit', saveFridayWisdom);
+            document.getElementById('adabForm').addEventListener('submit', saveAdab);
+            document.getElementById('configForm').addEventListener('submit', saveConfig);
+            document.getElementById('fridayScheduleForm').addEventListener('submit', saveFridaySchedule);
             
             // Navigation
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.addEventListener('click', function() {
                     const tab = this.getAttribute('data-tab');
-                    
-                    // Update active nav item
-                    document.querySelectorAll('.nav-item').forEach(nav => {
-                        nav.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    
-                    // Show corresponding tab
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    document.getElementById(`${tab}-tab`).classList.add('active');
+                    switchTab(tab);
                 });
             });
             
@@ -2900,13 +2633,11 @@
                 btn.addEventListener('click', function() {
                     const day = this.getAttribute('data-day');
                     
-                    // Update active button
                     document.querySelectorAll('.day-btn').forEach(b => {
                         b.classList.remove('active');
                     });
                     this.classList.add('active');
                     
-                    // Filter table
                     renderWisdomsTable(day);
                 });
             });
@@ -2915,62 +2646,28 @@
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.addEventListener('click', function() {
                     const type = this.getAttribute('data-type');
-                    
-                    // Update active tab
-                    document.querySelectorAll('.tab').forEach(t => {
-                        t.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    
-                    // Show corresponding content
-                    document.querySelectorAll('.tab-content').forEach(content => {
-                        content.classList.remove('active');
-                    });
-                    document.getElementById(`${type}-adabs`).classList.add('active');
+                    switchAdabType(type);
                 });
             });
-            
-            // Form submissions
-            document.getElementById('configForm').addEventListener('submit', saveConfig);
-            document.getElementById('wisdomForm').addEventListener('submit', saveWisdom);
-            document.getElementById('fridayWisdomForm').addEventListener('submit', saveFridayWisdom);
-            document.getElementById('adabForm').addEventListener('submit', saveAdab);
-            document.getElementById('fridayScheduleForm').addEventListener('submit', saveFridaySchedule);
-            document.getElementById('announcementForm').addEventListener('submit', saveAnnouncement);
-            document.getElementById('uploadWallpaperForm').addEventListener('submit', saveWallpaper);
             
             // Add buttons
             document.getElementById('addWisdomBtn').addEventListener('click', () => openWisdomForm());
             document.getElementById('addFridayWisdomBtn').addEventListener('click', () => openFridayWisdomForm());
-            document.getElementById('addAnnouncementBtn').addEventListener('click', () => openAnnouncementForm());
+            document.getElementById('addAnnouncementBtn').addEventListener('click', () => showAnnouncementModal());
             
-            // Image preview for announcement
-            document.getElementById('announcement_image').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const preview = document.getElementById('announcement_image_preview');
-                        preview.src = e.target.result;
-                        preview.classList.add('show');
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
+            // Check auth
+            if (checkAuth()) {
+                // User is logged in, load data
+                console.log('User is authenticated, loading data...');
+                setTimeout(() => {
+                    loadAllData();
+                }, 500);
+            } else {
+                hideLoading();
+                console.log('User not authenticated, showing login page');
+            }
             
-            // Image preview for wallpaper upload
-            document.getElementById('wallpaper_file_input').addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const preview = document.getElementById('wallpaper_preview');
-                        preview.src = e.target.result;
-                        preview.classList.add('show');
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
+            console.log('Admin Panel Initialized');
         });
         
         // ========================================
@@ -2978,13 +2675,108 @@
         // ========================================
         
         window.openAdabForm = openAdabForm;
-        window.editAdab = editAdab;
-        window.deleteAdab = deleteAdab;
-        window.toggleAdabStatus = toggleAdabStatus;
+        window.editAdab = function(id) {
+            // Cari adab berdasarkan ID di kedua tipe
+            let adab, type;
+            
+            adab = adabsData.normal.find(a => a.id == id);
+            type = 'normal';
+            
+            if (!adab) {
+                adab = adabsData.friday.find(a => a.id == id);
+                type = 'friday';
+            }
+            
+            if (adab) {
+                openAdabForm(type, id);
+            }
+        };
         
-        window.openUploadWallpaperModal = openUploadWallpaperModal;
-        window.deleteWallpaper = deleteWallpaper;
-        window.toggleWallpaperStatus = toggleWallpaperStatus;
+        window.deleteAdab = async function(id, type) {
+            if (!confirm('Apakah Anda yakin ingin menghapus adab ini?')) return;
+            
+            showLoading('Menghapus adab...');
+            
+            try {
+                const result = await postToGoogleScript('delete-adab', { id: id, type: type });
+                
+                if (result.success) {
+                    showToast('Adab berhasil dihapus!', 'success');
+                    
+                    // Update local data
+                    adabsData[type] = adabsData[type].filter(a => a.id != id);
+                    renderAdabsTable(type);
+                    updateStats();
+                } else {
+                    showToast('Gagal menghapus: ' + (result.error || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        };
+        
+        window.toggleAdabStatus = async function(id, active, type) {
+            try {
+                const result = await postToGoogleScript('update-adab', { 
+                    id: id, 
+                    active: active,
+                    type: type 
+                });
+                
+                if (result.success) {
+                    showToast('Status adab diperbarui!', 'success');
+                } else {
+                    showToast('Gagal memperbarui status', 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
+        
+        window.openUploadWallpaperModal = function() {
+            showToast('Fitur upload wallpaper akan segera tersedia', 'info');
+        };
+        
+        window.deleteWallpaper = async function(id) {
+            if (!confirm('Hapus wallpaper ini?')) return;
+            
+            showLoading('Menghapus wallpaper...');
+            
+            try {
+                const result = await postToGoogleScript('delete-wallpaper', { id: id });
+                
+                if (result.success) {
+                    showToast('Wallpaper berhasil dihapus!', 'success');
+                    
+                    // Update local data
+                    wallpapersData = wallpapersData.filter(w => w.id != id);
+                    renderWallpapersGrid();
+                    updateStats();
+                } else {
+                    showToast('Gagal menghapus wallpaper', 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        };
+        
+        window.toggleWallpaperStatus = async function(id, active) {
+            try {
+                const result = await postToGoogleScript('update-wallpaper', { id: id, active: active });
+                
+                if (result.success) {
+                    showToast('Status wallpaper diperbarui!', 'success');
+                } else {
+                    showToast('Gagal memperbarui status', 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
         
         window.refreshPreview = refreshPreview;
         
@@ -2994,16 +2786,120 @@
         window.toggleWisdomStatus = toggleWisdomStatus;
         
         window.openFridayWisdomForm = openFridayWisdomForm;
-        window.editFridayWisdom = editFridayWisdom;
-        window.deleteFridayWisdom = deleteFridayWisdom;
-        window.toggleFridayWisdomStatus = toggleFridayWisdomStatus;
+        window.editFridayWisdom = function(id) {
+            openFridayWisdomForm(id);
+        };
         
-        window.openAnnouncementForm = openAnnouncementForm;
-        window.editAnnouncement = editAnnouncement;
-        window.deleteAnnouncement = deleteAnnouncement;
-        window.toggleAnnouncementStatus = toggleAnnouncementStatus;
+        window.deleteFridayWisdom = async function(id) {
+            if (!confirm('Hapus hadis Jumat ini?')) return;
+            
+            showLoading('Menghapus hadis Jumat...');
+            
+            try {
+                const result = await postToGoogleScript('delete-friday-wisdom', { id: id });
+                
+                if (result.success) {
+                    showToast('Hadis Jumat berhasil dihapus!', 'success');
+                    
+                    // Update local data
+                    fridayWisdomsData = fridayWisdomsData.filter(w => w.id != id);
+                    renderFridayWisdomsTable();
+                    updateStats();
+                } else {
+                    showToast('Gagal menghapus hadis', 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        };
+        
+        window.toggleFridayWisdomStatus = async function(id, active) {
+            try {
+                const result = await postToGoogleScript('update-friday-wisdom', { id: id, active: active });
+                
+                if (result.success) {
+                    showToast('Status hadis diperbarui!', 'success');
+                } else {
+                    showToast('Gagal memperbarui status', 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
+        
+        window.showAnnouncementModal = function(announcementId = null) {
+            showToast('Fitur pengumuman akan segera tersedia', 'info');
+        };
+        
+        window.editAnnouncement = function(id) {
+            showToast('Fitur edit pengumuman akan segera tersedia', 'info');
+        };
+        
+        window.deleteAnnouncement = async function(id) {
+            if (!confirm('Hapus pengumuman ini?')) return;
+            
+            showLoading('Menghapus pengumuman...');
+            
+            try {
+                const result = await postToGoogleScript('delete-announcement', { id: id });
+                
+                if (result.success) {
+                    showToast('Pengumuman berhasil dihapus!', 'success');
+                    
+                    // Update local data
+                    announcementsData = announcementsData.filter(a => a.id != id);
+                    renderAnnouncementsTable();
+                    updateStats();
+                } else {
+                    showToast('Gagal menghapus pengumuman', 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        };
+        
+        window.toggleAnnouncementStatus = async function(id, active) {
+            try {
+                const result = await postToGoogleScript('update-announcement', { id: id, active: active });
+                
+                if (result.success) {
+                    showToast('Status pengumuman diperbarui!', 'success');
+                } else {
+                    showToast('Gagal memperbarui status', 'error');
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
         
         window.closeModal = closeModal;
+        window.switchTab = switchTab;
+        window.switchAdabType = switchAdabType;
+        window.logout = logout;
+        
+        // Test API connection
+        window.testAPI = async function() {
+            showLoading('Menguji koneksi API...');
+            
+            try {
+                const result = await fetchFromGoogleScript('config');
+                
+                if (result.success) {
+                    showToast('✅ Koneksi API berhasil!', 'success');
+                    console.log('API Test Result:', result);
+                } else {
+                    showToast('❌ Gagal terhubung ke API: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showToast('❌ Error: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        };
     </script>
 </body>
 </html>
