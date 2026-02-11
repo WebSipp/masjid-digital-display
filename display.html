@@ -541,21 +541,6 @@
             opacity: 1;
         }
         
-        .wallpaper-1 {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
-                              url('https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
-        }
-        
-        .wallpaper-2 {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
-                              url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
-        }
-        
-        .wallpaper-3 {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), 
-                              url('https://images.unsplash.com/photo-1545569341-9eb8b30979d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
-        }
-        
         .prayer-schedule {
             background: linear-gradient(135deg, var(--primary-dark) 0%, #153a6e 100%);
             border-radius: 20px 20px 0 0;
@@ -1007,7 +992,7 @@
     </div>
     
     <div class="friday-notification" id="friday-notification">
-        <i class="fas fa-star"></i> MODE JUMAT AKTIF (08:00 - 14:00 WIB) <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i> MODE JUMAT AKTIF <i class="fas fa-star"></i>
     </div>
     
     <div class="friday-countdown" id="friday-countdown">
@@ -1034,8 +1019,8 @@
         </div>
         
         <div class="masjid-section">
-            <h1 class="masjid-name">MASJID BAITURRAHMAN STMIK TAZKIA</h1>
-            <p class="masjid-address">Kecamatan Dramaga, Kabupaten Bogor</p>
+            <h1 class="masjid-name" id="masjid-name">MASJID BAITURRAHMAN STMIK TAZKIA</h1>
+            <p class="masjid-address" id="masjid-address">Kecamatan Dramaga, Kabupaten Bogor</p>
         </div>
     </header>
     
@@ -1044,7 +1029,7 @@
             <div class="timer-section">
                 <div class="clock-container">
                     <div class="digital-clock" id="digital-clock">00:00</div>
-                    <div class="timezone">WIB</div>
+                    <div class="timezone" id="timezone">WIB</div>
                 </div>
                 
                 <div class="countdown-container">
@@ -1062,13 +1047,11 @@
         </div>
         
         <div class="sidebar-right">
-            <div class="wallpaper-slider">
-                <div class="wallpaper-slide wallpaper-1 active"></div>
-                <div class="wallpaper-slide wallpaper-2"></div>
-                <div class="wallpaper-slide wallpaper-3"></div>
+            <div class="wallpaper-slider" id="wallpaper-slider">
+                <!-- Wallpaper akan di-generate oleh JavaScript -->
             </div>
             
-            <div class="friday-content">
+            <div class="friday-content" id="friday-content">
                 <div class="jumat-schedule">
                     <h3><i class="fas fa-clock"></i> JADWAL SHALAT JUMAT</h3>
                     <div class="jumat-times">
@@ -1088,34 +1071,26 @@
                     <div class="officers-grid">
                         <div class="officer-item">
                             <div class="officer-role">Imam</div>
-                            <div class="officer-name">Ust. Ahmad Fauzi</div>
+                            <div class="officer-name" id="imam-name">Loading...</div>
                         </div>
                         <div class="officer-item">
                             <div class="officer-role">Khatib</div>
-                            <div class="officer-name">Ust. Muhammad Arif</div>
+                            <div class="officer-name" id="khatib-name">Loading...</div>
                         </div>
                         <div class="officer-item">
                             <div class="officer-role">Muadzin 1</div>
-                            <div class="officer-name">Bro. Abdul Rahman</div>
+                            <div class="officer-name" id="muadzin1-name">Loading...</div>
                         </div>
                         <div class="officer-item">
                             <div class="officer-role">Muadzin 2</div>
-                            <div class="officer-name">Bro. Ismail Hadi</div>
+                            <div class="officer-name" id="muadzin2-name">Loading...</div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="jumat-announcements">
+                <div class="jumat-announcements" id="jumat-announcements">
                     <h3><i class="fas fa-bullhorn"></i> PENGUMUMAN</h3>
-                    <div class="announcement-slide active" id="announcement-1">
-                        <div class="announcement-text">Shodaqoh Jumat dapat disampaikan di kotak amal yang telah disediakan.</div>
-                    </div>
-                    <div class="announcement-slide" id="announcement-2">
-                        <div class="announcement-text">Setelah shalat Jumat akan diadakan pengajian rutin mingguan.</div>
-                    </div>
-                    <div class="announcement-slide" id="announcement-3">
-                        <div class="announcement-text">Bagi yang ingin mengikuti kegiatan remaja masjid, silakan mendaftar di sekretariat.</div>
-                    </div>
+                    <!-- Announcements akan di-generate oleh JavaScript -->
                 </div>
             </div>
         </div>
@@ -1135,245 +1110,210 @@
     
     <div class="marquee-container">
         <div class="marquee-track" id="marquee-track">
-            <div class="adab-item"><i class="fas fa-door-open"></i> Loading adab Islam...</div>
+            <!-- Adab akan di-generate oleh JavaScript -->
         </div>
     </div>
 
     <script>
         // ========================================
-        // KONFIGURASI API - SUDAH DIUPDATE!
+        // API CONFIGURATION - SAMA PERSIS DENGAN PANEL
         // ========================================
-        const API_BASE_URL = "https://script.google.com/macros/s/AKfycbz4v-Jqup2KPRmxoeRRfNCogEhKd6Ys0fwXCGd6LojX2M-a5Tub5mkHxdBZ8EVJmPDU/exec";
-
+        const API_URL = "https://script.google.com/macros/s/AKfycbz4v-Jqup2KPRmxoeRRfNCogEhKd6Ys0fwXCGd6LojX2M-a5Tub5mkHxdBZ8EVJmPDU/exec";
+        
         // ========================================
-        // FUNGSI FETCH SEMUA DATA DARI API
+        // GLOBAL VARIABLES
         // ========================================
-        async function fetchAllData() {
-            try {
-                console.log("🔄 Fetching all data from API...");
-                
-                // Fetch konfigurasi
-                const configRes = await fetch(`${API_BASE_URL}?path=config`);
-                const config = await configRes.json();
-                
-                if (config.success) {
-                    console.log("✅ Config loaded:", config.data);
-                    
-                    // Update konfigurasi dari API
-                    masjidConfig.name = config.data.masjid_name || masjidConfig.name;
-                    masjidConfig.address = config.data.masjid_address || masjidConfig.address;
-                    masjidConfig.latitude = parseFloat(config.data.latitude) || masjidConfig.latitude;
-                    masjidConfig.longitude = parseFloat(config.data.longitude) || masjidConfig.longitude;
-                    masjidConfig.method = parseInt(config.data.api_method) || masjidConfig.method;
-                    
-                    // Update masjidInfo juga
-                    masjidInfo.name = config.data.masjid_name || masjidInfo.name;
-                    masjidInfo.address = config.data.masjid_address || masjidInfo.address;
-                    
-                    // Update UI
-                    document.querySelector('.masjid-name').textContent = masjidInfo.name;
-                    document.querySelector('.masjid-address').textContent = masjidInfo.address;
-                }
-                
-                // Fetch wisdoms
-                const wisdomsRes = await fetch(`${API_BASE_URL}?path=wisdoms`);
-                const wisdomsData = await wisdomsRes.json();
-                
-                if (wisdomsData.success) {
-                    console.log("✅ Wisdoms loaded:", wisdomsData.data.length);
-                    // Update array wisdoms dengan hanya yang aktif
-                    window.wisdoms = wisdomsData.data
-                        .filter(w => w.active)
-                        .map(w => ({
-                            text: w.text,
-                            reference: w.reference
-                        }));
-                    
-                    // Reinitialize daily content
-                    initDailyContent();
-                }
-                
-                // Fetch Friday wisdoms
-                const fridayWisdomsRes = await fetch(`${API_BASE_URL}?path=friday-wisdoms`);
-                const fridayWisdomsData = await fridayWisdomsRes.json();
-                
-                if (fridayWisdomsData.success) {
-                    console.log("✅ Friday wisdoms loaded:", fridayWisdomsData.data.length);
-                    // Update array fridayHadiths
-                    window.fridayHadiths = fridayWisdomsData.data
-                        .filter(w => w.active)
-                        .map(w => ({
-                            text: w.text,
-                            reference: w.reference
-                        }));
-                }
-                
-                // Fetch adabs normal
-                const adabsRes = await fetch(`${API_BASE_URL}?path=adabs&type=normal`);
-                const adabsData = await adabsRes.json();
-                
-                if (adabsData.success) {
-                    console.log("✅ Normal adabs loaded:", adabsData.data.length);
-                    // Update array adabs
-                    window.adabs = adabsData.data
-                        .filter(a => a.active)
-                        .map(a => a.text);
-                }
-                
-                // Fetch adabs friday
-                const fridayAdabsRes = await fetch(`${API_BASE_URL}?path=adabs&type=friday`);
-                const fridayAdabsData = await fridayAdabsRes.json();
-                
-                if (fridayAdabsData.success) {
-                    console.log("✅ Friday adabs loaded:", fridayAdabsData.data.length);
-                    // Update array fridayAdabs
-                    window.fridayAdabs = fridayAdabsData.data
-                        .filter(a => a.active)
-                        .map(a => a.text);
-                }
-                
-                // Fetch Friday schedule
-                const scheduleRes = await fetch(`${API_BASE_URL}?path=friday-schedule`);
-                const scheduleData = await scheduleRes.json();
-                
-                if (scheduleData.success) {
-                    console.log("✅ Friday schedule loaded:", scheduleData.data);
-                    // Update Friday schedule
-                    window.fridaySchedule = scheduleData.data;
-                    
-                    // Update UI jika dalam mode Jumat
-                    if (currentMode === "friday") {
-                        document.getElementById('khutbah-time').textContent = fridaySchedule.khutbah_time || "11:30";
-                        document.getElementById('iqamah-time').textContent = fridaySchedule.iqamah_time || "12:00";
-                        
-                        // Update petugas jika ada
-                        const officers = document.querySelectorAll('.officer-name');
-                        if (officers.length >= 4) {
-                            officers[0].textContent = fridaySchedule.imam_name || "Ust. Ahmad Fauzi";
-                            officers[1].textContent = fridaySchedule.khatib_name || "Ust. Muhammad Arif";
-                            officers[2].textContent = fridaySchedule.muadzin1_name || "Bro. Abdul Rahman";
-                            officers[3].textContent = fridaySchedule.muadzin2_name || "Bro. Ismail Hadi";
-                        }
-                    }
-                }
-                
-                // Fetch announcements
-                const announcementsRes = await fetch(`${API_BASE_URL}?path=announcements`);
-                const announcementsData = await announcementsRes.json();
-                
-                if (announcementsData.success) {
-                    console.log("✅ Announcements loaded:", announcementsData.data.length);
-                    // Update announcements
-                    const activeAnnouncements = announcementsData.data
-                        .filter(a => a.active)
-                        .sort((a, b) => a.order - b.order);
-                    
-                    // Update UI jika dalam mode Jumat
-                    if (currentMode === "friday") {
-                        const announcementContainer = document.querySelector('.jumat-announcements');
-                        announcementContainer.innerHTML = '<h3><i class="fas fa-bullhorn"></i> PENGUMUMAN</h3>';
-                        
-                        activeAnnouncements.forEach((announcement, index) => {
-                            const slide = document.createElement('div');
-                            slide.className = `announcement-slide ${index === 0 ? 'active' : ''}`;
-                            slide.id = `announcement-${index + 1}`;
-                            slide.innerHTML = `<div class="announcement-text">${announcement.text}</div>`;
-                            announcementContainer.appendChild(slide);
-                        });
-                        
-                        announcementIndex = 0;
-                    }
-                }
-                
-                // Fetch wallpapers
-                const wallpapersRes = await fetch(`${API_BASE_URL}?path=wallpapers`);
-                const wallpapersData = await wallpapersRes.json();
-                
-                if (wallpapersData.success) {
-                    console.log("✅ Wallpapers loaded:", wallpapersData.data.length);
-                    // Update wallpapers
-                    const activeWallpapers = wallpapersData.data
-                        .filter(w => w.active)
-                        .sort((a, b) => a.order - b.order);
-                    
-                    // Update wallpaper slider
-                    const wallpaperContainer = document.querySelector('.wallpaper-slider');
-                    wallpaperContainer.innerHTML = '';
-                    
-                    activeWallpapers.forEach((wallpaper, index) => {
-                        const slide = document.createElement('div');
-                        slide.className = `wallpaper-slide ${index === 0 ? 'active' : ''}`;
-                        slide.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('${wallpaper.image_url}')`;
-                        wallpaperContainer.appendChild(slide);
-                    });
-                    
-                    wallpaperIndex = 0;
-                }
-                
-                console.log("✅ All data loaded successfully!");
-                
-            } catch (error) {
-                console.error("❌ Error fetching data:", error);
-            }
-        }
-
-        // ========================================
-        // API ALADHAN INTEGRATION - PASTI JALAN!
-        // ========================================
-
-        // KONFIGURASI LOKASI MASJID
-        const masjidConfig = {
-            name: "MASJID BAITURRAHMAN STMIK TAZKIA",
-            address: "Kecamatan Dramaga, Kabupaten Bogor",
-            latitude: -6.59444,  // Sudah minus untuk selatan
-            longitude: 106.78917, // Sudah plus untuk timur
-            timezone: "Asia/Jakarta",
-            method: 11, // Kementerian Agama Indonesia
-            city: "Bogor",
-            country: "Indonesia"
-        };
-
-        // VARIABEL GLOBAL UNTUK API
+        let configData = {};
+        let wisdomsData = [];
+        let fridayWisdomsData = [];
+        let wallpapersData = [];
+        let announcementsData = [];
+        let adabsNormalData = [];
+        let adabsFridayData = [];
+        let fridayScheduleData = {};
+        
+        // State variables
+        let currentMode = "normal";
+        let wisdomIndex = 0;
+        let fridayHadithIndex = 0;
+        let announcementIndex = 0;
+        let wallpaperIndex = 0;
+        let currentPrayerName = "";
+        
+        // Prayer times variables
         let prayerTimesData = {};
         let hijriDateString = "";
         let gregorianDateString = "";
         let currentDayName = "";
         let lastApiFetch = 0;
-        const API_CACHE_TIME = 60 * 60 * 1000; // 1 jam cache
-
+        const API_CACHE_TIME = 60 * 60 * 1000; // 1 jam
+        
+        // Audio variables
+        let audioContext;
+        let beepSound;
+        let azanPhase = 1;
+        let azanTimer;
+        let iqamahTimer;
+        let salahTimer;
+        
         // ========================================
-        // FUNGSI FORMAT TANGGAL KE DD-MM-YYYY
+        // INITIALIZATION - FETCH ALL DATA FROM API
         // ========================================
-        function formatDateToDDMMYYYY(date) {
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}-${month}-${year}`;
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log("🚀 Starting Masjid Digital Display - API Version");
+            
+            // Fetch semua data dari API
+            await fetchAllData();
+            
+            // Initialize components
+            initAudio();
+            updateDateTime();
+            checkFridayMode();
+            
+            // Setup intervals
+            setInterval(updateDateTime, 1000);
+            setInterval(checkAzanMode, 1000);
+            setInterval(checkFridayMode, 60000);
+            setInterval(rotateWallpaper, (configData.wallpaper_duration || 30) * 1000);
+            setInterval(rotateWisdom, (configData.wisdom_duration || 60) * 1000);
+            setInterval(rotateAnnouncement, (configData.announcement_duration || 30) * 1000);
+            setInterval(fetchAllData, 5 * 60 * 1000); // Refresh data setiap 5 menit
+            
+            // Fullscreen handler
+            setTimeout(() => {
+                if (!document.fullscreenElement) {
+                    document.getElementById('fullscreen-overlay').style.display = 'flex';
+                }
+            }, 2000);
+            
+            document.getElementById('enter-fullscreen-btn').addEventListener('click', function() {
+                enterFullscreen();
+                document.getElementById('fullscreen-overlay').style.display = 'none';
+            });
+        });
+        
+        // ========================================
+        // FETCH ALL DATA FROM API
+        // ========================================
+        async function fetchAllData() {
+            console.log("🔄 Fetching all data from API...");
+            
+            try {
+                // 1. FETCH CONFIG
+                const configRes = await fetch(`${API_URL}?path=config`);
+                const configResult = await configRes.json();
+                if (configResult.success) {
+                    configData = configResult.data;
+                    document.getElementById('masjid-name').textContent = configData.masjid_name || "MASJID BAITURRAHMAN STMIK TAZKIA";
+                    document.getElementById('masjid-address').textContent = configData.masjid_address || "Kecamatan Dramaga, Kabupaten Bogor";
+                    document.getElementById('timezone').textContent = configData.timezone?.replace('Asia/', '') || "WIB";
+                }
+                
+                // 2. FETCH WISDOMS (Konten Hikmah)
+                const wisdomsRes = await fetch(`${API_URL}?path=wisdoms`);
+                const wisdomsResult = await wisdomsRes.json();
+                if (wisdomsResult.success) {
+                    wisdomsData = wisdomsResult.data.filter(w => 
+                        (w.active === true || w.active === 'TRUE' || w.active === 'true')
+                    );
+                    console.log(`✅ Loaded ${wisdomsData.length} active wisdoms`);
+                    initDailyContent();
+                }
+                
+                // 3. FETCH FRIDAY WISDOMS (Hadis Jumat)
+                const fridayWisdomsRes = await fetch(`${API_URL}?path=friday-wisdoms`);
+                const fridayWisdomsResult = await fridayWisdomsRes.json();
+                if (fridayWisdomsResult.success) {
+                    fridayWisdomsData = fridayWisdomsResult.data.filter(w =>
+                        (w.active === true || w.active === 'TRUE' || w.active === 'true')
+                    ).sort((a, b) => (a.order || 0) - (b.order || 0));
+                    console.log(`✅ Loaded ${fridayWisdomsData.length} active Friday wisdoms`);
+                }
+                
+                // 4. FETCH WALLPAPERS
+                const wallpapersRes = await fetch(`${API_URL}?path=wallpapers`);
+                const wallpapersResult = await wallpapersRes.json();
+                if (wallpapersResult.success) {
+                    wallpapersData = wallpapersResult.data.filter(w =>
+                        (w.active === true || w.active === 'TRUE' || w.active === 'true')
+                    ).sort((a, b) => (a.order || 0) - (b.order || 0));
+                    console.log(`✅ Loaded ${wallpapersData.length} active wallpapers`);
+                    renderWallpapers();
+                }
+                
+                // 5. FETCH ANNOUNCEMENTS
+                const announcementsRes = await fetch(`${API_URL}?path=announcements`);
+                const announcementsResult = await announcementsRes.json();
+                if (announcementsResult.success) {
+                    announcementsData = announcementsResult.data.filter(a =>
+                        (a.active === true || a.active === 'TRUE' || a.active === 'true')
+                    ).sort((a, b) => (a.order || 0) - (b.order || 0));
+                    console.log(`✅ Loaded ${announcementsData.length} active announcements`);
+                    renderAnnouncements();
+                }
+                
+                // 6. FETCH ADABS NORMAL
+                const adabsNormalRes = await fetch(`${API_URL}?path=adabs&type=normal`);
+                const adabsNormalResult = await adabsNormalRes.json();
+                if (adabsNormalResult.success) {
+                    adabsNormalData = adabsNormalResult.data.filter(a =>
+                        (a.active === true || a.active === 'TRUE' || a.active === 'true')
+                    ).sort((a, b) => (a.order || 0) - (b.order || 0));
+                    console.log(`✅ Loaded ${adabsNormalData.length} active normal adabs`);
+                }
+                
+                // 7. FETCH ADABS FRIDAY
+                const adabsFridayRes = await fetch(`${API_URL}?path=adabs&type=friday`);
+                const adabsFridayResult = await adabsFridayRes.json();
+                if (adabsFridayResult.success) {
+                    adabsFridayData = adabsFridayResult.data.filter(a =>
+                        (a.active === true || a.active === 'TRUE' || a.active === 'true')
+                    ).sort((a, b) => (a.order || 0) - (b.order || 0));
+                    console.log(`✅ Loaded ${adabsFridayData.length} active Friday adabs`);
+                }
+                
+                // 8. FETCH FRIDAY SCHEDULE
+                const scheduleRes = await fetch(`${API_URL}?path=friday-schedule`);
+                const scheduleResult = await scheduleRes.json();
+                if (scheduleResult.success) {
+                    fridayScheduleData = scheduleResult.data;
+                    updateFridayUI();
+                }
+                
+                // 9. FETCH PRAYER TIMES
+                await fetchPrayerTimes();
+                
+                // 10. UPDATE MARQUEE
+                createAdabMarquee();
+                
+            } catch (error) {
+                console.error("❌ Error fetching data:", error);
+            }
         }
-
+        
         // ========================================
-        // FUNGSI FETCH API JADWAL SHALAT (PRIMARY)
+        // PRAYER TIMES API (Aladhan)
         // ========================================
         async function fetchPrayerTimes() {
             try {
                 const now = new Date();
-                const dateString = formatDateToDDMMYYYY(now);
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const year = now.getFullYear();
+                const dateString = `${day}-${month}-${year}`;
                 
-                // API URL dengan format yang BENAR PAKAI KOORDINAT
-                const apiUrl = `https://api.aladhan.com/v1/timings/${dateString}?latitude=${masjidConfig.latitude}&longitude=${masjidConfig.longitude}&method=${masjidConfig.method}&timezone=${masjidConfig.timezone}`;
+                const latitude = configData.latitude || -6.59444;
+                const longitude = configData.longitude || 106.78917;
+                const method = configData.api_method || 11;
+                const timezone = configData.timezone || "Asia/Jakarta";
                 
-                console.log("🔄 Fetching prayer times from:", apiUrl);
+                const apiUrl = `https://api.aladhan.com/v1/timings/${dateString}?latitude=${latitude}&longitude=${longitude}&method=${method}&timezone=${timezone}`;
                 
                 const response = await fetch(apiUrl);
                 const data = await response.json();
                 
                 if (data.code === 200 && data.data) {
-                    console.log("✅ API Aladhan Response sukses!");
-                    
-                    // Ambil data waktu shalat dari response
                     const timings = data.data.timings;
-                    
-                    // Simpan ke global variable - HANYA 6 WAKTU SHALAT
                     prayerTimesData = {
                         "Subuh": timings.Fajr,
                         "Syuruq": timings.Sunrise,
@@ -1383,22 +1323,16 @@
                         "Isya": timings.Isha
                     };
                     
-                    // Ambil tanggal Hijriah
+                    // Hijri date
                     const hijri = data.data.date.hijri;
                     hijriDateString = `${hijri.day} ${hijri.month.en} ${hijri.year} H`;
                     
-                    // Ambil tanggal Masehi
+                    // Gregorian date
                     const gregorian = data.data.date.gregorian;
                     const dayNames = {
-                        "Monday": "Senin",
-                        "Tuesday": "Selasa", 
-                        "Wednesday": "Rabu",
-                        "Thursday": "Kamis",
-                        "Friday": "Jumat",
-                        "Saturday": "Sabtu",
-                        "Sunday": "Minggu"
+                        "Monday": "Senin", "Tuesday": "Selasa", "Wednesday": "Rabu",
+                        "Thursday": "Kamis", "Friday": "Jumat", "Saturday": "Sabtu", "Sunday": "Minggu"
                     };
-                    
                     const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
                                        "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
                     
@@ -1409,429 +1343,324 @@
                     // Update UI
                     updatePrayerScheduleUI();
                     updateDatesUI();
-                    updateAllPrayerVariables();
-                    
-                    console.log("📅 Tanggal Hijriah:", hijriDateString);
-                    console.log("📅 Tanggal Masehi:", gregorianDateString);
-                    console.log("🕌 Jadwal Shalat:", prayerTimesData);
-                    
                     lastApiFetch = Date.now();
-                    return true;
                     
-                } else {
-                    console.error("❌ API Response code bukan 200:", data);
-                    return useFallbackData();
-                }
-                
-            } catch (error) {
-                console.error("❌ Error saat fetch API Aladhan:", error);
-                return useFallbackData();
-            }
-        }
-
-        // ========================================
-        // FUNGSI FETCH API ALTERNATIF (BACKUP)
-        // ========================================
-        async function fetchPrayerTimesBackup() {
-            try {
-                const now = new Date();
-                const dateString = formatDateToDDMMYYYY(now);
-                
-                // Backup API URL dengan city dan country
-                const apiUrl = `https://api.aladhan.com/v1/timingsByCity/${dateString}?city=${masjidConfig.city}&country=${masjidConfig.country}&method=${masjidConfig.method}`;
-                
-                console.log("🔄 Trying backup API:", apiUrl);
-                
-                const response = await fetch(apiUrl);
-                const data = await response.json();
-                
-                if (data.code === 200 && data.data) {
-                    console.log("✅ API Backup Response sukses!");
-                    
-                    const timings = data.data.timings;
-                    prayerTimesData = {
-                        "Subuh": timings.Fajr,
-                        "Syuruq": timings.Sunrise,
-                        "Dzuhur": timings.Dhuhr,
-                        "Ashar": timings.Asr,
-                        "Maghrib": timings.Maghrib,
-                        "Isya": timings.Isha
-                    };
-                    
-                    const hijri = data.data.date.hijri;
-                    hijriDateString = `${hijri.day} ${hijri.month.en} ${hijri.year} H`;
-                    
-                    const gregorian = data.data.date.gregorian;
-                    const dayNames = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-                    const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
-                                       "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-                    
-                    const now = new Date();
-                    currentDayName = dayNames[now.getDay()];
-                    gregorianDateString = `${currentDayName}, ${parseInt(gregorian.day)} ${monthNames[parseInt(gregorian.month.number)-1]} ${gregorian.year}`;
-                    
-                    updatePrayerScheduleUI();
-                    updateDatesUI();
-                    updateAllPrayerVariables();
-                    
-                    lastApiFetch = Date.now();
                     return true;
                 }
-                return false;
             } catch (error) {
-                console.error("❌ Backup API juga error:", error);
+                console.error("Error fetching prayer times:", error);
                 return false;
             }
         }
-
-        // ========================================
-        // FUNGSI FALLBACK JIKA API GAGAL SEMUA
-        // ========================================
-        function useFallbackData() {
-            console.warn("⚠️ Menggunakan data fallback (semua API gagal)");
-            
-            // Data fallback untuk Bogor berdasarkan waktu saat ini
-            const now = new Date();
-            const month = now.getMonth() + 1;
-            let times;
-            
-            // Perkiraan jadwal berdasarkan musim (Jan-Jun vs Jul-Dec)
-            if (month >= 1 && month <= 6) {
-                // Musim hujan (waktu lebih awal)
-                times = {
-                    "Subuh": "04:30",
-                    "Syuruq": "05:45",
-                    "Dzuhur": "12:00",
-                    "Ashar": "15:15",
-                    "Maghrib": "18:00",
-                    "Isya": "19:15"
-                };
-            } else {
-                // Musim kemarau (waktu lebih siang)
-                times = {
-                    "Subuh": "04:35",
-                    "Syuruq": "05:50",
-                    "Dzuhur": "12:05",
-                    "Ashar": "15:20",
-                    "Maghrib": "18:05",
-                    "Isya": "19:20"
-                };
-            }
-            
-            prayerTimesData = times;
-            
-            // Tanggal fallback
-            const dayNames = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-            const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
-                               "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-            
-            currentDayName = dayNames[now.getDay()];
-            const day = now.getDate();
-            const monthName = monthNames[now.getMonth()];
-            const year = now.getFullYear();
-            
-            gregorianDateString = `${currentDayName}, ${day} ${monthName} ${year}`;
-            
-            // Tanggal Hijriah fallback (perkiraan)
-            const hijriMonths = ["Muharram", "Safar", "Rabiul Awal", "Rabiul Akhir", "Jumadil Awal", "Jumadil Akhir", 
-                                 "Rajab", "Sya'ban", "Ramadhan", "Syawal", "Dzulqa'dah", "Dzulhijjah"];
-            
-            // Perhitungan sederhana konversi ke Hijriah
-            const hijriDay = Math.max(1, (day % 29) + 1);
-            const hijriMonthIndex = now.getMonth();
-            const hijriYear = 1447 + Math.floor((now.getFullYear() - 2026) * 0.97);
-            
-            hijriDateString = `${hijriDay} ${hijriMonths[hijriMonthIndex]} ${hijriYear} H`;
-            
-            updatePrayerScheduleUI();
-            updateDatesUI();
-            updateAllPrayerVariables();
-            
-            return false;
-        }
-
-        // ========================================
-        // FUNGSI UPDATE UI JADWAL SHALAT
-        // ========================================
+        
         function updatePrayerScheduleUI() {
             const prayerGrid = document.getElementById('prayer-grid');
-            if (!prayerGrid) return;
-            
-            // Pastikan kita hanya update waktu, bukan struktur HTML
             const prayerOrder = ["Subuh", "Syuruq", "Dzuhur", "Ashar", "Maghrib", "Isya"];
             
-            prayerOrder.forEach(prayerName => {
+            prayerOrder.forEach((prayerName, index) => {
                 const prayerTime = prayerTimesData[prayerName] || "--:--";
-                const prayerElement = document.querySelector(`.prayer-item:nth-child(${prayerOrder.indexOf(prayerName) + 1}) .prayer-time`);
-                
+                const prayerElement = document.querySelector(`.prayer-item:nth-child(${index + 1}) .prayer-time`);
                 if (prayerElement) {
                     prayerElement.textContent = prayerTime;
                 }
             });
         }
-
-        // ========================================
-        // FUNGSI UPDATE TANGGAL DI UI
-        // ========================================
+        
         function updateDatesUI() {
-            const hijriElement = document.getElementById('hijri-date');
-            const gregorianElement = document.getElementById('gregorian-date');
-            
-            if (hijriElement) hijriElement.textContent = hijriDateString;
-            if (gregorianElement) gregorianElement.textContent = gregorianDateString;
+            document.getElementById('hijri-date').textContent = hijriDateString || "Loading...";
+            document.getElementById('gregorian-date').textContent = gregorianDateString || "Loading...";
         }
-
+        
         // ========================================
-        // FUNGSI UPDATE VARIABEL WAKTU SHALAT GLOBAL
+        // WALLPAPERS - DYNAMIC FROM API
         // ========================================
-        function updateAllPrayerVariables() {
-            // Update variabel global prayerTimes agar fungsi lain bisa pakai
-            window.prayerTimes = prayerTimesData;
+        function renderWallpapers() {
+            const slider = document.getElementById('wallpaper-slider');
+            if (!slider) return;
             
-            // Update juga di global scope untuk kompatibilitas
-            if (typeof prayerTimes !== 'undefined') {
-                prayerTimes = prayerTimesData;
-            }
-        }
-
-        // ========================================
-        // FUNGSI REFRESH API PERIODIK
-        // ========================================
-        async function refreshApiData() {
-            const now = Date.now();
+            slider.innerHTML = '';
             
-            // Cek apakah perlu refresh (lebih dari 1 jam)
-            if (now - lastApiFetch > API_CACHE_TIME) {
-                console.log("🔄 Auto-refresh data API");
-                
-                // Coba API utama dulu
-                const success = await fetchPrayerTimes();
-                
-                // Jika gagal, coba backup
-                if (!success) {
-                    await fetchPrayerTimesBackup();
-                }
-            }
-        }
-
-        // ========================================
-        // INISIALISASI API SAAT HALAMAN LOAD
-        // ========================================
-        async function initializeApi() {
-            console.log("🚀 Memulai inisialisasi API Aladhan...");
-            
-            // Tampilkan loading state
-            document.getElementById('hijri-date').textContent = "Loading...";
-            document.getElementById('gregorian-date').textContent = "Loading...";
-            
-            // Coba API utama dulu
-            let success = await fetchPrayerTimes();
-            
-            // Jika gagal, coba backup
-            if (!success) {
-                success = await fetchPrayerTimesBackup();
+            if (wallpapersData.length === 0) {
+                // Fallback wallpaper jika tidak ada data
+                slider.innerHTML = `
+                    <div class="wallpaper-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('https://images.unsplash.com/photo-1548013146-72479768bada?w=1350&q=80');"></div>
+                    <div class="wallpaper-slide" style="background-image: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('https://images.unsplash.com/photo-1562774053-701939374585?w=1350&q=80');"></div>
+                `;
+                return;
             }
             
-            // Jika masih gagal, pakai fallback
-            if (!success) {
-                useFallbackData();
+            wallpapersData.forEach((wallpaper, index) => {
+                const slide = document.createElement('div');
+                slide.className = `wallpaper-slide ${index === 0 ? 'active' : ''}`;
+                slide.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('${wallpaper.image_url}')`;
+                slider.appendChild(slide);
+            });
+            
+            wallpaperIndex = 0;
+        }
+        
+        function rotateWallpaper() {
+            if (currentMode === "friday") return;
+            
+            const wallpapers = document.querySelectorAll('.wallpaper-slide');
+            if (wallpapers.length === 0) return;
+            
+            wallpapers.forEach(w => w.classList.remove('active'));
+            wallpaperIndex = (wallpaperIndex + 1) % wallpapers.length;
+            wallpapers[wallpaperIndex]?.classList.add('active');
+        }
+        
+        // ========================================
+        // WISDOMS - DYNAMIC FROM API
+        // ========================================
+        function initDailyContent() {
+            const now = new Date();
+            const dayOfWeek = now.getDay(); // 0 = Minggu, 1 = Senin, ...
+            
+            // Filter wisdoms berdasarkan hari ini
+            const dayMap = {
+                1: 'monday', 2: 'tuesday', 3: 'wednesday',
+                4: 'thursday', 5: 'friday', 6: 'saturday', 0: 'sunday'
+            };
+            
+            const todayWisdoms = wisdomsData.filter(w => w.day === dayMap[dayOfWeek]);
+            
+            if (todayWisdoms.length > 0) {
+                wisdomsData = todayWisdoms.sort((a, b) => (a.order || 0) - (b.order || 0));
+                wisdomIndex = 0;
+                updateWisdomContent();
+            } else {
+                // Fallback
+                document.getElementById('wisdom-text').textContent = "Sesungguhnya shalat itu adalah kewajiban yang ditentukan waktunya atas orang-orang yang beriman.";
+                document.getElementById('wisdom-reference').textContent = "QS. An-Nisa (4) : 103";
+            }
+        }
+        
+        function rotateWisdom() {
+            if (currentMode === "friday") {
+                rotateFridayWisdom();
+                return;
             }
             
-            console.log("✅ Inisialisasi API selesai");
-            return success;
-        }
-
-        // ========================================
-        // KONFIGURASI MASJID (LAMA)
-        // ========================================
-        const masjidInfo = {
-            name: "MASJID BAITURRAHMAN STMIK TAZKIA",
-            address: "Kecamatan Dramaga, Kabupaten Bogor",
-            city: "Bogor",
-            country: "Indonesia",
-            method: 11 // Kemenag RI
-        };
-
-        // JADWAL JUMAT
-        const fridaySchedule = {
-            khutbah: "11:30",
-            iqamah: "12:00"
-        };
-
-        // URUTAN SHALAT
-        const prayerOrder = ["Subuh", "Syuruq", "Dzuhur", "Ashar", "Maghrib", "Isya"];
-
-        // DATA HIKMAH (21 KONTEN)
-        const wisdoms = [
-            // Senin: Konten 1-3
-            { text: "Sesungguhnya shalat itu adalah kewajiban yang ditentukan waktunya atas orang-orang yang beriman.", reference: "QS. An-Nisa (4) : 103" },
-            { text: "Barangsiapa yang shalat Subuh, maka ia berada dalam jaminan Allah.", reference: "HR. Muslim" },
-            { text: "Amal pertama yang dihisab dari seorang hamba pada hari kiamat adalah shalat.", reference: "HR. Tirmidzi" },
-            // Selasa: Konten 4-6
-            { text: "Dirikanlah shalat, tunaikanlah zakat dan rukuklah beserta orang-orang yang rukuk.", reference: "QS. Al-Baqarah (2) : 43" },
-            { text: "Shalat adalah tiang agama, barang siapa mendirikannya maka ia mendirikan agama.", reference: "HR. Baihaqi" },
-            { text: "Dua rakaat shalat sunnah fajar (qabliyah subuh) lebih baik dari dunia dan seisinya.", reference: "HR. Muslim" },
-            // Rabu: Konten 7-9
-            { text: "Dan mintalah pertolongan dengan sabar dan shalat.", reference: "QS. Al-Baqarah (2) : 45" },
-            { text: "Kunci surga adalah shalat, dan kunci shalat adalah wudhu.", reference: "HR. Ahmad" },
-            { text: "Shalat berjamaah lebih utama 27 derajat daripada shalat sendirian.", reference: "HR. Bukhari-Muslim" },
-            // Kamis: Konten 10-12
-            { text: "Peliharalah semua shalat(mu), dan peliharalah shalat wustha (ashar).", reference: "QS. Al-Baqarah (2) : 238" },
-            { text: "Sebaik-baik amal adalah shalat pada waktunya.", reference: "HR. Bukhari" },
-            { text: "Shalat itu cahaya, maka barangsiapa yang mau, bisa memperbanyak cahayanya atau mengurangi.", reference: "HR. Ahmad" },
-            // Jumat: Konten 13-15
-            { text: "Hai orang-orang yang beriman, apabila diseru untuk menunaikan shalat pada hari Jumat, maka bersegeralah kepada mengingat Allah.", reference: "QS. Al-Jumu'ah (62) : 9" },
-            { text: "Barangsiapa mandi pada hari Jumat, kemudian pergi shalat Jumat, maka diampuni dosanya antara Jumat itu dan Jumat berikutnya.", reference: "HR. Bukhari" },
-            { text: "Hari Jumat adalah penghulu segala hari dan hari yang paling mulia di sisi Allah.", reference: "HR. Ibnu Majah" },
-            // Sabtu: Konten 16-18
-            { text: "Sesungguhnya shalat itu mencegah dari perbuatan keji dan mungkar.", reference: "QS. Al-Ankabut (29) : 45" },
-            { text: "Shalat adalah cahaya bagi orang yang mendirikannya di dunia dan di akhirat.", reference: "HR. Ahmad" },
-            { text: "Barangsiapa menjaga shalat, maka shalat itu akan menjadi cahaya, bukti dan keselamatan pada hari kiamat.", reference: "HR. Ibnu Hibban" },
-            // Minggu: Konten 19-21
-            { text: "Dan dirikanlah shalat untuk mengingat-Ku.", reference: "QS. Thaha (20) : 14" },
-            { text: "Shalat adalah mi'rajnya orang mukmin.", reference: "Hadits Qudsi" },
-            { text: "Sesungguhnya di antara shalat ada yang wajib dan ada yang sunnah, maka sempurnakanlah yang wajib dan isilah dengan yang sunnah.", reference: "HR. Abu Daud" }
-        ];
-
-        // HADIS KEUTAMAAN JUMAT
-        const fridayHadiths = [
-            { text: "Hari terbaik di mana matahari terbit di hari itu adalah hari Jumat. Pada hari itu Adam diciptakan, dimasukkan ke surga, dan dikeluarkan darinya.", reference: "HR. Muslim" },
-            { text: "Barangsiapa membaca surat Al-Kahfi pada hari Jumat, maka Allah akan memberinya cahaya antara dua Jumat.", reference: "HR. Hakim" },
-            { text: "Pada hari Jumat ada waktu mustajab, di mana jika seorang muslim berdoa saat itu, niscaya akan dikabulkan.", reference: "HR. Bukhari" },
-            { text: "Shalat Jumat dua rakaat yang dikerjakan seorang hamba akan menghapuskan dosa-dosa antara Jumat itu dan Jumat sebelumnya.", reference: "HR. Muslim" },
-            { text: "Meninggal dunia pada hari Jumat atau malam Jumat adalah tanda husnul khatimah, yaitu dibebaskan dari fitnah kubur.", reference: "HR. Tirmidzi" }
-        ];
-
-        // ADAB ISLAM (5 KALIMAT)
-        const adabs = [
-            "Masuk masjid dengan membaca doa dan menggunakan kaki kanan terlebih dahulu",
-            "Menjaga kebersihan masjid dan tidak meninggalkan sampah di dalamnya",
-            "Mematikan atau menyetel mode silent ponsel saat berada di dalam masjid",
-            "Tidak melangkahi bahu orang yang sedang shalat",
-            "Berkonsentrasi penuh dalam shalat dan menghindari gerakan yang tidak perlu"
-        ];
-
-        // ADAB KHUSUS JUMAT
-        const fridayAdabs = [
-            "Mandilah sebelum pergi shalat Jumat sebagai bentuk kesucian",
-            "Pakailah pakaian yang terbaik dan wangi-wangian saat shalat Jumat",
-            "Datang lebih awal ke masjid untuk mendapatkan shaf terdepan",
-            "Dengarkan khutbah dengan khusyuk dan diamlah saat khatib berkhotbah",
-            "Perbanyak shalawat kepada Nabi Muhammad SAW di hari Jumat"
-        ];
-
-        // VARIABEL GLOBAL
-        let currentMode = "normal";
-        let wisdomIndex = 0;
-        let fridayHadithIndex = 0;
-        let announcementIndex = 0;
-        let wallpaperIndex = 0;
-        let audioContext;
-        let beepSound;
-        let azanPhase = 1;
-        let azanTimer;
-        let iqamahTimer;
-        let salahTimer;
-        let currentPrayerName = "";
-
-        // ========================================
-        // FUNGSI UTAMA
-        // ========================================
-        document.addEventListener('DOMContentLoaded', async function() {
-            console.log("🚀 Starting Masjid Digital Display...");
+            if (wisdomsData.length === 0) return;
             
-            // Fetch data dari API terlebih dahulu
-            await fetchAllData();
-            
-            document.querySelector('.masjid-name').textContent = masjidInfo.name;
-            document.querySelector('.masjid-address').textContent = masjidInfo.address;
-            
-            // INISIALISASI API PERTAMA KALI
-            await initializeApi();
-            
-            initAudio();
-            initDailyContent();
-            createAdabMarquee();
-            updateDateTime(); // Panggil pertama kali
-            
-            // Set interval untuk refresh data API setiap 1 jam
-            setInterval(refreshApiData, 3600000);
-            
-            // Set interval untuk refresh data dari Google Sheets API setiap 5 menit
-            setInterval(fetchAllData, 5 * 60 * 1000);
-            
-            // Set interval untuk cek refresh setiap 5 menit
-            setInterval(checkApiRefresh, 300000);
+            const wisdomContent = document.getElementById('wisdom-content');
+            wisdomContent.style.opacity = 0;
             
             setTimeout(() => {
-                if (!document.fullscreenElement) {
-                    document.getElementById('fullscreen-overlay').style.display = 'flex';
-                }
-            }, 2000);
-            
-            setupEventListeners();
-            startIntervals();
-        });
-
-        function setupEventListeners() {
-            document.getElementById('enter-fullscreen-btn').addEventListener('click', function() {
-                enterFullscreen();
-                document.getElementById('fullscreen-overlay').style.display = 'none';
-            });
-            
-            document.addEventListener('click', function firstClick() {
-                if (!document.fullscreenElement) {
-                    enterFullscreen();
-                    document.getElementById('fullscreen-overlay').style.display = 'none';
-                }
-                document.removeEventListener('click', firstClick);
-            });
+                wisdomIndex = (wisdomIndex + 1) % wisdomsData.length;
+                updateWisdomContent();
+                wisdomContent.style.opacity = 1;
+            }, 400);
         }
-
-        function startIntervals() {
-            setInterval(updateDateTime, 1000);
-            setInterval(rotateWisdom, 60000);
-            setInterval(rotateWallpaper, 30000);
-            setInterval(rotateAnnouncement, 30000);
-            setInterval(rotateFridayHadith, 30000);
-            setInterval(checkFridayMode, 60000);
-            setInterval(checkAzanMode, 1000);
-            setInterval(checkApiRefresh, 60000);
-        }
-
-        // ========================================
-        // FUNGSI CHECK API REFRESH
-        // ========================================
-        function checkApiRefresh() {
-            if (Date.now() - lastApiFetch > API_CACHE_TIME) {
-                refreshApiData();
+        
+        function updateWisdomContent() {
+            if (wisdomsData.length > 0 && wisdomsData[wisdomsIndex]) {
+                const wisdom = wisdomsData[wisdomIndex];
+                document.getElementById('wisdom-text').textContent = wisdom.text;
+                document.getElementById('wisdom-reference').textContent = wisdom.reference;
             }
         }
-
+        
+        function rotateFridayWisdom() {
+            if (fridayWisdomsData.length === 0) return;
+            
+            const wisdomContent = document.getElementById('wisdom-content');
+            wisdomContent.style.opacity = 0;
+            
+            setTimeout(() => {
+                fridayHadithIndex = (fridayHadithIndex + 1) % fridayWisdomsData.length;
+                const hadith = fridayWisdomsData[fridayHadithIndex];
+                document.getElementById('wisdom-text').textContent = hadith.text;
+                document.getElementById('wisdom-reference').textContent = hadith.reference;
+                wisdomContent.style.opacity = 1;
+            }, 400);
+        }
+        
         // ========================================
-        // FUNGSI WAKTU DAN TANGGAL
+        // ANNOUNCEMENTS - DYNAMIC FROM API
+        // ========================================
+        function renderAnnouncements() {
+            const container = document.getElementById('jumat-announcements');
+            if (!container) return;
+            
+            // Keep the title
+            container.innerHTML = '<h3><i class="fas fa-bullhorn"></i> PENGUMUMAN</h3>';
+            
+            if (announcementsData.length === 0) {
+                const fallback = document.createElement('div');
+                fallback.className = 'announcement-slide active';
+                fallback.innerHTML = '<div class="announcement-text">Shodaqoh Jumat dapat disampaikan di kotak amal yang telah disediakan.</div>';
+                container.appendChild(fallback);
+                return;
+            }
+            
+            announcementsData.forEach((announcement, index) => {
+                const slide = document.createElement('div');
+                slide.className = `announcement-slide ${index === 0 ? 'active' : ''}`;
+                slide.innerHTML = `<div class="announcement-text">${announcement.text}</div>`;
+                container.appendChild(slide);
+            });
+            
+            announcementIndex = 0;
+        }
+        
+        function rotateAnnouncement() {
+            if (currentMode !== "friday") return;
+            
+            const slides = document.querySelectorAll('.announcement-slide');
+            if (slides.length === 0) return;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            announcementIndex = (announcementIndex + 1) % slides.length;
+            slides[announcementIndex]?.classList.add('active');
+        }
+        
+        // ========================================
+        // ADABS MARQUEE - DYNAMIC FROM API
+        // ========================================
+        function createAdabMarquee() {
+            const marqueeTrack = document.getElementById('marquee-track');
+            if (!marqueeTrack) return;
+            
+            marqueeTrack.innerHTML = '';
+            
+            const currentAdabs = currentMode === "friday" ? adabsFridayData : adabsNormalData;
+            
+            if (currentAdabs.length === 0) {
+                // Fallback
+                const fallback = document.createElement('div');
+                fallback.className = 'adab-item';
+                fallback.innerHTML = '<i class="fas fa-door-open"></i> Masuk masjid dengan membaca doa dan menggunakan kaki kanan terlebih dahulu';
+                marqueeTrack.appendChild(fallback);
+                return;
+            }
+            
+            // Duplicate for seamless marquee
+            [...currentAdabs, ...currentAdabs].forEach((adab, index) => {
+                const adabItem = document.createElement('div');
+                adabItem.className = 'adab-item';
+                adabItem.innerHTML = `<i class="${adab.icon || 'fas fa-info-circle'}"></i> ${adab.text}`;
+                marqueeTrack.appendChild(adabItem);
+                
+                const space = document.createElement('div');
+                space.style.padding = '0 150px';
+                marqueeTrack.appendChild(space);
+            });
+            
+            // Adjust speed based on config
+            const speed = currentMode === "friday" 
+                ? (configData.marquee_speed_friday || 400) 
+                : (configData.marquee_speed || 300);
+            marqueeTrack.style.animationDuration = `${speed}s`;
+        }
+        
+        // ========================================
+        // FRIDAY SCHEDULE - DYNAMIC FROM API
+        // ========================================
+        function updateFridayUI() {
+            document.getElementById('khutbah-time').textContent = fridayScheduleData.khutbah_time || "11:30";
+            document.getElementById('iqamah-time').textContent = fridayScheduleData.iqamah_time || "12:00";
+            document.getElementById('imam-name').textContent = fridayScheduleData.imam_name || "Ust. Ahmad Fauzi";
+            document.getElementById('khatib-name').textContent = fridayScheduleData.khatib_name || "Ust. Muhammad Arif";
+            document.getElementById('muadzin1-name').textContent = fridayScheduleData.muadzin1_name || "Bro. Abdul Rahman";
+            document.getElementById('muadzin2-name').textContent = fridayScheduleData.muadzin2_name || "Bro. Ismail Hadi";
+        }
+        
+        // ========================================
+        // FRIDAY MODE CHECK
+        // ========================================
+        function checkFridayMode() {
+            const now = new Date();
+            const dayOfWeek = now.getDay();
+            const currentHour = now.getHours();
+            
+            if (dayOfWeek === 5) { // Jumat
+                const startHour = parseInt(configData.friday_start_hour) || 8;
+                const endHour = parseInt(configData.friday_end_hour) || 14;
+                
+                if (currentHour >= startHour && currentHour < endHour) {
+                    activateFridayMode();
+                } else if (currentHour === startHour - 1 && now.getMinutes() >= 59) {
+                    showFridayCountdown(60 - now.getSeconds());
+                } else {
+                    deactivateFridayMode();
+                }
+            } else {
+                deactivateFridayMode();
+            }
+        }
+        
+        function showFridayCountdown(secondsLeft) {
+            const countdownEl = document.getElementById('friday-countdown');
+            const countdownTimerEl = document.getElementById('friday-mode-countdown');
+            
+            const minutes = Math.floor(secondsLeft / 60);
+            const seconds = secondsLeft % 60;
+            countdownTimerEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            countdownEl.classList.add('show');
+            
+            if (secondsLeft <= 0) {
+                countdownEl.classList.remove('show');
+                activateFridayMode();
+            }
+        }
+        
+        function activateFridayMode() {
+            if (currentMode === "friday") return;
+            
+            currentMode = "friday";
+            document.body.classList.add('friday-mode');
+            document.getElementById('friday-notification').classList.add('show');
+            
+            updateFridayUI();
+            createAdabMarquee();
+            
+            // Set first Friday wisdom
+            if (fridayWisdomsData.length > 0) {
+                fridayHadithIndex = 0;
+                const hadith = fridayWisdomsData[0];
+                document.getElementById('wisdom-text').textContent = hadith.text;
+                document.getElementById('wisdom-reference').textContent = hadith.reference;
+            }
+        }
+        
+        function deactivateFridayMode() {
+            if (currentMode !== "friday") return;
+            
+            currentMode = "normal";
+            document.body.classList.remove('friday-mode');
+            document.getElementById('friday-notification').classList.remove('show');
+            document.getElementById('friday-countdown').classList.remove('show');
+            
+            initDailyContent();
+            createAdabMarquee();
+        }
+        
+        // ========================================
+        // DATE & TIME FUNCTIONS
         // ========================================
         function updateDateTime() {
             const now = new Date();
             
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
-            
             const colon = now.getSeconds() % 2 === 0 ? ":" : " ";
+            
             document.getElementById('digital-clock').innerHTML = 
                 `${hours}<span class="blink">${colon}</span>${minutes}`;
-            
-            document.getElementById('salah-clock').textContent = 
+            document.getElementById('salah-clock').innerHTML = 
                 `${hours}<span class="blink">${colon}</span>${minutes}`;
             
             updateCountdown(now);
             updateActivePrayer(now);
         }
-
+        
         function updateCountdown(now) {
             if (!prayerTimesData.Subuh) return;
             
             const currentTime = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+            const prayerOrder = ["Subuh", "Syuruq", "Dzuhur", "Ashar", "Maghrib", "Isya"];
             
             let nextPrayerName = "Subuh";
             let nextPrayerTime = prayerTimesData["Subuh"];
@@ -1840,7 +1669,6 @@
             for (let i = 0; i < prayerOrder.length; i++) {
                 const prayerName = prayerOrder[i];
                 const prayerTime = prayerTimesData[prayerName];
-                
                 if (!prayerTime) continue;
                 
                 const [prayerHour, prayerMinute] = prayerTime.split(':').map(Number);
@@ -1872,272 +1700,56 @@
             document.getElementById('next-prayer-name').textContent = nextPrayerName;
             document.getElementById('countdown-timer').textContent = 
                 `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            
-            if (hours === 0 && minutes < 5) {
-                document.getElementById('countdown-timer').style.color = '#FFD700';
-            } else {
-                document.getElementById('countdown-timer').style.color = 'var(--text-light)';
-            }
         }
-
+        
         function updateActivePrayer(now) {
             if (currentMode === "friday") return;
             if (!prayerTimesData.Subuh) return;
             
             const currentTime = now.getHours() * 60 + now.getMinutes();
-            const prayerItems = document.querySelectorAll('.prayer-item');
+            const prayerOrder = ["Subuh", "Syuruq", "Dzuhur", "Ashar", "Maghrib", "Isya"];
             
-            prayerItems.forEach((item, index) => {
+            document.querySelectorAll('.prayer-item').forEach((item, index) => {
                 item.classList.remove('active');
                 
-                const prayerName = prayerOrder[index];
-                const prayerTime = prayerTimesData[prayerName];
+                if (index === 0) return; // Skip first
                 
-                if (!prayerTime) return;
+                const prevPrayer = prayerTimesData[prayerOrder[index - 1]];
+                const currentPrayer = prayerTimesData[prayerOrder[index]];
                 
-                const [prayerHour, prayerMinute] = prayerTime.split(':').map(Number);
-                const prayerTotalMinutes = prayerHour * 60 + prayerMinute;
+                if (!prevPrayer || !currentPrayer) return;
                 
-                if (index > 0) {
-                    const prevPrayerName = prayerOrder[index - 1];
-                    const prevPrayerTime = prayerTimesData[prevPrayerName];
-                    
-                    if (!prevPrayerTime) return;
-                    
-                    const [prevHour, prevMinute] = prevPrayerTime.split(':').map(Number);
-                    const prevTotalMinutes = prevHour * 60 + prevMinute;
-                    
-                    if (currentTime >= prevTotalMinutes && currentTime < prayerTotalMinutes) {
-                        item.classList.add('active');
-                    }
+                const [prevHour, prevMinute] = prevPrayer.split(':').map(Number);
+                const [currHour, currMinute] = currentPrayer.split(':').map(Number);
+                
+                const prevTotal = prevHour * 60 + prevMinute;
+                const currTotal = currHour * 60 + currMinute;
+                
+                if (currentTime >= prevTotal && currentTime < currTotal) {
+                    item.classList.add('active');
                 }
             });
         }
-
+        
         // ========================================
-        // FUNGSI KONTEN HIKMAH
-        // ========================================
-        function initDailyContent() {
-            const now = new Date();
-            const dayOfWeek = now.getDay();
-            
-            let startIndex = 0;
-            if (dayOfWeek === 0) {
-                startIndex = 18;
-            } else {
-                startIndex = (dayOfWeek - 1) * 3;
-            }
-            
-            wisdomIndex = startIndex;
-            updateWisdomContent();
-        }
-
-        function rotateWisdom() {
-            if (currentMode === "friday") {
-                rotateFridayWisdom();
-                return;
-            }
-            
-            const wisdomContent = document.getElementById('wisdom-content');
-            wisdomContent.style.opacity = 0;
-            
-            setTimeout(() => {
-                const now = new Date();
-                const dayOfWeek = now.getDay();
-                let startIndex, endIndex;
-                
-                if (dayOfWeek === 0) {
-                    startIndex = 18;
-                    endIndex = 20;
-                } else {
-                    startIndex = (dayOfWeek - 1) * 3;
-                    endIndex = startIndex + 2;
-                }
-                
-                wisdomIndex++;
-                if (wisdomIndex > endIndex || wisdomIndex < startIndex) {
-                    wisdomIndex = startIndex;
-                }
-                
-                updateWisdomContent();
-                
-                setTimeout(() => {
-                    wisdomContent.style.opacity = 1;
-                }, 50);
-            }, 400);
-        }
-
-        function rotateFridayWisdom() {
-            const wisdomContent = document.getElementById('wisdom-content');
-            wisdomContent.style.opacity = 0;
-            
-            setTimeout(() => {
-                fridayHadithIndex = (fridayHadithIndex + 1) % fridayHadiths.length;
-                const hadith = fridayHadiths[fridayHadithIndex];
-                
-                document.getElementById('wisdom-text').textContent = hadith.text;
-                document.getElementById('wisdom-reference').textContent = hadith.reference;
-                
-                setTimeout(() => {
-                    wisdomContent.style.opacity = 1;
-                }, 50);
-            }, 400);
-        }
-
-        function updateWisdomContent() {
-            const wisdom = wisdoms[wisdomIndex];
-            if (wisdom) {
-                document.getElementById('wisdom-text').textContent = wisdom.text;
-                document.getElementById('wisdom-reference').textContent = wisdom.reference;
-            }
-        }
-
-        // ========================================
-        // FUNGSI RUNNING TEXT
-        // ========================================
-        function createAdabMarquee() {
-            const marqueeTrack = document.getElementById('marquee-track');
-            marqueeTrack.innerHTML = '';
-            
-            const currentAdabs = currentMode === "friday" ? fridayAdabs : adabs;
-            const icons = currentMode === "friday" ? 
-                ['fas fa-shower', 'fas fa-tshirt', 'fas fa-clock', 'fas fa-volume-mute', 'fas fa-pray'] :
-                ['fas fa-door-open', 'fas fa-broom', 'fas fa-mobile-alt', 'fas fa-walking', 'fas fa-hands-praying'];
-            
-            currentAdabs.forEach((adab, index) => {
-                const adabItem = document.createElement('div');
-                adabItem.className = 'adab-item';
-                adabItem.innerHTML = `<i class="${icons[index]}"></i> ${adab}`;
-                marqueeTrack.appendChild(adabItem);
-                
-                const space = document.createElement('div');
-                space.style.padding = '0 150px';
-                marqueeTrack.appendChild(space);
-            });
-            
-            currentAdabs.forEach((adab, index) => {
-                const adabItem = document.createElement('div');
-                adabItem.className = 'adab-item';
-                adabItem.innerHTML = `<i class="${icons[index]}"></i> ${adab}`;
-                marqueeTrack.appendChild(adabItem);
-                
-                const space = document.createElement('div');
-                space.style.padding = '0 150px';
-                marqueeTrack.appendChild(space);
-            });
-            
-            const marquee = document.querySelector('.marquee-track');
-            marquee.style.animationDuration = currentMode === "friday" ? '400s' : '300s';
-        }
-
-        // ========================================
-        // FUNGSI MODE JUMAT
-        // ========================================
-        function checkFridayMode() {
-            const now = new Date();
-            const dayOfWeek = now.getDay();
-            const currentHour = now.getHours();
-            const currentMinute = now.getMinutes();
-            const currentSeconds = now.getSeconds();
-            
-            if (dayOfWeek === 5) {
-                const isFridayTime = (currentHour >= 8 && currentHour < 14) || 
-                                    (currentHour === 7 && currentMinute >= 59);
-                const isCountdownTime = (currentHour === 7 && currentMinute === 59);
-                
-                if (isCountdownTime) {
-                    showFridayCountdown(60 - currentSeconds);
-                } else if (isFridayTime) {
-                    activateFridayMode();
-                } else {
-                    deactivateFridayMode();
-                }
-            } else {
-                deactivateFridayMode();
-            }
-        }
-
-        function showFridayCountdown(secondsLeft) {
-            const countdownEl = document.getElementById('friday-countdown');
-            const countdownTimerEl = document.getElementById('friday-mode-countdown');
-            
-            const minutes = Math.floor(secondsLeft / 60);
-            const seconds = secondsLeft % 60;
-            countdownTimerEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            
-            countdownEl.classList.add('show');
-            
-            if (secondsLeft <= 0) {
-                countdownEl.classList.remove('show');
-                activateFridayMode();
-            }
-        }
-
-        function activateFridayMode() {
-            if (currentMode === "friday") return;
-            
-            currentMode = "friday";
-            document.body.classList.add('friday-mode');
-            document.getElementById('friday-notification').classList.add('show');
-            
-            document.getElementById('khutbah-time').textContent = fridaySchedule.khutbah;
-            document.getElementById('iqamah-time').textContent = fridaySchedule.iqamah;
-            
-            fridayHadithIndex = 0;
-            const hadith = fridayHadiths[fridayHadithIndex];
-            document.getElementById('wisdom-text').textContent = hadith.text;
-            document.getElementById('wisdom-reference').textContent = hadith.reference;
-            
-            createAdabMarquee();
-            
-            document.querySelectorAll('.announcement-slide').forEach(slide => {
-                slide.classList.remove('active');
-            });
-            document.getElementById('announcement-1').classList.add('active');
-            announcementIndex = 0;
-        }
-
-        function deactivateFridayMode() {
-            if (currentMode !== "friday") return;
-            
-            currentMode = "normal";
-            document.body.classList.remove('friday-mode');
-            document.getElementById('friday-notification').classList.remove('show');
-            document.getElementById('friday-countdown').classList.remove('show');
-            
-            initDailyContent();
-            createAdabMarquee();
-        }
-
-        function rotateAnnouncement() {
-            if (currentMode !== "friday") return;
-            
-            const slides = document.querySelectorAll('.announcement-slide');
-            slides.forEach(slide => slide.classList.remove('active'));
-            
-            announcementIndex = (announcementIndex + 1) % slides.length;
-            slides[announcementIndex].classList.add('active');
-        }
-
-        function rotateFridayHadith() {
-            if (currentMode !== "friday") return;
-            rotateFridayWisdom();
-        }
-
-        // ========================================
-        // FUNGSI MODE AZAN & SHALAT
+        // AZAN MODE
         // ========================================
         function checkAzanMode() {
             if (currentMode === "friday") {
                 const now = new Date();
-                const currentHour = now.getHours();
-                if (currentHour >= 8 && currentHour < 14) return;
+                const hour = now.getHours();
+                const startHour = parseInt(configData.friday_start_hour) || 8;
+                const endHour = parseInt(configData.friday_end_hour) || 14;
+                if (hour >= startHour && hour < endHour) return;
             }
             
             if (!prayerTimesData.Subuh) return;
             
             const now = new Date();
             const currentTime = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+            const prayerOrder = ["Subuh", "Dzuhur", "Ashar", "Maghrib", "Isya"];
+            const azanCountdown = parseInt(configData.azan_countdown) || 30;
+            const iqamahCountdown = parseInt(configData.iqamah_countdown) || 180;
             
             prayerOrder.forEach(prayerName => {
                 const prayerTime = prayerTimesData[prayerName];
@@ -2146,53 +1758,30 @@
                 const [prayerHour, prayerMinute] = prayerTime.split(':').map(Number);
                 const prayerSeconds = prayerHour * 3600 + prayerMinute * 60;
                 
-                if (currentTime >= prayerSeconds - 30 && currentTime < prayerSeconds) {
+                if (currentTime >= prayerSeconds - azanCountdown && currentTime < prayerSeconds) {
                     if (currentMode !== "azan" || currentPrayerName !== prayerName) {
                         activateAzanMode(prayerName, prayerSeconds - currentTime, 1);
                     }
                     return;
                 }
                 
-                if (currentTime >= prayerSeconds && currentTime < prayerSeconds + 180) {
+                if (currentTime >= prayerSeconds && currentTime < prayerSeconds + iqamahCountdown) {
                     if (currentMode !== "azan" || currentPrayerName !== prayerName) {
-                        activateAzanMode(prayerName, prayerSeconds + 180 - currentTime, 2);
+                        activateAzanMode(prayerName, prayerSeconds + iqamahCountdown - currentTime, 2);
                     }
                     return;
                 }
                 
-                if (currentTime >= prayerSeconds + 180 && currentTime < prayerSeconds + 600) {
+                if (currentTime >= prayerSeconds + iqamahCountdown && 
+                    currentTime < prayerSeconds + iqamahCountdown + (parseInt(configData.salah_duration) || 420)) {
                     if (currentMode !== "salah") {
                         activateSalahMode(prayerName);
                     }
                     return;
                 }
             });
-            
-            if ((currentMode === "azan" || currentMode === "salah") && !isInAzanTimeRange(now)) {
-                deactivateAzanMode();
-            }
         }
-
-        function isInAzanTimeRange(now) {
-            const currentTime = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
-            
-            for (const prayerName of prayerOrder) {
-                const prayerTime = prayerTimesData[prayerName];
-                if (!prayerTime) continue;
-                
-                const [prayerHour, prayerMinute] = prayerTime.split(':').map(Number);
-                const prayerSeconds = prayerHour * 3600 + prayerMinute * 60;
-                
-                if ((currentTime >= prayerSeconds - 30 && currentTime < prayerSeconds) ||
-                    (currentTime >= prayerSeconds && currentTime < prayerSeconds + 180) ||
-                    (currentTime >= prayerSeconds + 180 && currentTime < prayerSeconds + 600)) {
-                    return true;
-                }
-            }
-            
-            return false;
-        }
-
+        
         function activateAzanMode(prayerName, timeLeft, phase) {
             currentMode = "azan";
             azanPhase = phase;
@@ -2216,40 +1805,22 @@
             
             azanOverlay.classList.add('show');
             
-            if (phase === 1 && audioContext && beepSound) {
-                playBeepSound();
-                azanTimer = setInterval(playBeepSound, 1000);
-            }
-            
-            if (phase === 2 && timeLeft <= 10 && audioContext && beepSound) {
-                playBeepSound();
-                iqamahTimer = setInterval(playBeepSound, 1000);
-            }
-            
             const updateTimer = setInterval(() => {
                 timeLeft--;
                 
                 if (phase === 1) {
                     azanCountdown.textContent = timeLeft;
-                    
                     if (timeLeft <= 0) {
                         clearInterval(updateTimer);
-                        if (azanTimer) clearInterval(azanTimer);
-                        activateAzanMode(prayerName, 180, 2);
+                        activateAzanMode(prayerName, parseInt(configData.iqamah_countdown) || 180, 2);
                     }
                 } else {
                     const minutes = Math.floor(timeLeft / 60);
                     const seconds = timeLeft % 60;
                     azanCountdown.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
                     
-                    if (timeLeft <= 10 && !iqamahTimer && audioContext && beepSound) {
-                        playBeepSound();
-                        iqamahTimer = setInterval(playBeepSound, 1000);
-                    }
-                    
                     if (timeLeft <= 0) {
                         clearInterval(updateTimer);
-                        if (iqamahTimer) clearInterval(iqamahTimer);
                         activateSalahMode(prayerName);
                     }
                 }
@@ -2257,7 +1828,7 @@
             
             window.azanUpdateTimer = updateTimer;
         }
-
+        
         function activateSalahMode(prayerName) {
             currentMode = "salah";
             document.getElementById('azan-overlay').classList.remove('show');
@@ -2266,29 +1837,25 @@
             
             salahTimer = setTimeout(() => {
                 deactivateAzanMode();
-            }, 7 * 60 * 1000);
+            }, (parseInt(configData.salah_duration) || 420) * 1000);
         }
-
+        
         function deactivateAzanMode() {
             currentMode = "normal";
             
-            if (azanTimer) clearInterval(azanTimer);
-            if (iqamahTimer) clearInterval(iqamahTimer);
             if (window.azanUpdateTimer) clearInterval(window.azanUpdateTimer);
             if (salahTimer) clearTimeout(salahTimer);
             
             document.getElementById('azan-overlay').classList.remove('show');
             document.getElementById('salah-overlay').classList.remove('show');
             
-            azanTimer = null;
-            iqamahTimer = null;
             window.azanUpdateTimer = null;
             salahTimer = null;
             currentPrayerName = "";
         }
-
+        
         // ========================================
-        // FUNGSI AUDIO
+        // AUDIO
         // ========================================
         function initAudio() {
             try {
@@ -2312,29 +1879,13 @@
                     }
                 };
             } catch (error) {
-                console.error("Audio tidak didukung:", error);
+                console.error("Audio not supported:", error);
             }
         }
-
-        function playBeepSound() {
-            if (beepSound) {
-                beepSound.play();
-            }
-        }
-
+        
         // ========================================
-        // FUNGSI UTILITAS
+        // UTILITY FUNCTIONS
         // ========================================
-        function rotateWallpaper() {
-            if (currentMode === "friday") return;
-            
-            const wallpapers = document.querySelectorAll('.wallpaper-slide');
-            wallpapers.forEach(wallpaper => wallpaper.classList.remove('active'));
-            
-            wallpaperIndex = (wallpaperIndex + 1) % wallpapers.length;
-            wallpapers[wallpaperIndex].classList.add('active');
-        }
-
         function enterFullscreen() {
             const elem = document.documentElement;
             if (elem.requestFullscreen) elem.requestFullscreen();
@@ -2342,20 +1893,16 @@
             else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
             else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
         }
-
-        // ========================================
-        // FULLSCREEN EVENT LISTENERS
-        // ========================================
+        
+        // Fullscreen event listeners
         document.addEventListener('fullscreenchange', handleFullscreenChange);
         document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
         document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-
+        
         function handleFullscreenChange() {
             if (!document.fullscreenElement && 
                 !document.webkitFullscreenElement && 
-                !document.mozFullScreenElement && 
-                !document.msFullscreenElement) {
+                !document.mozFullScreenElement) {
                 document.getElementById('fullscreen-overlay').style.display = 'flex';
             }
         }
