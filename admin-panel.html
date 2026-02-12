@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* ===== SIMPLIFIED UI - REMOVED EXCESSIVE SHADOWS & GRADIENTS ===== */
         :root {
             --primary-dark: #1A4D8C;
             --primary-light: #5D8DC0;
@@ -15,10 +16,11 @@
             --text-light: #F8F9FA;
             --bg-white: #FFFFFF;
             --bg-light: #F0F4F8;
-            --shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.08);
             --success: #28a745;
             --danger: #dc3545;
             --warning: #ffc107;
+            --border-color: #e0e0e0;
         }
         
         * {
@@ -29,28 +31,30 @@
         
         body {
             font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(135deg, #F0F4F8 0%, #E3EAF2 100%);
+            background: #f5f7fa;
             color: var(--text-dark);
             min-height: 100vh;
         }
         
-        /* ========== LOGIN PAGE ========== */
+        /* ===== LOGIN PAGE - CLEAN DESIGN ===== */
         .login-container {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            background: #f5f7fa;
         }
         
         .login-box {
             background: white;
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
+            border-radius: 12px;
+            box-shadow: var(--shadow-subtle);
             max-width: 400px;
             width: 100%;
             text-align: center;
+            border: 1px solid var(--border-color);
         }
         
         .login-box h1 {
@@ -65,6 +69,7 @@
             color: var(--text-dark);
             margin-bottom: 30px;
             font-weight: 600;
+            opacity: 0.8;
         }
         
         .login-box .form-group {
@@ -74,10 +79,10 @@
         .login-box input {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: border-color 0.2s;
         }
         
         .login-box input:focus {
@@ -88,21 +93,26 @@
         .login-box button {
             width: 100%;
             padding: 12px;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-blue) 100%);
+            background: var(--accent-blue);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: background 0.2s;
         }
         
         .login-box button:hover {
-            transform: translateY(-2px);
+            background: var(--primary-dark);
         }
         
-        /* ========== MAIN APP LAYOUT ========== */
+        .login-box button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* ===== MAIN APP LAYOUT ===== */
         .app-container {
             display: none;
         }
@@ -112,11 +122,11 @@
             min-height: 100vh;
         }
         
-        /* ========== SIDEBAR ========== */
+        /* ===== SIDEBAR - SIMPLIFIED ===== */
         .sidebar {
             width: 250px;
             background: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            border-right: 1px solid var(--border-color);
             position: fixed;
             left: 0;
             top: 0;
@@ -132,7 +142,7 @@
         
         .sidebar-header {
             padding: 20px;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-blue) 100%);
+            background: var(--primary-dark);
             color: white;
             text-align: center;
         }
@@ -163,7 +173,8 @@
             padding: 12px 20px;
             color: var(--text-dark);
             text-decoration: none;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
         }
         
         .sidebar-menu a:hover {
@@ -172,8 +183,10 @@
         }
         
         .sidebar-menu a.active {
-            background: var(--accent-blue);
-            color: white;
+            background: var(--bg-light);
+            color: var(--accent-blue);
+            border-left-color: var(--accent-blue);
+            font-weight: 600;
         }
         
         .sidebar-menu a i {
@@ -183,7 +196,7 @@
         
         .sidebar-footer {
             padding: 20px;
-            border-top: 1px solid #e0e0e0;
+            border-top: 1px solid var(--border-color);
         }
         
         .btn-logout {
@@ -192,7 +205,7 @@
             background: var(--danger);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
             display: flex;
@@ -201,7 +214,11 @@
             gap: 8px;
         }
         
-        /* ========== MAIN CONTENT ========== */
+        .btn-logout:hover {
+            opacity: 0.9;
+        }
+        
+        /* ===== MAIN CONTENT ===== */
         .main-content {
             flex: 1;
             margin-left: 250px;
@@ -215,7 +232,7 @@
         .top-bar {
             background: white;
             padding: 15px 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -259,7 +276,7 @@
             padding: 30px;
         }
         
-        /* ========== PAGE SECTIONS ========== */
+        /* ===== PAGE SECTIONS ===== */
         .page-section {
             display: none;
         }
@@ -268,7 +285,7 @@
             display: block;
         }
         
-        /* ========== STATS CARDS ========== */
+        /* ===== STATS CARDS - SIMPLIFIED ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -279,11 +296,12 @@
         .stat-card {
             background: white;
             padding: 25px;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
+            border-radius: 10px;
+            box-shadow: var(--shadow-subtle);
             display: flex;
             align-items: center;
             gap: 20px;
+            border: 1px solid var(--border-color);
         }
         
         .stat-card i {
@@ -301,25 +319,31 @@
         .stat-card-info p {
             color: var(--text-dark);
             font-size: 0.95rem;
+            opacity: 0.8;
         }
         
-        /* ========== BUTTONS ========== */
+        /* ===== BUTTONS - SOLID COLORS, NO GRADIENTS ===== */
         .btn-primary {
             padding: 10px 20px;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-blue) 100%);
+            background: var(--accent-blue);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: transform 0.2s;
+            transition: background 0.2s;
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
+            background: var(--primary-dark);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
         
         .btn-secondary {
@@ -327,9 +351,13 @@
             background: #6c757d;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
+        }
+        
+        .btn-secondary:hover {
+            opacity: 0.9;
         }
         
         .btn-icon {
@@ -337,7 +365,7 @@
             background: var(--accent-blue);
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 0.9rem;
         }
@@ -352,13 +380,14 @@
             margin-top: 20px;
         }
         
-        /* ========== FORMS ========== */
+        /* ===== FORMS - SIMPLIFIED ===== */
         .form-section {
             background: white;
             padding: 25px;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
+            border-radius: 10px;
+            box-shadow: var(--shadow-subtle);
             margin-bottom: 25px;
+            border: 1px solid var(--border-color);
         }
         
         .form-section h3 {
@@ -366,7 +395,7 @@
             color: var(--primary-dark);
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px solid var(--bg-light);
+            border-bottom: 1px solid var(--bg-light);
         }
         
         .form-group {
@@ -385,8 +414,8 @@
         .form-group select {
             width: 100%;
             padding: 10px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             font-size: 1rem;
             font-family: 'Open Sans', sans-serif;
         }
@@ -404,7 +433,7 @@
             gap: 20px;
         }
         
-        /* ========== TABLE ========== */
+        /* ===== TABLE - CLEAN ===== */
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -427,9 +456,10 @@
         
         .table-container {
             background: white;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
+            border-radius: 10px;
+            box-shadow: var(--shadow-subtle);
             overflow: hidden;
+            border: 1px solid var(--border-color);
         }
         
         .table-wrapper {
@@ -455,11 +485,11 @@
         
         table td {
             padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid var(--border-color);
         }
         
         table tbody tr:hover {
-            background: var(--bg-light);
+            background: #f8f9fa;
         }
         
         .text-truncate {
@@ -488,7 +518,7 @@
             color: #7b1fa2;
         }
         
-        /* ========== TOGGLE SWITCH ========== */
+        /* ===== TOGGLE SWITCH ===== */
         .switch {
             position: relative;
             display: inline-block;
@@ -510,7 +540,7 @@
             right: 0;
             bottom: 0;
             background-color: #ccc;
-            transition: .4s;
+            transition: .2s;
             border-radius: 24px;
         }
         
@@ -522,7 +552,7 @@
             left: 3px;
             bottom: 3px;
             background-color: white;
-            transition: .4s;
+            transition: .2s;
             border-radius: 50%;
         }
         
@@ -534,7 +564,7 @@
             transform: translateX(26px);
         }
         
-        /* ========== MODAL ========== */
+        /* ===== MODAL ===== */
         .modal {
             display: none;
             position: fixed;
@@ -557,7 +587,7 @@
             background-color: white;
             margin: auto;
             padding: 30px;
-            border-radius: 15px;
+            border-radius: 10px;
             width: 90%;
             max-width: 600px;
             max-height: 90vh;
@@ -592,15 +622,16 @@
             justify-content: flex-end;
         }
         
-        /* ========== TABS ========== */
+        /* ===== TABS ===== */
         .tabs {
             display: flex;
             gap: 5px;
             margin-bottom: 25px;
             background: white;
             padding: 5px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
+            border-radius: 8px;
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid var(--border-color);
         }
         
         .tab {
@@ -612,8 +643,8 @@
             font-weight: 600;
             color: var(--text-dark);
             cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.3s;
+            border-radius: 6px;
+            transition: all 0.2s;
         }
         
         .tab.active {
@@ -629,7 +660,7 @@
             display: block;
         }
         
-        /* ========== IMAGE GRID ========== */
+        /* ===== IMAGE GRID ===== */
         .image-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -638,9 +669,10 @@
         
         .image-card {
             background: white;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
+            border-radius: 10px;
+            box-shadow: var(--shadow-subtle);
             overflow: hidden;
+            border: 1px solid var(--border-color);
         }
         
         .image-card img {
@@ -672,22 +704,22 @@
         .image-card-order input {
             width: 60px;
             padding: 5px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
         }
         
-        /* ========== UPLOAD AREA ========== */
+        /* ===== UPLOAD AREA - IMPROVED FEEDBACK ===== */
         .upload-area {
-            border: 3px dashed #ddd;
-            border-radius: 15px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
             padding: 40px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             margin-bottom: 20px;
         }
         
-        .upload-area:hover {
+        .upload-area:hover, .upload-area.drag-over {
             border-color: var(--accent-blue);
             background: var(--bg-light);
         }
@@ -718,7 +750,7 @@
         #announcement-preview img {
             max-width: 100%;
             max-height: 300px;
-            border-radius: 10px;
+            border-radius: 8px;
             margin-bottom: 10px;
         }
         
@@ -733,12 +765,12 @@
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-blue) 100%);
+            background: var(--accent-blue);
             transition: width 0.3s;
             width: 0%;
         }
         
-        /* ========== LOADING OVERLAY ========== */
+        /* ===== LOADING OVERLAY ===== */
         .loading-overlay {
             display: none;
             position: fixed;
@@ -757,10 +789,10 @@
         }
         
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 6px solid #f3f3f3;
-            border-top: 6px solid var(--accent-blue);
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--accent-blue);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -770,14 +802,14 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* ========== TOAST ========== */
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             top: 20px;
             right: 20px;
             background: white;
             padding: 15px 20px;
-            border-radius: 10px;
+            border-radius: 8px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
@@ -786,6 +818,7 @@
             transform: translateX(400px);
             transition: transform 0.3s;
             min-width: 300px;
+            border-left: 4px solid var(--accent-blue);
         }
         
         .toast.show {
@@ -797,7 +830,7 @@
         }
         
         .toast-success {
-            border-left: 4px solid var(--success);
+            border-left-color: var(--success);
         }
         
         .toast-success i {
@@ -805,7 +838,7 @@
         }
         
         .toast-error {
-            border-left: 4px solid var(--danger);
+            border-left-color: var(--danger);
         }
         
         .toast-error i {
@@ -813,14 +846,14 @@
         }
         
         .toast-info {
-            border-left: 4px solid var(--accent-blue);
+            border-left-color: var(--accent-blue);
         }
         
         .toast-info i {
             color: var(--accent-blue);
         }
         
-        /* ========== RESPONSIVE ========== */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .sidebar {
                 left: -250px;
@@ -910,24 +943,25 @@
         <div class="loading-spinner"></div>
     </div>
     
-    <!-- LOGIN PAGE -->
+    <!-- LOGIN PAGE - NO HARDCODED CREDENTIALS -->
     <div class="login-container" id="login-page">
         <div class="login-box">
             <h1><i class="fas fa-mosque"></i> Admin Panel</h1>
             <h2>Masjid Baiturrahman STMIK Tazkia</h2>
-            <form id="login-form" onsubmit="handleLogin(event)">
+            <form id="login-form">
                 <div class="form-group">
                     <input type="text" id="username" placeholder="Username" required>
                 </div>
                 <div class="form-group">
                     <input type="password" id="password" placeholder="Password" required>
                 </div>
-                <button type="submit">
+                <button type="submit" id="btn-login">
                     <i class="fas fa-sign-in-alt"></i> Masuk
                 </button>
             </form>
+            <!-- CRITICAL FIX: REMOVED HARDCODED CREDENTIALS -->
             <p style="margin-top: 20px; font-size: 0.85rem; color: #666;">
-                Default: admin / admin123
+                Hubungi administrator untuk mendapatkan akses login.
             </p>
         </div>
     </div>
@@ -1072,7 +1106,7 @@
                 
                 <!-- KONFIGURASI -->
                 <section class="page-section" id="page-config">
-                    <form id="config-form" onsubmit="saveConfig(event)">
+                    <form id="config-form">
                         <!-- Section 1: Info Masjid -->
                         <div class="form-section">
                             <h3><i class="fas fa-mosque"></i> Informasi Masjid</h3>
@@ -1086,11 +1120,11 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label>Latitude</label>
+                                    <label>Latitude (Dramaga: -6.5456)</label>
                                     <input type="number" step="0.000001" name="latitude" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Longitude</label>
+                                    <label>Longitude (Dramaga: 106.7367)</label>
                                     <input type="number" step="0.000001" name="longitude" required>
                                 </div>
                             </div>
@@ -1196,7 +1230,7 @@
                 <!-- KONTEN HIKMAH -->
                 <section class="page-section" id="page-wisdoms">
                     <div class="page-header">
-                        <h2>Konten Hikmah (21 Item)</h2>
+                        <h2>Konten Hikmah</h2>
                         <div class="page-actions">
                             <select id="filter-day" onchange="filterWisdoms()">
                                 <option value="">Semua Hari</option>
@@ -1262,7 +1296,7 @@
                     <!-- Tab Normal -->
                     <div class="tab-content active" id="tab-adab-normal">
                         <div class="page-header">
-                            <h2>Adab Islam Mode Normal (5 Item)</h2>
+                            <h2>Adab Islam Mode Normal</h2>
                             <button class="btn-primary" onclick="showAddAdabModal('normal')">
                                 <i class="fas fa-plus"></i> Tambah Adab
                             </button>
@@ -1293,7 +1327,7 @@
                     <!-- Tab Friday -->
                     <div class="tab-content" id="tab-adab-friday">
                         <div class="page-header">
-                            <h2>Adab Islam Mode Jumat (5 Item)</h2>
+                            <h2>Adab Islam Mode Jumat</h2>
                             <button class="btn-primary" onclick="showAddAdabModal('friday')">
                                 <i class="fas fa-plus"></i> Tambah Adab
                             </button>
@@ -1324,7 +1358,7 @@
                 
                 <!-- JADWAL & PETUGAS JUMAT -->
                 <section class="page-section" id="page-friday-schedule">
-                    <form id="friday-schedule-form" onsubmit="saveFridaySchedule(event)">
+                    <form id="friday-schedule-form">
                         <div class="form-section">
                             <h3><i class="fas fa-clock"></i> Jadwal Shalat Jumat</h3>
                             <div class="form-row">
@@ -1372,14 +1406,14 @@
                 <!-- PENGUMUMAN JUMAT (GAMBAR) -->
                 <section class="page-section" id="page-announcements">
                     <div class="page-header">
-                        <h2>Pengumuman Jumat (3 Gambar Slide)</h2>
+                        <h2>Pengumuman Jumat</h2>
                         <button class="btn-primary" onclick="showUploadAnnouncementModal()">
                             <i class="fas fa-upload"></i> Upload Pengumuman
                         </button>
                     </div>
                     
-                    <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #ff9800;">
-                        <p><i class="fas fa-info-circle"></i> <strong>Catatan:</strong> Upload desain/gambar pengumuman dalam format JPG atau PNG. Bukan teks biasa!</p>
+                    <div style="background: #fff3e0; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #ff9800;">
+                        <p><i class="fas fa-info-circle"></i> <strong>Catatan:</strong> Upload desain/gambar pengumuman dalam format JPG atau PNG. Maksimal 5MB.</p>
                     </div>
                     
                     <div class="image-grid" id="announcements-grid">
@@ -1390,7 +1424,7 @@
                 <!-- HADIS KEUTAMAAN JUMAT -->
                 <section class="page-section" id="page-friday-wisdoms">
                     <div class="page-header">
-                        <h2>Hadis Keutamaan Jumat (5 Hadis)</h2>
+                        <h2>Hadis Keutamaan Jumat</h2>
                         <button class="btn-primary" onclick="showAddFridayWisdomModal()">
                             <i class="fas fa-plus"></i> Tambah Hadis
                         </button>
@@ -1426,7 +1460,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('wisdom-modal')">&times;</span>
             <h2 id="wisdom-modal-title">Tambah Hikmah</h2>
-            <form id="wisdom-form" onsubmit="saveWisdom(event)">
+            <form id="wisdom-form">
                 <input type="hidden" name="id">
                 
                 <div class="form-group">
@@ -1490,7 +1524,7 @@
         </div>
     </div>
     
-    <!-- MODAL: WALLPAPER UPLOAD -->
+    <!-- MODAL: WALLPAPER UPLOAD - IMPROVED UPLOAD FLOW -->
     <div class="modal" id="upload-wallpaper-modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('upload-wallpaper-modal')">&times;</span>
@@ -1517,7 +1551,7 @@
                 <div class="progress-bar">
                     <div class="progress-fill" id="upload-progress-fill"></div>
                 </div>
-                <p id="upload-progress-text" style="text-align: center; margin-top: 10px;">Uploading...</p>
+                <p id="upload-progress-text" style="text-align: center; margin-top: 10px;">Memproses...</p>
             </div>
             
             <div class="modal-actions">
@@ -1536,7 +1570,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('adab-modal')">&times;</span>
             <h2 id="adab-modal-title">Tambah Adab</h2>
-            <form id="adab-form" onsubmit="saveAdab(event)">
+            <form id="adab-form">
                 <input type="hidden" name="id">
                 <input type="hidden" name="type" id="adab-type">
                 
@@ -1587,7 +1621,7 @@
         </div>
     </div>
     
-    <!-- MODAL: ANNOUNCEMENT UPLOAD -->
+    <!-- MODAL: ANNOUNCEMENT UPLOAD - IMPROVED UPLOAD FLOW -->
     <div class="modal" id="upload-announcement-modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('upload-announcement-modal')">&times;</span>
@@ -1614,7 +1648,7 @@
                 <div class="progress-bar">
                     <div class="progress-fill" id="announcement-progress-fill"></div>
                 </div>
-                <p id="announcement-progress-text" style="text-align: center; margin-top: 10px;">Uploading...</p>
+                <p id="announcement-progress-text" style="text-align: center; margin-top: 10px;">Memproses...</p>
             </div>
             
             <div class="modal-actions">
@@ -1633,7 +1667,7 @@
         <div class="modal-content">
             <span class="close" onclick="closeModal('friday-wisdom-modal')">&times;</span>
             <h2 id="friday-wisdom-modal-title">Tambah Hadis Jumat</h2>
-            <form id="friday-wisdom-form" onsubmit="saveFridayWisdom(event)">
+            <form id="friday-wisdom-form">
                 <input type="hidden" name="id">
                 
                 <div class="form-group">
@@ -1681,8 +1715,6 @@
         let wallpapersData = [];
         let configData = {};
         let selectedWallpaperFile = null;
-        
-        // Adab & Announcement & Friday Wisdoms globals
         let adabsNormalData = [];
         let adabsFridayData = [];
         let currentAdabType = 'normal';
@@ -1691,7 +1723,7 @@
         let fridayWisdomsData = [];
         
         // ========================================
-        // AUTHENTICATION
+        // AUTHENTICATION - NO HARDCODED CREDENTIALS
         // ========================================
         function checkAuth() {
             const token = localStorage.getItem('adminToken');
@@ -1714,30 +1746,52 @@
         async function handleLogin(event) {
             event.preventDefault();
             
-            const username = document.getElementById('username').value;
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
+            
+            // Validate input
+            if (!username || !password) {
+                showToast('Username dan password harus diisi!', 'error');
+                return;
+            }
+            
+            const loginBtn = document.getElementById('btn-login');
+            const originalText = loginBtn.innerHTML;
+            
+            // Disable button
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
             
             showLoading();
             
             try {
+                console.log('🔄 Login attempt for user:', username);
                 const response = await fetch(`${API_URL}?path=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
                 const result = await response.json();
                 
                 hideLoading();
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = originalText;
                 
                 if (result.success) {
+                    // Store token (NOT credentials!)
                     localStorage.setItem('adminToken', result.data.token);
                     localStorage.setItem('adminUser', username);
-                    showToast('Login berhasil!', 'success');
+                    showToast('Login berhasil! Selamat datang ' + username, 'success');
+                    
                     setTimeout(() => {
                         window.location.reload();
                     }, 500);
                 } else {
-                    showToast('Login gagal: ' + result.error, 'error');
+                    showToast('Login gagal: Username atau password salah!', 'error');
+                    console.error('❌ Login failed:', result.error);
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = originalText;
+                showToast('Error koneksi: ' + error.message, 'error');
+                console.error('❌ Login error:', error);
             }
         }
         
@@ -1761,6 +1815,8 @@
         }
         
         function showToast(message, type = 'info') {
+            console.log(`Toast [${type}]: ${message}`);
+            
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
             
@@ -1784,7 +1840,7 @@
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            }, 3500);
         }
         
         function openModal(modalId) {
@@ -1801,7 +1857,6 @@
         }
         
         function switchPage(pageName) {
-            // Update page title
             const titles = {
                 dashboard: 'Dashboard',
                 config: 'Konfigurasi Umum',
@@ -1831,30 +1886,14 @@
             
             // Load page data
             switch(pageName) {
-                case 'dashboard':
-                    loadDashboard();
-                    break;
-                case 'config':
-                    loadConfig();
-                    break;
-                case 'wisdoms':
-                    loadWisdoms();
-                    break;
-                case 'wallpapers':
-                    loadWallpapers();
-                    break;
-                case 'adabs':
-                    loadAdabs();
-                    break;
-                case 'friday-schedule':
-                    loadFridaySchedule();
-                    break;
-                case 'announcements':
-                    loadAnnouncements();
-                    break;
-                case 'friday-wisdoms':
-                    loadFridayWisdoms();
-                    break;
+                case 'dashboard': loadDashboard(); break;
+                case 'config': loadConfig(); break;
+                case 'wisdoms': loadWisdoms(); break;
+                case 'wallpapers': loadWallpapers(); break;
+                case 'adabs': loadAdabs(); break;
+                case 'friday-schedule': loadFridaySchedule(); break;
+                case 'announcements': loadAnnouncements(); break;
+                case 'friday-wisdoms': loadFridayWisdoms(); break;
             }
             
             // Close sidebar on mobile
@@ -1878,13 +1917,8 @@
         
         function translateDay(day) {
             const days = {
-                monday: 'Senin',
-                tuesday: 'Selasa',
-                wednesday: 'Rabu',
-                thursday: 'Kamis',
-                friday: 'Jumat',
-                saturday: 'Sabtu',
-                sunday: 'Minggu'
+                monday: 'Senin', tuesday: 'Selasa', wednesday: 'Rabu',
+                thursday: 'Kamis', friday: 'Jumat', saturday: 'Sabtu', sunday: 'Minggu'
             };
             return days[day] || day;
         }
@@ -1896,7 +1930,6 @@
             showLoading();
             
             try {
-                // Fetch config
                 const configRes = await fetch(`${API_URL}?path=config`);
                 const configResult = await configRes.json();
                 
@@ -1907,34 +1940,30 @@
                     document.getElementById('info-masjid-address').textContent = configData.masjid_address || '-';
                 }
                 
-                // Fetch wisdoms
                 const wisdomsRes = await fetch(`${API_URL}?path=wisdoms`);
                 const wisdomsResult = await wisdomsRes.json();
-                
                 if (wisdomsResult.success) {
                     document.getElementById('total-wisdoms').textContent = wisdomsResult.data.length;
                 }
                 
-                // Fetch wallpapers
                 const wallpapersRes = await fetch(`${API_URL}?path=wallpapers`);
                 const wallpapersResult = await wallpapersRes.json();
-                
                 if (wallpapersResult.success) {
                     const activeWallpapers = wallpapersResult.data.filter(w => w.active);
                     document.getElementById('total-wallpapers').textContent = activeWallpapers.length;
                 }
                 
                 document.getElementById('last-sync-time').textContent = new Date().toLocaleString('id-ID');
-                
                 hideLoading();
             } catch (error) {
                 hideLoading();
-                showToast('Error loading dashboard: ' + error.message, 'error');
+                showToast('Error load dashboard: ' + error.message, 'error');
+                console.error('❌ Dashboard error:', error);
             }
         }
         
         // ========================================
-        // CONFIG
+        // CONFIG - WITH VALIDATION
         // ========================================
         async function loadConfig() {
             showLoading();
@@ -1942,22 +1971,18 @@
             try {
                 const response = await fetch(`${API_URL}?path=config`);
                 const result = await response.json();
-                
                 hideLoading();
                 
                 if (result.success) {
                     configData = result.data;
                     const form = document.getElementById('config-form');
                     
-                    // Populate form
                     for (const key in configData) {
                         const input = form.querySelector(`[name="${key}"]`);
                         if (input) {
                             input.value = configData[key];
                         }
                     }
-                } else {
-                    showToast('Gagal load config: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
@@ -1968,34 +1993,86 @@
         async function saveConfig(event) {
             event.preventDefault();
             
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            // Disable button
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            
             const formData = new FormData(event.target);
             const config = Object.fromEntries(formData);
+            
+            // ===== VALIDATION =====
+            // Validate numeric fields
+            const numericFields = ['wisdom_duration', 'wallpaper_duration', 'announcement_duration', 
+                                  'marquee_speed', 'marquee_speed_friday', 'azan_countdown', 
+                                  'iqamah_countdown', 'salah_duration', 'friday_start_hour', 
+                                  'friday_end_hour', 'friday_countdown'];
+            
+            for (const field of numericFields) {
+                if (config[field]) {
+                    const value = parseInt(config[field]);
+                    if (isNaN(value) || value < 0) {
+                        showToast(`${field} harus berupa angka positif!`, 'error');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
+                        return;
+                    }
+                }
+            }
+            
+            // Validate latitude/longitude
+            if (config.latitude) {
+                const lat = parseFloat(config.latitude);
+                if (isNaN(lat) || lat < -90 || lat > 90) {
+                    showToast('Latitude tidak valid! Harus antara -90 sampai 90', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                    return;
+                }
+            }
+            
+            if (config.longitude) {
+                const lng = parseFloat(config.longitude);
+                if (isNaN(lng) || lng < -180 || lng > 180) {
+                    showToast('Longitude tidak valid! Harus antara -180 sampai 180', 'error');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                    return;
+                }
+            }
             
             showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=config&action=update-multiple`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(config)
                 });
                 const result = await response.json();
                 
                 hideLoading();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
                 
                 if (result.success) {
-                    showToast('Konfigurasi berhasil disimpan!', 'success');
+                    showToast('✅ Konfigurasi berhasil disimpan!', 'success');
                     configData = config;
                 } else {
-                    showToast('Gagal menyimpan: ' + result.error, 'error');
+                    showToast('❌ Gagal menyimpan: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                showToast('❌ Error: ' + error.message, 'error');
             }
         }
         
         // ========================================
-        // WISDOMS
+        // WISDOMS CRUD
         // ========================================
         async function loadWisdoms() {
             showLoading();
@@ -2003,14 +2080,11 @@
             try {
                 const response = await fetch(`${API_URL}?path=wisdoms`);
                 const result = await response.json();
-                
                 hideLoading();
                 
                 if (result.success) {
                     wisdomsData = result.data;
                     renderWisdomsTable();
-                } else {
-                    showToast('Gagal load wisdoms: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
@@ -2035,7 +2109,7 @@
                 <tr>
                     <td>${translateDay(wisdom.day)}</td>
                     <td>${wisdom.order}</td>
-                    <td class="text-truncate" title="${wisdom.text}">${wisdom.text}</td>
+                    <td class="text-truncate" title="${wisdom.text.replace(/"/g, '&quot;')}">${wisdom.text}</td>
                     <td>${wisdom.reference}</td>
                     <td><span class="badge badge-${wisdom.type}">${wisdom.type === 'quran' ? 'Quran' : 'Hadith'}</span></td>
                     <td>
@@ -2065,7 +2139,8 @@
         function showAddWisdomModal() {
             document.getElementById('wisdom-modal-title').textContent = 'Tambah Hikmah';
             document.getElementById('wisdom-form').reset();
-            document.querySelector('[name="id"]').value = '';
+            document.querySelector('#wisdom-form [name="id"]').value = '';
+            document.querySelector('#wisdom-form [name="active"]').checked = true;
             openModal('wisdom-modal');
         }
         
@@ -2090,6 +2165,12 @@
         async function saveWisdom(event) {
             event.preventDefault();
             
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            
             const formData = new FormData(event.target);
             const wisdom = {
                 id: formData.get('id') || undefined,
@@ -2102,28 +2183,32 @@
             };
             
             const action = wisdom.id ? 'update' : 'add';
-            
             showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=wisdom&action=${action}`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(wisdom)
                 });
                 const result = await response.json();
                 
                 hideLoading();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
                 
                 if (result.success) {
-                    showToast(`Hikmah berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
+                    showToast(`✅ Hikmah berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
                     closeModal('wisdom-modal');
                     loadWisdoms();
                 } else {
-                    showToast('Gagal: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                showToast('❌ Error: ' + error.message, 'error');
             }
         }
         
@@ -2136,18 +2221,19 @@
             try {
                 const response = await fetch(`${API_URL}?path=wisdom&action=update`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(wisdom)
                 });
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('Status berhasil diubah', 'success');
+                    showToast('✅ Status berhasil diubah', 'success');
                 } else {
-                    showToast('Gagal mengubah status: ' + result.error, 'error');
-                    loadWisdoms(); // Reload to revert
+                    showToast('❌ Gagal: ' + result.error, 'error');
+                    loadWisdoms();
                 }
             } catch (error) {
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
                 loadWisdoms();
             }
         }
@@ -2160,6 +2246,7 @@
             try {
                 const response = await fetch(`${API_URL}?path=wisdom&action=delete`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })
                 });
                 const result = await response.json();
@@ -2167,19 +2254,19 @@
                 hideLoading();
                 
                 if (result.success) {
-                    showToast('Hikmah berhasil dihapus!', 'success');
+                    showToast('✅ Hikmah berhasil dihapus!', 'success');
                     loadWisdoms();
                 } else {
-                    showToast('Gagal menghapus: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
             }
         }
         
         // ========================================
-        // WALLPAPERS
+        // WALLPAPERS - IMPROVED UPLOAD
         // ========================================
         async function loadWallpapers() {
             showLoading();
@@ -2187,14 +2274,11 @@
             try {
                 const response = await fetch(`${API_URL}?path=wallpapers`);
                 const result = await response.json();
-                
                 hideLoading();
                 
                 if (result.success) {
                     wallpapersData = result.data;
                     renderWallpapersGrid();
-                } else {
-                    showToast('Gagal load wallpapers: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
@@ -2206,15 +2290,16 @@
             const grid = document.getElementById('wallpapers-grid');
             
             if (wallpapersData.length === 0) {
-                grid.innerHTML = '<p>Belum ada wallpaper. Upload sekarang!</p>';
+                grid.innerHTML = '<p style="text-align: center; padding: 40px;">Belum ada wallpaper. Upload sekarang!</p>';
                 return;
             }
             
-            const sorted = wallpapersData.sort((a, b) => a.order - b.order);
+            const sorted = [...wallpapersData].sort((a, b) => a.order - b.order);
             
             grid.innerHTML = sorted.map(wallpaper => `
                 <div class="image-card">
-                    <img src="${wallpaper.image_url}" alt="Wallpaper ${wallpaper.order}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>No Image</text></svg>'">
+                    <img src="${wallpaper.image_url}" alt="Wallpaper ${wallpaper.order}" 
+                         onerror="this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>No Image</text></svg>'">
                     <div class="image-card-info">
                         <div class="image-card-order">
                             <label>Urutan:</label>
@@ -2243,25 +2328,32 @@
             openModal('upload-wallpaper-modal');
         }
         
-        // Upload area handlers
+        // ===== IMPROVED UPLOAD AREA HANDLERS =====
         const wallpaperUploadArea = document.getElementById('wallpaper-upload-area');
         
         wallpaperUploadArea.addEventListener('click', () => {
             document.getElementById('wallpaper-file').click();
         });
         
-        wallpaperUploadArea.addEventListener('dragover', (e) => {
+        wallpaperUploadArea.addEventListener('dragenter', (e) => {
             e.preventDefault();
-            wallpaperUploadArea.style.borderColor = 'var(--accent-blue)';
+            wallpaperUploadArea.classList.add('drag-over');
         });
         
-        wallpaperUploadArea.addEventListener('dragleave', () => {
-            wallpaperUploadArea.style.borderColor = '#ddd';
+        wallpaperUploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            if (e.target === wallpaperUploadArea) {
+                wallpaperUploadArea.classList.remove('drag-over');
+            }
+        });
+        
+        wallpaperUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
         });
         
         wallpaperUploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
-            wallpaperUploadArea.style.borderColor = '#ddd';
+            wallpaperUploadArea.classList.remove('drag-over');
             const file = e.dataTransfer.files[0];
             handleWallpaperFile(file);
         });
@@ -2274,14 +2366,16 @@
         function handleWallpaperFile(file) {
             if (!file) return;
             
-            // Validasi
+            // Validate file type
             if (!file.type.match('image/(jpeg|jpg|png)')) {
-                showToast('Format file harus JPG atau PNG!', 'error');
+                showToast('❌ Format file harus JPG atau PNG!', 'error');
                 return;
             }
             
-            if (file.size > 5 * 1024 * 1024) { // 5MB
-                showToast('Ukuran file maksimal 5MB!', 'error');
+            // Validate file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                showToast(`❌ Ukuran file terlalu besar! Maksimal 5MB. File Anda: ${sizeMB}MB`, 'error');
                 return;
             }
             
@@ -2291,106 +2385,36 @@
             const reader = new FileReader();
             reader.onload = (e) => {
                 document.getElementById('wallpaper-preview-img').src = e.target.result;
-                document.getElementById('wallpaper-filename').textContent = file.name;
+                document.getElementById('wallpaper-filename').textContent = `${file.name} (${(file.size / 1024).toFixed(0)}KB)`;
                 document.getElementById('wallpaper-upload-area').style.display = 'none';
                 document.getElementById('wallpaper-preview').style.display = 'block';
             };
             reader.readAsDataURL(file);
         }
         
-        async function uploadWallpaper() {
-            if (!selectedWallpaperFile) {
-                showToast('Pilih file terlebih dahulu!', 'error');
-                return;
-            }
-            
-            const order = document.getElementById('wallpaper-order').value;
-            
-            // Show progress
-            document.getElementById('upload-progress').style.display = 'block';
-            document.getElementById('btn-upload-wallpaper').disabled = true;
-            document.getElementById('upload-progress-fill').style.width = '0%';
-            
-            try {
-                // Resize image
-                document.getElementById('upload-progress-text').textContent = 'Resizing image...';
-                document.getElementById('upload-progress-fill').style.width = '20%';
-                
-                const resizedFile = await resizeImage(selectedWallpaperFile, 1920, 1080);
-                
-                // Convert to base64
-                document.getElementById('upload-progress-text').textContent = 'Converting to base64...';
-                document.getElementById('upload-progress-fill').style.width = '40%';
-                
-                const base64 = await fileToBase64(resizedFile);
-                
-                // Upload to Drive
-                document.getElementById('upload-progress-text').textContent = 'Uploading to Google Drive...';
-                document.getElementById('upload-progress-fill').style.width = '60%';
-                
-                const uploadResponse = await fetch(`${API_URL}?path=upload`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        fileName: selectedWallpaperFile.name,
-                        fileData: base64,
-                        folder: 'wallpapers'
-                    })
-                });
-                const uploadResult = await uploadResponse.json();
-                
-                if (!uploadResult.success) {
-                    throw new Error(uploadResult.error);
-                }
-                
-                // Save to database
-                document.getElementById('upload-progress-text').textContent = 'Saving to database...';
-                document.getElementById('upload-progress-fill').style.width = '80%';
-                
-                const saveResponse = await fetch(`${API_URL}?path=wallpaper&action=add`, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        order: parseInt(order),
-                        image_url: uploadResult.data.url,
-                        active: true
-                    })
-                });
-                const saveResult = await saveResponse.json();
-                
-                if (!saveResult.success) {
-                    throw new Error(saveResult.error);
-                }
-                
-                document.getElementById('upload-progress-fill').style.width = '100%';
-                
-                showToast('Wallpaper berhasil diupload!', 'success');
-                closeModal('upload-wallpaper-modal');
-                loadWallpapers();
-                
-            } catch (error) {
-                showToast('Upload gagal: ' + error.message, 'error');
-            } finally {
-                document.getElementById('upload-progress').style.display = 'none';
-                document.getElementById('btn-upload-wallpaper').disabled = false;
-            }
-        }
-        
-        // Helper: Resize image
+        // ===== IMPROVED RESIZE IMAGE FUNCTION =====
         function resizeImage(file, maxWidth, maxHeight) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 const reader = new FileReader();
+                
                 reader.onload = (e) => {
                     const img = new Image();
+                    
                     img.onload = () => {
+                        console.log(`📐 Original: ${img.width}x${img.height}`);
+                        
                         const canvas = document.createElement('canvas');
                         let width = img.width;
                         let height = img.height;
                         
-                        // Calculate new dimensions
+                        // Calculate new dimensions (maintain aspect ratio)
                         if (width > maxWidth || height > maxHeight) {
                             const ratio = Math.min(maxWidth / width, maxHeight / height);
-                            width = width * ratio;
-                            height = height * ratio;
+                            width = Math.floor(width * ratio);
+                            height = Math.floor(height * ratio);
                         }
+                        
+                        console.log(`📐 Resized: ${width}x${height}`);
                         
                         canvas.width = width;
                         canvas.height = height;
@@ -2399,11 +2423,29 @@
                         ctx.drawImage(img, 0, 0, width, height);
                         
                         canvas.toBlob((blob) => {
-                            resolve(new File([blob], file.name, { type: file.type }));
-                        }, file.type, 0.9);
+                            if (blob) {
+                                const resizedFile = new File([blob], file.name, { 
+                                    type: file.type,
+                                    lastModified: Date.now()
+                                });
+                                resolve(resizedFile);
+                            } else {
+                                reject(new Error('Gagal membuat blob'));
+                            }
+                        }, file.type, 0.85); // Quality 85%
                     };
+                    
+                    img.onerror = () => {
+                        reject(new Error('Gagal memuat gambar'));
+                    };
+                    
                     img.src = e.target.result;
                 };
+                
+                reader.onerror = () => {
+                    reject(new Error('Gagal membaca file'));
+                };
+                
                 reader.readAsDataURL(file);
             });
         }
@@ -2418,6 +2460,99 @@
             });
         }
         
+        // ===== IMPROVED UPLOAD WALLPAPER FUNCTION =====
+        async function uploadWallpaper() {
+            if (!selectedWallpaperFile) {
+                showToast('Pilih file terlebih dahulu!', 'error');
+                return;
+            }
+            
+            const order = document.getElementById('wallpaper-order').value;
+            
+            // Show progress
+            document.getElementById('upload-progress').style.display = 'block';
+            document.getElementById('btn-upload-wallpaper').disabled = true;
+            document.getElementById('upload-progress-fill').style.width = '0%';
+            
+            try {
+                // Step 1: Resize (20%)
+                document.getElementById('upload-progress-text').textContent = 'Menyesuaikan ukuran gambar...';
+                document.getElementById('upload-progress-fill').style.width = '20%';
+                console.log('🖼️ Original file size:', selectedWallpaperFile.size);
+                
+                const resizedFile = await resizeImage(selectedWallpaperFile, 1920, 1080);
+                console.log('🖼️ Resized file size:', resizedFile.size);
+                
+                // Step 2: Convert to base64 (40%)
+                document.getElementById('upload-progress-text').textContent = 'Mengkonversi gambar...';
+                document.getElementById('upload-progress-fill').style.width = '40%';
+                
+                const base64 = await fileToBase64(resizedFile);
+                console.log('📦 Base64 length:', base64.length);
+                
+                // Step 3: Upload to Drive (60%)
+                document.getElementById('upload-progress-text').textContent = 'Mengupload ke Google Drive...';
+                document.getElementById('upload-progress-fill').style.width = '60%';
+                
+                const uploadResponse = await fetch(`${API_URL}?path=upload`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        fileName: selectedWallpaperFile.name,
+                        fileData: base64,
+                        folder: 'wallpapers'
+                    })
+                });
+                
+                const uploadResult = await uploadResponse.json();
+                console.log('📤 Upload result:', uploadResult);
+                
+                if (!uploadResult.success) {
+                    throw new Error(uploadResult.error || 'Upload gagal');
+                }
+                
+                // Step 4: Save to database (80%)
+                document.getElementById('upload-progress-text').textContent = 'Menyimpan ke database...';
+                document.getElementById('upload-progress-fill').style.width = '80%';
+                
+                const saveResponse = await fetch(`${API_URL}?path=wallpaper&action=add`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        order: parseInt(order),
+                        image_url: uploadResult.data.url,
+                        active: true
+                    })
+                });
+                
+                const saveResult = await saveResponse.json();
+                console.log('💾 Save result:', saveResult);
+                
+                if (!saveResult.success) {
+                    throw new Error(saveResult.error || 'Gagal menyimpan ke database');
+                }
+                
+                // Step 5: Done (100%)
+                document.getElementById('upload-progress-fill').style.width = '100%';
+                document.getElementById('upload-progress-text').textContent = 'Selesai!';
+                
+                showToast('✅ Wallpaper berhasil diupload!', 'success');
+                
+                // Close modal and reload
+                setTimeout(() => {
+                    closeModal('upload-wallpaper-modal');
+                    loadWallpapers();
+                }, 1000);
+                
+            } catch (error) {
+                console.error('❌ Upload error:', error);
+                showToast('❌ Upload gagal: ' + error.message, 'error');
+                document.getElementById('upload-progress').style.display = 'none';
+            } finally {
+                document.getElementById('btn-upload-wallpaper').disabled = false;
+            }
+        }
+        
         async function updateWallpaperOrder(id, newOrder) {
             const wallpaper = wallpapersData.find(w => w.id == id);
             if (!wallpaper) return;
@@ -2427,19 +2562,19 @@
             try {
                 const response = await fetch(`${API_URL}?path=wallpaper&action=update`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(wallpaper)
                 });
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('Urutan berhasil diubah', 'success');
+                    showToast('✅ Urutan berhasil diubah', 'success');
                     loadWallpapers();
                 } else {
-                    showToast('Gagal mengubah urutan: ' + result.error, 'error');
-                    loadWallpapers();
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
                 loadWallpapers();
             }
         }
@@ -2453,18 +2588,19 @@
             try {
                 const response = await fetch(`${API_URL}?path=wallpaper&action=update`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(wallpaper)
                 });
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('Status berhasil diubah', 'success');
+                    showToast('✅ Status berhasil diubah', 'success');
                 } else {
-                    showToast('Gagal mengubah status: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                     loadWallpapers();
                 }
             } catch (error) {
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
                 loadWallpapers();
             }
         }
@@ -2477,6 +2613,7 @@
             try {
                 const response = await fetch(`${API_URL}?path=wallpaper&action=delete`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })
                 });
                 const result = await response.json();
@@ -2484,19 +2621,19 @@
                 hideLoading();
                 
                 if (result.success) {
-                    showToast('Wallpaper berhasil dihapus!', 'success');
+                    showToast('✅ Wallpaper berhasil dihapus!', 'success');
                     loadWallpapers();
                 } else {
-                    showToast('Gagal menghapus: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
             }
         }
         
         // ========================================
-        // ADABS
+        // ADABS CRUD
         // ========================================
         async function loadAdabs() {
             await loadAdabsByType('normal');
@@ -2509,7 +2646,6 @@
             try {
                 const response = await fetch(`${API_URL}?path=adabs&type=${type}`);
                 const result = await response.json();
-                
                 hideLoading();
                 
                 if (result.success) {
@@ -2519,8 +2655,6 @@
                         adabsFridayData = result.data;
                     }
                     renderAdabsTable(type);
-                } else {
-                    showToast('Gagal load adabs: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
@@ -2537,7 +2671,7 @@
                 return;
             }
             
-            const sorted = data.sort((a, b) => a.order - b.order);
+            const sorted = [...data].sort((a, b) => a.order - b.order);
             
             tbody.innerHTML = sorted.map(adab => `
                 <tr>
@@ -2564,13 +2698,11 @@
         }
         
         function switchAdabTab(event, type) {
-            // Update tabs
             document.querySelectorAll('.tabs .tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            // Update tab content
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
@@ -2585,6 +2717,7 @@
             document.getElementById('adab-form').reset();
             document.querySelector('[name="id"]').value = '';
             document.getElementById('adab-type').value = type;
+            document.querySelector('[name="active"]').checked = true;
             openModal('adab-modal');
         }
         
@@ -2610,6 +2743,12 @@
         async function saveAdab(event) {
             event.preventDefault();
             
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            
             const formData = new FormData(event.target);
             const adab = {
                 id: formData.get('id') || undefined,
@@ -2621,28 +2760,32 @@
             };
             
             const action = adab.id ? 'update' : 'add';
-            
             showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=adab&action=${action}`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(adab)
                 });
                 const result = await response.json();
                 
                 hideLoading();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
                 
                 if (result.success) {
-                    showToast(`Adab berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
+                    showToast(`✅ Adab berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
                     closeModal('adab-modal');
                     loadAdabsByType(adab.type);
                 } else {
-                    showToast('Gagal: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                showToast('❌ Error: ' + error.message, 'error');
             }
         }
         
@@ -2656,18 +2799,19 @@
             try {
                 const response = await fetch(`${API_URL}?path=adab&action=update`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(adab)
                 });
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('Status berhasil diubah', 'success');
+                    showToast('✅ Status berhasil diubah', 'success');
                 } else {
-                    showToast('Gagal mengubah status: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                     loadAdabsByType(type);
                 }
             } catch (error) {
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
                 loadAdabsByType(type);
             }
         }
@@ -2680,6 +2824,7 @@
             try {
                 const response = await fetch(`${API_URL}?path=adab&action=delete`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })
                 });
                 const result = await response.json();
@@ -2687,14 +2832,14 @@
                 hideLoading();
                 
                 if (result.success) {
-                    showToast('Adab berhasil dihapus!', 'success');
+                    showToast('✅ Adab berhasil dihapus!', 'success');
                     loadAdabsByType(type);
                 } else {
-                    showToast('Gagal menghapus: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
             }
         }
         
@@ -2707,7 +2852,6 @@
             try {
                 const response = await fetch(`${API_URL}?path=friday-schedule`);
                 const result = await response.json();
-                
                 hideLoading();
                 
                 if (result.success) {
@@ -2720,8 +2864,6 @@
                     form.querySelector('[name="khatib_name"]').value = schedule.khatib_name || '';
                     form.querySelector('[name="muadzin1_name"]').value = schedule.muadzin1_name || '';
                     form.querySelector('[name="muadzin2_name"]').value = schedule.muadzin2_name || '';
-                } else {
-                    showToast('Gagal load jadwal: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
@@ -2732,6 +2874,12 @@
         async function saveFridaySchedule(event) {
             event.preventDefault();
             
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            
             const formData = new FormData(event.target);
             const schedule = Object.fromEntries(formData);
             
@@ -2740,25 +2888,30 @@
             try {
                 const response = await fetch(`${API_URL}?path=friday-schedule&action=update`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(schedule)
                 });
                 const result = await response.json();
                 
                 hideLoading();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
                 
                 if (result.success) {
-                    showToast('Jadwal Jumat berhasil disimpan!', 'success');
+                    showToast('✅ Jadwal Jumat berhasil disimpan!', 'success');
                 } else {
-                    showToast('Gagal menyimpan: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                showToast('❌ Error: ' + error.message, 'error');
             }
         }
         
         // ========================================
-        // ANNOUNCEMENTS
+        // ANNOUNCEMENTS - IMPROVED UPLOAD
         // ========================================
         async function loadAnnouncements() {
             showLoading();
@@ -2766,14 +2919,11 @@
             try {
                 const response = await fetch(`${API_URL}?path=announcements`);
                 const result = await response.json();
-                
                 hideLoading();
                 
                 if (result.success) {
                     announcementsData = result.data;
                     renderAnnouncementsGrid();
-                } else {
-                    showToast('Gagal load pengumuman: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
@@ -2785,15 +2935,16 @@
             const grid = document.getElementById('announcements-grid');
             
             if (announcementsData.length === 0) {
-                grid.innerHTML = '<p>Belum ada pengumuman. Upload sekarang!</p>';
+                grid.innerHTML = '<p style="text-align: center; padding: 40px;">Belum ada pengumuman. Upload sekarang!</p>';
                 return;
             }
             
-            const sorted = announcementsData.sort((a, b) => a.order - b.order);
+            const sorted = [...announcementsData].sort((a, b) => a.order - b.order);
             
             grid.innerHTML = sorted.map(announcement => `
                 <div class="image-card">
-                    <img src="${announcement.image_url}" alt="Pengumuman ${announcement.order}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>No Image</text></svg>'">
+                    <img src="${announcement.image_url}" alt="Pengumuman ${announcement.order}" 
+                         onerror="this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>No Image</text></svg>'">
                     <div class="image-card-info">
                         <div class="image-card-order">
                             <label>Urutan:</label>
@@ -2822,25 +2973,32 @@
             openModal('upload-announcement-modal');
         }
         
-        // Announcement upload handlers
+        // ===== IMPROVED ANNOUNCEMENT UPLOAD HANDLERS =====
         const announcementUploadArea = document.getElementById('announcement-upload-area');
         
         announcementUploadArea.addEventListener('click', () => {
             document.getElementById('announcement-file').click();
         });
         
-        announcementUploadArea.addEventListener('dragover', (e) => {
+        announcementUploadArea.addEventListener('dragenter', (e) => {
             e.preventDefault();
-            announcementUploadArea.style.borderColor = 'var(--accent-blue)';
+            announcementUploadArea.classList.add('drag-over');
         });
         
-        announcementUploadArea.addEventListener('dragleave', () => {
-            announcementUploadArea.style.borderColor = '#ddd';
+        announcementUploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            if (e.target === announcementUploadArea) {
+                announcementUploadArea.classList.remove('drag-over');
+            }
+        });
+        
+        announcementUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
         });
         
         announcementUploadArea.addEventListener('drop', (e) => {
             e.preventDefault();
-            announcementUploadArea.style.borderColor = '#ddd';
+            announcementUploadArea.classList.remove('drag-over');
             const file = e.dataTransfer.files[0];
             handleAnnouncementFile(file);
         });
@@ -2854,12 +3012,13 @@
             if (!file) return;
             
             if (!file.type.match('image/(jpeg|jpg|png)')) {
-                showToast('Format file harus JPG atau PNG!', 'error');
+                showToast('❌ Format file harus JPG atau PNG!', 'error');
                 return;
             }
             
             if (file.size > 5 * 1024 * 1024) {
-                showToast('Ukuran file maksimal 5MB!', 'error');
+                const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                showToast(`❌ Ukuran file terlalu besar! Maksimal 5MB. File Anda: ${sizeMB}MB`, 'error');
                 return;
             }
             
@@ -2868,7 +3027,7 @@
             const reader = new FileReader();
             reader.onload = (e) => {
                 document.getElementById('announcement-preview-img').src = e.target.result;
-                document.getElementById('announcement-filename').textContent = file.name;
+                document.getElementById('announcement-filename').textContent = `${file.name} (${(file.size / 1024).toFixed(0)}KB)`;
                 document.getElementById('announcement-upload-area').style.display = 'none';
                 document.getElementById('announcement-preview').style.display = 'block';
             };
@@ -2888,21 +3047,25 @@
             document.getElementById('announcement-progress-fill').style.width = '0%';
             
             try {
-                document.getElementById('announcement-progress-text').textContent = 'Resizing image...';
+                // Step 1: Resize (20%)
+                document.getElementById('announcement-progress-text').textContent = 'Menyesuaikan ukuran gambar...';
                 document.getElementById('announcement-progress-fill').style.width = '20%';
                 
                 const resizedFile = await resizeImage(selectedAnnouncementFile, 1920, 1080);
                 
-                document.getElementById('announcement-progress-text').textContent = 'Converting to base64...';
+                // Step 2: Convert (40%)
+                document.getElementById('announcement-progress-text').textContent = 'Mengkonversi gambar...';
                 document.getElementById('announcement-progress-fill').style.width = '40%';
                 
                 const base64 = await fileToBase64(resizedFile);
                 
-                document.getElementById('announcement-progress-text').textContent = 'Uploading to Google Drive...';
+                // Step 3: Upload (60%)
+                document.getElementById('announcement-progress-text').textContent = 'Mengupload ke Google Drive...';
                 document.getElementById('announcement-progress-fill').style.width = '60%';
                 
                 const uploadResponse = await fetch(`${API_URL}?path=upload`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         fileName: selectedAnnouncementFile.name,
                         fileData: base64,
@@ -2915,11 +3078,13 @@
                     throw new Error(uploadResult.error);
                 }
                 
-                document.getElementById('announcement-progress-text').textContent = 'Saving to database...';
+                // Step 4: Save (80%)
+                document.getElementById('announcement-progress-text').textContent = 'Menyimpan ke database...';
                 document.getElementById('announcement-progress-fill').style.width = '80%';
                 
                 const saveResponse = await fetch(`${API_URL}?path=announcement&action=add`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         order: parseInt(order),
                         text: '',
@@ -2933,16 +3098,21 @@
                     throw new Error(saveResult.error);
                 }
                 
+                // Step 5: Done (100%)
                 document.getElementById('announcement-progress-fill').style.width = '100%';
+                document.getElementById('announcement-progress-text').textContent = 'Selesai!';
                 
-                showToast('Pengumuman berhasil diupload!', 'success');
-                closeModal('upload-announcement-modal');
-                loadAnnouncements();
+                showToast('✅ Pengumuman berhasil diupload!', 'success');
+                
+                setTimeout(() => {
+                    closeModal('upload-announcement-modal');
+                    loadAnnouncements();
+                }, 1000);
                 
             } catch (error) {
-                showToast('Upload gagal: ' + error.message, 'error');
-            } finally {
+                showToast('❌ Upload gagal: ' + error.message, 'error');
                 document.getElementById('announcement-upload-progress').style.display = 'none';
+            } finally {
                 document.getElementById('btn-upload-announcement').disabled = false;
             }
         }
@@ -2956,19 +3126,19 @@
             try {
                 const response = await fetch(`${API_URL}?path=announcement&action=update`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(announcement)
                 });
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('Urutan berhasil diubah', 'success');
+                    showToast('✅ Urutan berhasil diubah', 'success');
                     loadAnnouncements();
                 } else {
-                    showToast('Gagal mengubah urutan: ' + result.error, 'error');
-                    loadAnnouncements();
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
                 loadAnnouncements();
             }
         }
@@ -2982,18 +3152,19 @@
             try {
                 const response = await fetch(`${API_URL}?path=announcement&action=update`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(announcement)
                 });
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('Status berhasil diubah', 'success');
+                    showToast('✅ Status berhasil diubah', 'success');
                 } else {
-                    showToast('Gagal mengubah status: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                     loadAnnouncements();
                 }
             } catch (error) {
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
                 loadAnnouncements();
             }
         }
@@ -3006,6 +3177,7 @@
             try {
                 const response = await fetch(`${API_URL}?path=announcement&action=delete`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })
                 });
                 const result = await response.json();
@@ -3013,19 +3185,19 @@
                 hideLoading();
                 
                 if (result.success) {
-                    showToast('Pengumuman berhasil dihapus!', 'success');
+                    showToast('✅ Pengumuman berhasil dihapus!', 'success');
                     loadAnnouncements();
                 } else {
-                    showToast('Gagal menghapus: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
             }
         }
         
         // ========================================
-        // FRIDAY WISDOMS
+        // FRIDAY WISDOMS CRUD
         // ========================================
         async function loadFridayWisdoms() {
             showLoading();
@@ -3033,14 +3205,11 @@
             try {
                 const response = await fetch(`${API_URL}?path=friday-wisdoms`);
                 const result = await response.json();
-                
                 hideLoading();
                 
                 if (result.success) {
                     fridayWisdomsData = result.data;
                     renderFridayWisdomsTable();
-                } else {
-                    showToast('Gagal load hadis Jumat: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
@@ -3056,12 +3225,12 @@
                 return;
             }
             
-            const sorted = fridayWisdomsData.sort((a, b) => a.order - b.order);
+            const sorted = [...fridayWisdomsData].sort((a, b) => a.order - b.order);
             
             tbody.innerHTML = sorted.map(wisdom => `
                 <tr>
                     <td>${wisdom.order}</td>
-                    <td class="text-truncate" title="${wisdom.text}">${wisdom.text}</td>
+                    <td class="text-truncate" title="${wisdom.text.replace(/"/g, '&quot;')}">${wisdom.text}</td>
                     <td>${wisdom.reference}</td>
                     <td>
                         <label class="switch">
@@ -3086,6 +3255,7 @@
             document.getElementById('friday-wisdom-modal-title').textContent = 'Tambah Hadis Jumat';
             document.getElementById('friday-wisdom-form').reset();
             document.querySelector('#friday-wisdom-form [name="id"]').value = '';
+            document.querySelector('#friday-wisdom-form [name="active"]').checked = true;
             openModal('friday-wisdom-modal');
         }
         
@@ -3108,6 +3278,12 @@
         async function saveFridayWisdom(event) {
             event.preventDefault();
             
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+            
             const formData = new FormData(event.target);
             const wisdom = {
                 id: formData.get('id') || undefined,
@@ -3118,28 +3294,32 @@
             };
             
             const action = wisdom.id ? 'update' : 'add';
-            
             showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=friday-wisdom&action=${action}`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(wisdom)
                 });
                 const result = await response.json();
                 
                 hideLoading();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
                 
                 if (result.success) {
-                    showToast(`Hadis berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
+                    showToast(`✅ Hadis berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
                     closeModal('friday-wisdom-modal');
                     loadFridayWisdoms();
                 } else {
-                    showToast('Gagal: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+                showToast('❌ Error: ' + error.message, 'error');
             }
         }
         
@@ -3152,18 +3332,19 @@
             try {
                 const response = await fetch(`${API_URL}?path=friday-wisdom&action=update`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(wisdom)
                 });
                 const result = await response.json();
                 
                 if (result.success) {
-                    showToast('Status berhasil diubah', 'success');
+                    showToast('✅ Status berhasil diubah', 'success');
                 } else {
-                    showToast('Gagal mengubah status: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                     loadFridayWisdoms();
                 }
             } catch (error) {
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
                 loadFridayWisdoms();
             }
         }
@@ -3176,6 +3357,7 @@
             try {
                 const response = await fetch(`${API_URL}?path=friday-wisdom&action=delete`, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ id })
                 });
                 const result = await response.json();
@@ -3183,25 +3365,35 @@
                 hideLoading();
                 
                 if (result.success) {
-                    showToast('Hadis berhasil dihapus!', 'success');
+                    showToast('✅ Hadis berhasil dihapus!', 'success');
                     loadFridayWisdoms();
                 } else {
-                    showToast('Gagal menghapus: ' + result.error, 'error');
+                    showToast('❌ Gagal: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
-                showToast('Error: ' + error.message, 'error');
+                showToast('❌ Error: ' + error.message, 'error');
             }
         }
         
         // ========================================
-        // INITIALIZE ON PAGE LOAD
+        // INITIALIZATION
         // ========================================
         document.addEventListener('DOMContentLoaded', function() {
-            checkAuth();
+            console.log('🚀 Admin Panel starting...');
             
-            // Initialize event listeners for upload areas
-            // These are already defined above
+            // Attach login handler
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
+            
+            // Attach form submit handlers
+            document.getElementById('config-form').addEventListener('submit', saveConfig);
+            document.getElementById('friday-schedule-form').addEventListener('submit', saveFridaySchedule);
+            document.getElementById('wisdom-form').addEventListener('submit', saveWisdom);
+            document.getElementById('adab-form').addEventListener('submit', saveAdab);
+            document.getElementById('friday-wisdom-form').addEventListener('submit', saveFridayWisdom);
+            
+            // Check authentication
+            checkAuth();
         });
     </script>
 </body>
