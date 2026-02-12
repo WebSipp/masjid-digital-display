@@ -19,8 +19,6 @@
             --success: #28a745;
             --danger: #dc3545;
             --warning: #ffc107;
-            --friday-gold: #D4AF37;
-            --friday-dark: #8B6B3D;
         }
         
         * {
@@ -342,27 +340,10 @@
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
         }
         
         .btn-icon.btn-danger {
             background: var(--danger);
-        }
-        
-        .btn-icon.btn-success {
-            background: var(--success);
-        }
-        
-        .btn-icon.btn-warning {
-            background: var(--warning);
-            color: var(--text-dark);
-        }
-        
-        .btn-icon.btn-friday {
-            background: var(--friday-gold);
-            color: var(--friday-dark);
         }
         
         .quick-actions {
@@ -386,9 +367,6 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid var(--bg-light);
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .form-group {
@@ -424,35 +402,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-        }
-        
-        /* ========== TABS ========== */
-        .tabs {
-            display: flex;
-            border-bottom: 2px solid #e0e0e0;
-            margin-bottom: 25px;
-            overflow-x: auto;
-        }
-        
-        .tab {
-            padding: 12px 24px;
-            background: none;
-            border: none;
-            border-bottom: 3px solid transparent;
-            font-weight: 600;
-            color: var(--text-dark);
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        
-        .tab.active {
-            border-bottom-color: var(--accent-blue);
-            color: var(--accent-blue);
-        }
-        
-        .tab.friday-tab.active {
-            border-bottom-color: var(--friday-gold);
-            color: var(--friday-dark);
         }
         
         /* ========== TABLE ========== */
@@ -539,27 +488,6 @@
             color: #7b1fa2;
         }
         
-        .badge-friday {
-            background: #fff3cd;
-            color: var(--friday-dark);
-        }
-        
-        .day-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            background: var(--bg-light);
-            color: var(--text-dark);
-        }
-        
-        .friday-badge {
-            background: rgba(212, 175, 55, 0.2);
-            color: var(--friday-dark);
-            border: 1px solid rgba(212, 175, 55, 0.3);
-        }
-        
         /* ========== TOGGLE SWITCH ========== */
         .switch {
             position: relative;
@@ -604,67 +532,6 @@
         
         input:checked + .slider:before {
             transform: translateX(26px);
-        }
-        
-        /* ========== IMAGE GRID ========== */
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        
-        .image-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-        
-        .image-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .image-card-info {
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .image-card-order {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-        }
-        
-        .image-card-order label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        
-        .image-card-order input {
-            width: 60px;
-            padding: 5px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-        }
-        
-        .image-card-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
         }
         
         /* ========== MODAL ========== */
@@ -725,6 +592,90 @@
             justify-content: flex-end;
         }
         
+        /* ========== TABS ========== */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 25px;
+            background: white;
+            padding: 5px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: var(--accent-blue);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* ========== IMAGE GRID ========== */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .image-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .image-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .image-card-info {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .image-card-order {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+        }
+        
+        .image-card-order label {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .image-card-order input {
+            width: 60px;
+            padding: 5px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        
         /* ========== UPLOAD AREA ========== */
         .upload-area {
             border: 3px dashed #ddd;
@@ -757,17 +708,18 @@
             color: #666;
         }
         
-        .preview-image {
+        #wallpaper-preview,
+        #announcement-preview {
             text-align: center;
             margin-bottom: 20px;
         }
         
-        .preview-image img {
+        #wallpaper-preview img,
+        #announcement-preview img {
             max-width: 100%;
             max-height: 300px;
             border-radius: 10px;
             margin-bottom: 10px;
-            border: 2px solid #e0e0e0;
         }
         
         .progress-bar {
@@ -798,7 +750,6 @@
             background-color: rgba(0,0,0,0.7);
             align-items: center;
             justify-content: center;
-            flex-direction: column;
         }
         
         .loading-overlay.show {
@@ -812,12 +763,6 @@
             border-top: 6px solid var(--accent-blue);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-        }
-        
-        .loading-text {
-            color: white;
-            margin-top: 20px;
-            font-size: 1.1rem;
         }
         
         @keyframes spin {
@@ -945,16 +890,6 @@
                 left: 10px;
                 min-width: auto;
             }
-            
-            .tabs {
-                flex-wrap: wrap;
-            }
-            
-            .tab {
-                flex: 1;
-                text-align: center;
-                padding: 10px;
-            }
         }
         
         @media (max-width: 480px) {
@@ -966,16 +901,6 @@
             table {
                 min-width: 600px;
             }
-            
-            .image-card-info {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .action-buttons {
-                width: 100%;
-                justify-content: flex-end;
-            }
         }
     </style>
 </head>
@@ -983,7 +908,6 @@
     <!-- LOADING OVERLAY -->
     <div class="loading-overlay" id="loading-overlay">
         <div class="loading-spinner"></div>
-        <div class="loading-text" id="loading-text">Loading...</div>
     </div>
     
     <!-- LOGIN PAGE -->
@@ -993,10 +917,10 @@
             <h2>Masjid Baiturrahman STMIK Tazkia</h2>
             <form id="login-form" onsubmit="handleLogin(event)">
                 <div class="form-group">
-                    <input type="text" id="username" placeholder="Username" value="admin" required>
+                    <input type="text" id="username" placeholder="Username" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="password" placeholder="Password" value="admin123" required>
+                    <input type="password" id="password" placeholder="Password" required>
                 </div>
                 <button type="submit">
                     <i class="fas fa-sign-in-alt"></i> Masuk
@@ -1043,21 +967,21 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="switchPage('announcements')" data-page="announcements">
-                        <i class="fas fa-bullhorn"></i>
-                        <span>Pengumuman Jumat</span>
-                    </a>
-                </li>
-                <li>
                     <a href="#" onclick="switchPage('adabs')" data-page="adabs">
-                        <i class="fas fa-hands-helping"></i>
+                        <i class="fas fa-hands-praying"></i>
                         <span>Adab Islam</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" onclick="switchPage('friday-schedule')" data-page="friday-schedule">
-                        <i class="fas fa-calendar-alt"></i>
+                        <i class="fas fa-calendar-week"></i>
                         <span>Jadwal Jumat</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="switchPage('announcements')" data-page="announcements">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Pengumuman Jumat</span>
                     </a>
                 </li>
                 <li>
@@ -1114,37 +1038,6 @@
                             </div>
                         </div>
                         <div class="stat-card">
-                            <i class="fas fa-bullhorn"></i>
-                            <div class="stat-card-info">
-                                <h3 id="total-announcements">0</h3>
-                                <p>Pengumuman Aktif</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-star"></i>
-                            <div class="stat-card-info">
-                                <h3 id="total-friday-wisdoms">0</h3>
-                                <p>Hadis Jumat</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <i class="fas fa-hands-helping"></i>
-                            <div class="stat-card-info">
-                                <h3 id="total-adabs-normal">5</h3>
-                                <p>Adab Normal</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <i class="fas fa-pray"></i>
-                            <div class="stat-card-info">
-                                <h3 id="total-adabs-friday">5</h3>
-                                <p>Adab Jumat</p>
-                            </div>
-                        </div>
-                        <div class="stat-card">
                             <i class="fas fa-mosque"></i>
                             <div class="stat-card-info">
                                 <h3 id="masjid-name-display">Loading...</h3>
@@ -1154,7 +1047,7 @@
                         <div class="stat-card">
                             <i class="fas fa-check-circle"></i>
                             <div class="stat-card-info">
-                                <h3 style="color: var(--success);" id="api-status">Online</h3>
+                                <h3 style="color: var(--success);">Online</h3>
                                 <p>Status API</p>
                             </div>
                         </div>
@@ -1170,7 +1063,7 @@
                     </div>
                     
                     <div class="form-section" style="margin-top: 30px;">
-                        <h3><i class="fas fa-info-circle"></i> Informasi Sistem</h3>
+                        <h3>Informasi Sistem</h3>
                         <p><strong>Nama Masjid:</strong> <span id="info-masjid-name">-</span></p>
                         <p><strong>Alamat:</strong> <span id="info-masjid-address">-</span></p>
                         <p><strong>Last Sync:</strong> <span id="last-sync-time">-</span></p>
@@ -1184,20 +1077,20 @@
                         <div class="form-section">
                             <h3><i class="fas fa-mosque"></i> Informasi Masjid</h3>
                             <div class="form-group">
-                                <label>Nama Masjid *</label>
+                                <label>Nama Masjid</label>
                                 <input type="text" name="masjid_name" required>
                             </div>
                             <div class="form-group">
-                                <label>Alamat Masjid *</label>
+                                <label>Alamat Masjid</label>
                                 <textarea name="masjid_address" rows="3" required></textarea>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label>Latitude *</label>
+                                    <label>Latitude</label>
                                     <input type="number" step="0.000001" name="latitude" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Longitude *</label>
+                                    <label>Longitude</label>
                                     <input type="number" step="0.000001" name="longitude" required>
                                 </div>
                             </div>
@@ -1227,7 +1120,7 @@
                             <h3><i class="fas fa-clock"></i> Durasi Tampilan (detik)</h3>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label>Durasi Hikmah</label>
+                                    <label>Durasi Hikmah/Hadis</label>
                                     <input type="number" name="wisdom_duration" value="60" min="10" max="300">
                                 </div>
                                 <div class="form-group">
@@ -1235,7 +1128,7 @@
                                     <input type="number" name="wallpaper_duration" value="30" min="10" max="120">
                                 </div>
                                 <div class="form-group">
-                                    <label>Durasi Pengumuman</label>
+                                    <label>Durasi Pengumuman Jumat</label>
                                     <input type="number" name="announcement_duration" value="30" min="10" max="120">
                                 </div>
                             </div>
@@ -1290,21 +1183,6 @@
                                 <div class="form-group">
                                     <label>Countdown Masuk Mode Jumat (detik)</label>
                                     <input type="number" name="friday_countdown" value="60" min="10" max="300">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Section 6: Kredensial Admin -->
-                        <div class="form-section">
-                            <h3><i class="fas fa-user-shield"></i> Kredensial Admin</h3>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label>Username Admin</label>
-                                    <input type="text" name="admin_username" value="admin" required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Password Admin</label>
-                                    <input type="password" name="admin_password" value="admin123" required>
                                 </div>
                             </div>
                         </div>
@@ -1370,34 +1248,21 @@
                     </div>
                     
                     <div class="image-grid" id="wallpapers-grid">
-                        <p style="text-align: center; padding: 40px;">Loading...</p>
-                    </div>
-                </section>
-                
-                <!-- PENGUMUMAN JUMAT -->
-                <section class="page-section" id="page-announcements">
-                    <div class="page-header">
-                        <h2>Pengumuman Jumat (3 Item)</h2>
-                        <button class="btn-primary" onclick="showAddAnnouncementModal()">
-                            <i class="fas fa-plus"></i> Tambah Pengumuman
-                        </button>
-                    </div>
-                    
-                    <div class="image-grid" id="announcements-grid">
-                        <p style="text-align: center; padding: 40px;">Loading...</p>
+                        <p>Loading...</p>
                     </div>
                 </section>
                 
                 <!-- ADAB ISLAM -->
                 <section class="page-section" id="page-adabs">
                     <div class="tabs">
-                        <button class="tab active" onclick="showAdabTab('normal')">Adab Normal (5)</button>
-                        <button class="tab friday-tab" onclick="showAdabTab('friday')">Adab Jumat (5)</button>
+                        <button class="tab active" onclick="switchAdabTab(event, 'normal')">Adab Normal</button>
+                        <button class="tab" onclick="switchAdabTab(event, 'friday')">Adab Jumat</button>
                     </div>
                     
-                    <div id="adab-normal-section">
+                    <!-- Tab Normal -->
+                    <div class="tab-content active" id="tab-adab-normal">
                         <div class="page-header">
-                            <h2>Adab Normal</h2>
+                            <h2>Adab Islam Mode Normal (5 Item)</h2>
                             <button class="btn-primary" onclick="showAddAdabModal('normal')">
                                 <i class="fas fa-plus"></i> Tambah Adab
                             </button>
@@ -1415,7 +1280,7 @@
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="adab-normal-tbody">
+                                    <tbody id="adabs-normal-tbody">
                                         <tr>
                                             <td colspan="5" style="text-align: center;">Loading...</td>
                                         </tr>
@@ -1425,9 +1290,10 @@
                         </div>
                     </div>
                     
-                    <div id="adab-friday-section" style="display: none;">
+                    <!-- Tab Friday -->
+                    <div class="tab-content" id="tab-adab-friday">
                         <div class="page-header">
-                            <h2>Adab Jumat</h2>
+                            <h2>Adab Islam Mode Jumat (5 Item)</h2>
                             <button class="btn-primary" onclick="showAddAdabModal('friday')">
                                 <i class="fas fa-plus"></i> Tambah Adab
                             </button>
@@ -1445,7 +1311,7 @@
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="adab-friday-tbody">
+                                    <tbody id="adabs-friday-tbody">
                                         <tr>
                                             <td colspan="5" style="text-align: center;">Loading...</td>
                                         </tr>
@@ -1456,23 +1322,19 @@
                     </div>
                 </section>
                 
-                <!-- JADWAL JUMAT -->
+                <!-- JADWAL & PETUGAS JUMAT -->
                 <section class="page-section" id="page-friday-schedule">
-                    <div class="page-header">
-                        <h2>Jadwal & Petugas Jumat</h2>
-                    </div>
-                    
                     <form id="friday-schedule-form" onsubmit="saveFridaySchedule(event)">
                         <div class="form-section">
-                            <h3><i class="fas fa-clock"></i> Waktu Sholat Jumat</h3>
+                            <h3><i class="fas fa-clock"></i> Jadwal Shalat Jumat</h3>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label>Waktu Khutbah *</label>
-                                    <input type="text" name="khutbah_time" placeholder="11:30" required>
+                                    <label>Waktu Khutbah</label>
+                                    <input type="time" name="khutbah_time" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Waktu Iqamah *</label>
-                                    <input type="text" name="iqamah_time" placeholder="12:00" required>
+                                    <label>Waktu Iqamah</label>
+                                    <input type="time" name="iqamah_time" required>
                                 </div>
                             </div>
                         </div>
@@ -1481,34 +1343,54 @@
                             <h3><i class="fas fa-users"></i> Petugas Jumat</h3>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label>Imam *</label>
+                                    <label>Nama Imam</label>
                                     <input type="text" name="imam_name" placeholder="Ust. Ahmad Fauzi" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Khatib *</label>
+                                    <label>Nama Khatib</label>
                                     <input type="text" name="khatib_name" placeholder="Ust. Muhammad Arif" required>
                                 </div>
+                            </div>
+                            <div class="form-row">
                                 <div class="form-group">
-                                    <label>Muadzin 1 *</label>
+                                    <label>Nama Muadzin 1</label>
                                     <input type="text" name="muadzin1_name" placeholder="Bro. Abdul Rahman" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Muadzin 2 *</label>
+                                    <label>Nama Muadzin 2</label>
                                     <input type="text" name="muadzin2_name" placeholder="Bro. Ismail Hadi" required>
                                 </div>
                             </div>
                         </div>
                         
                         <button type="submit" class="btn-primary">
-                            <i class="fas fa-save"></i> Simpan Jadwal
+                            <i class="fas fa-save"></i> Simpan Jadwal Jumat
                         </button>
                     </form>
                 </section>
                 
-                <!-- HADIS JUMAT -->
+                <!-- PENGUMUMAN JUMAT (GAMBAR) -->
+                <section class="page-section" id="page-announcements">
+                    <div class="page-header">
+                        <h2>Pengumuman Jumat (3 Gambar Slide)</h2>
+                        <button class="btn-primary" onclick="showUploadAnnouncementModal()">
+                            <i class="fas fa-upload"></i> Upload Pengumuman
+                        </button>
+                    </div>
+                    
+                    <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #ff9800;">
+                        <p><i class="fas fa-info-circle"></i> <strong>Catatan:</strong> Upload desain/gambar pengumuman dalam format JPG atau PNG. Bukan teks biasa!</p>
+                    </div>
+                    
+                    <div class="image-grid" id="announcements-grid">
+                        <p>Loading...</p>
+                    </div>
+                </section>
+                
+                <!-- HADIS KEUTAMAAN JUMAT -->
                 <section class="page-section" id="page-friday-wisdoms">
                     <div class="page-header">
-                        <h2>Hadis Keutamaan Jumat (5 Item)</h2>
+                        <h2>Hadis Keutamaan Jumat (5 Hadis)</h2>
                         <button class="btn-primary" onclick="showAddFridayWisdomModal()">
                             <i class="fas fa-plus"></i> Tambah Hadis
                         </button>
@@ -1539,8 +1421,6 @@
         </main>
     </div>
     
-    <!-- ========== MODALS ========== -->
-    
     <!-- MODAL: WISDOM ADD/EDIT -->
     <div class="modal" id="wisdom-modal">
         <div class="modal-content">
@@ -1550,7 +1430,7 @@
                 <input type="hidden" name="id">
                 
                 <div class="form-group">
-                    <label>Hari *</label>
+                    <label>Hari</label>
                     <select name="day" required>
                         <option value="monday">Senin</option>
                         <option value="tuesday">Selasa</option>
@@ -1563,22 +1443,22 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>Urutan (1-3) *</label>
+                    <label>Urutan (1-3)</label>
                     <input type="number" name="order" min="1" max="3" required>
                 </div>
                 
                 <div class="form-group">
-                    <label>Teks Hikmah/Hadis/Ayat *</label>
+                    <label>Teks Hikmah/Hadis/Ayat</label>
                     <textarea name="text" rows="4" required></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label>Referensi *</label>
+                    <label>Referensi</label>
                     <input type="text" name="reference" placeholder="HR. Muslim / QS. Al-Baqarah" required>
                 </div>
                 
                 <div class="form-group">
-                    <label>Tipe *</label>
+                    <label>Tipe</label>
                     <div style="display: flex; gap: 20px;">
                         <label style="display: flex; align-items: center; gap: 8px;">
                             <input type="radio" name="type" value="quran" checked>
@@ -1623,7 +1503,7 @@
                 <small>Format: JPG, PNG (Max 5MB)</small>
             </div>
             
-            <div id="wallpaper-preview" style="display:none" class="preview-image">
+            <div id="wallpaper-preview" style="display:none">
                 <img id="wallpaper-preview-img" alt="Preview">
                 <p id="wallpaper-filename"></p>
             </div>
@@ -1651,57 +1531,6 @@
         </div>
     </div>
     
-    <!-- MODAL: ANNOUNCEMENT ADD/EDIT -->
-    <div class="modal" id="announcement-modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('announcement-modal')">&times;</span>
-            <h2 id="announcement-modal-title">Tambah Pengumuman</h2>
-            
-            <form id="announcement-form" onsubmit="saveAnnouncement(event)">
-                <input type="hidden" name="id">
-                <input type="hidden" name="image_url" id="announcement-image-url">
-                
-                <div class="form-group">
-                    <label>Urutan (1-3) *</label>
-                    <input type="number" name="order" min="1" max="3" required>
-                </div>
-                
-                <div class="form-group">
-                    <label>Teks Pengumuman *</label>
-                    <textarea name="text" rows="3" required></textarea>
-                </div>
-                
-                <div class="upload-area" id="announcement-upload-area">
-                    <input type="file" id="announcement-file" accept="image/jpeg,image/jpg,image/png" style="display:none">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p>Upload Gambar (Opsional)</p>
-                    <small>Format: JPG, PNG (Max 5MB)</small>
-                </div>
-                
-                <div id="announcement-preview" style="display:none" class="preview-image">
-                    <img id="announcement-preview-img" alt="Preview">
-                    <p id="announcement-filename"></p>
-                </div>
-                
-                <div class="form-group">
-                    <label style="display: flex; align-items: center; gap: 10px;">
-                        <input type="checkbox" name="active" checked style="width: auto;">
-                        <span>Status Aktif</span>
-                    </label>
-                </div>
-                
-                <div class="modal-actions">
-                    <button type="submit" class="btn-primary">
-                        <i class="fas fa-save"></i> Simpan
-                    </button>
-                    <button type="button" onclick="closeModal('announcement-modal')" class="btn-secondary">
-                        Batal
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
     <!-- MODAL: ADAB ADD/EDIT -->
     <div class="modal" id="adab-modal">
         <div class="modal-content">
@@ -1712,28 +1541,30 @@
                 <input type="hidden" name="type" id="adab-type">
                 
                 <div class="form-group">
-                    <label>Urutan (1-5) *</label>
-                    <input type="number" name="order" min="1" max="5" required>
+                    <label>Urutan</label>
+                    <input type="number" name="order" min="1" max="10" required>
                 </div>
                 
                 <div class="form-group">
-                    <label>Teks Adab *</label>
+                    <label>Teks Adab</label>
                     <textarea name="text" rows="3" required></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label>Icon *</label>
+                    <label>Icon Font Awesome</label>
                     <select name="icon" required>
-                        <option value="fas fa-door-open">Pintu</option>
-                        <option value="fas fa-broom">Sapu</option>
-                        <option value="fas fa-mobile-alt">HP</option>
-                        <option value="fas fa-walking">Jalan</option>
-                        <option value="fas fa-hands-praying">Shalat</option>
-                        <option value="fas fa-shower">Mandi</option>
-                        <option value="fas fa-tshirt">Baju</option>
-                        <option value="fas fa-clock">Jam</option>
-                        <option value="fas fa-volume-mute">Diam</option>
-                        <option value="fas fa-pray">Shalawat</option>
+                        <option value="fas fa-door-open">🚪 Door Open (Masuk Masjid)</option>
+                        <option value="fas fa-broom">🧹 Broom (Kebersihan)</option>
+                        <option value="fas fa-mobile-alt">📱 Mobile (Silent HP)</option>
+                        <option value="fas fa-walking">🚶 Walking (Jalan)</option>
+                        <option value="fas fa-hands-praying">🤲 Hands Praying (Berdoa)</option>
+                        <option value="fas fa-shower">🚿 Shower (Mandi)</option>
+                        <option value="fas fa-tshirt">👕 T-Shirt (Pakaian)</option>
+                        <option value="fas fa-clock">🕐 Clock (Waktu)</option>
+                        <option value="fas fa-volume-mute">🔇 Volume Mute (Diam)</option>
+                        <option value="fas fa-pray">🕌 Pray (Shalat)</option>
+                        <option value="fas fa-book">📖 Book (Quran)</option>
+                        <option value="fas fa-mosque">🕌 Mosque (Masjid)</option>
                     </select>
                 </div>
                 
@@ -1756,6 +1587,47 @@
         </div>
     </div>
     
+    <!-- MODAL: ANNOUNCEMENT UPLOAD -->
+    <div class="modal" id="upload-announcement-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('upload-announcement-modal')">&times;</span>
+            <h2>Upload Pengumuman Jumat</h2>
+            
+            <div class="upload-area" id="announcement-upload-area">
+                <input type="file" id="announcement-file" accept="image/jpeg,image/jpg,image/png" style="display:none">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Drag & drop gambar atau klik untuk browse</p>
+                <small>Format: JPG, PNG (Max 5MB)</small>
+            </div>
+            
+            <div id="announcement-preview" style="display:none">
+                <img id="announcement-preview-img" alt="Preview">
+                <p id="announcement-filename"></p>
+            </div>
+            
+            <div class="form-group">
+                <label>Urutan</label>
+                <input type="number" id="announcement-order" value="1" min="1">
+            </div>
+            
+            <div id="announcement-upload-progress" style="display:none">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="announcement-progress-fill"></div>
+                </div>
+                <p id="announcement-progress-text" style="text-align: center; margin-top: 10px;">Uploading...</p>
+            </div>
+            
+            <div class="modal-actions">
+                <button onclick="uploadAnnouncement()" class="btn-primary" id="btn-upload-announcement">
+                    <i class="fas fa-upload"></i> Upload
+                </button>
+                <button onclick="closeModal('upload-announcement-modal')" class="btn-secondary">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <!-- MODAL: FRIDAY WISDOM ADD/EDIT -->
     <div class="modal" id="friday-wisdom-modal">
         <div class="modal-content">
@@ -1765,18 +1637,18 @@
                 <input type="hidden" name="id">
                 
                 <div class="form-group">
-                    <label>Urutan (1-5) *</label>
+                    <label>Urutan (1-5)</label>
                     <input type="number" name="order" min="1" max="5" required>
                 </div>
                 
                 <div class="form-group">
-                    <label>Teks Hadis *</label>
+                    <label>Teks Hadis</label>
                     <textarea name="text" rows="4" required></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label>Referensi *</label>
-                    <input type="text" name="reference" placeholder="HR. Muslim" required>
+                    <label>Referensi</label>
+                    <input type="text" name="reference" placeholder="HR. Muslim / HR. Bukhari" required>
                 </div>
                 
                 <div class="form-group">
@@ -1802,23 +1674,21 @@
         // ========================================
         // API CONFIGURATION
         // ========================================
-        const API_URL = "https://script.google.com/macros/s/AKfycbzyGqJ0H2u2s-PDA0LV_H06Cb8KbT2KcG8TF9SPkgehkZuKMvI6H1W5clX9hMye9GUN/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbz4v-Jqup2KPRmxoeRRfNCogEhKd6Ys0fwXCGd6LojX2M-a5Tub5mkHxdBZ8EVJmPDU/exec";
         
-        // ========================================
-        // GLOBAL VARIABLES
-        // ========================================
+        // Global variables
         let wisdomsData = [];
         let wallpapersData = [];
-        let announcementsData = [];
+        let configData = {};
+        let selectedWallpaperFile = null;
+        
+        // Adab & Announcement & Friday Wisdoms globals
         let adabsNormalData = [];
         let adabsFridayData = [];
-        let fridayWisdomsData = [];
-        let fridayScheduleData = {};
-        let configData = {};
-        
-        // File upload variables
-        let selectedWallpaperFile = null;
+        let currentAdabType = 'normal';
+        let announcementsData = [];
         let selectedAnnouncementFile = null;
+        let fridayWisdomsData = [];
         
         // ========================================
         // AUTHENTICATION
@@ -1847,7 +1717,7 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
-            showLoading('Login...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=login&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`);
@@ -1868,14 +1738,6 @@
             } catch (error) {
                 hideLoading();
                 showToast('Error: ' + error.message, 'error');
-                
-                // Fallback demo
-                if (username === 'admin' && password === 'admin123') {
-                    localStorage.setItem('adminToken', 'demo-token');
-                    localStorage.setItem('adminUser', 'admin');
-                    showToast('Login berhasil (demo mode)!', 'success');
-                    setTimeout(() => window.location.reload(), 500);
-                }
             }
         }
         
@@ -1890,8 +1752,7 @@
         // ========================================
         // UTILITY FUNCTIONS
         // ========================================
-        function showLoading(text = 'Loading...') {
-            document.getElementById('loading-text').textContent = text;
+        function showLoading() {
             document.getElementById('loading-overlay').classList.add('show');
         }
         
@@ -1932,17 +1793,6 @@
         
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('show');
-            
-            // Reset form jika modal ditutup
-            if (modalId === 'upload-wallpaper-modal') {
-                document.getElementById('wallpaper-preview').style.display = 'none';
-                document.getElementById('wallpaper-upload-area').style.display = 'block';
-            }
-            if (modalId === 'announcement-modal') {
-                document.getElementById('announcement-preview').style.display = 'none';
-                document.getElementById('announcement-upload-area').style.display = 'block';
-                document.getElementById('announcement-image-url').value = '';
-            }
         }
         
         function toggleSidebar() {
@@ -1956,11 +1806,11 @@
                 dashboard: 'Dashboard',
                 config: 'Konfigurasi Umum',
                 wisdoms: 'Konten Hikmah',
-                wallpapers: 'Wallpaper Normal',
-                announcements: 'Pengumuman Jumat',
+                wallpapers: 'Wallpaper Mode Normal',
                 adabs: 'Adab Islam',
-                'friday-schedule': 'Jadwal Jumat',
-                'friday-wisdoms': 'Hadis Jumat'
+                'friday-schedule': 'Jadwal & Petugas Jumat',
+                announcements: 'Pengumuman Jumat',
+                'friday-wisdoms': 'Hadis Keutamaan Jumat'
             };
             
             document.getElementById('page-title').textContent = titles[pageName] || pageName;
@@ -1993,14 +1843,14 @@
                 case 'wallpapers':
                     loadWallpapers();
                     break;
-                case 'announcements':
-                    loadAnnouncements();
-                    break;
                 case 'adabs':
-                    showAdabTab('normal');
+                    loadAdabs();
                     break;
                 case 'friday-schedule':
                     loadFridaySchedule();
+                    break;
+                case 'announcements':
+                    loadAnnouncements();
                     break;
                 case 'friday-wisdoms':
                     loadFridayWisdoms();
@@ -2018,25 +1868,12 @@
         }
         
         function refreshAllData() {
-            showLoading('Menyegarkan data...');
+            showLoading();
+            loadDashboard();
             setTimeout(() => {
-                const activePage = document.querySelector('.page-section.active').id.replace('page-', '');
-                switch(activePage) {
-                    case 'dashboard': loadDashboard(); break;
-                    case 'config': loadConfig(); break;
-                    case 'wisdoms': loadWisdoms(); break;
-                    case 'wallpapers': loadWallpapers(); break;
-                    case 'announcements': loadAnnouncements(); break;
-                    case 'adabs': 
-                        const activeTab = document.querySelector('.tab.active')?.textContent.includes('Jumat') ? 'friday' : 'normal';
-                        showAdabTab(activeTab); 
-                        break;
-                    case 'friday-schedule': loadFridaySchedule(); break;
-                    case 'friday-wisdoms': loadFridayWisdoms(); break;
-                }
                 hideLoading();
                 showToast('Data berhasil direfresh', 'success');
-            }, 500);
+            }, 1000);
         }
         
         function translateDay(day) {
@@ -2056,7 +1893,7 @@
         // DASHBOARD
         // ========================================
         async function loadDashboard() {
-            showLoading('Memuat dashboard...');
+            showLoading();
             
             try {
                 // Fetch config
@@ -2073,52 +1910,18 @@
                 // Fetch wisdoms
                 const wisdomsRes = await fetch(`${API_URL}?path=wisdoms`);
                 const wisdomsResult = await wisdomsRes.json();
+                
                 if (wisdomsResult.success) {
-                    document.getElementById('total-wisdoms').textContent = wisdomsResult.data.filter(w => w.active).length;
+                    document.getElementById('total-wisdoms').textContent = wisdomsResult.data.length;
                 }
                 
                 // Fetch wallpapers
                 const wallpapersRes = await fetch(`${API_URL}?path=wallpapers`);
                 const wallpapersResult = await wallpapersRes.json();
+                
                 if (wallpapersResult.success) {
-                    document.getElementById('total-wallpapers').textContent = wallpapersResult.data.filter(w => w.active).length;
-                }
-                
-                // Fetch announcements
-                const announcementsRes = await fetch(`${API_URL}?path=announcements`);
-                const announcementsResult = await announcementsRes.json();
-                if (announcementsResult.success) {
-                    document.getElementById('total-announcements').textContent = announcementsResult.data.filter(a => a.active).length;
-                }
-                
-                // Fetch friday wisdoms
-                const fridayWisdomsRes = await fetch(`${API_URL}?path=friday-wisdoms`);
-                const fridayWisdomsResult = await fridayWisdomsRes.json();
-                if (fridayWisdomsResult.success) {
-                    document.getElementById('total-friday-wisdoms').textContent = fridayWisdomsResult.data.filter(w => w.active).length;
-                }
-                
-                // Fetch adabs
-                const adabsNormalRes = await fetch(`${API_URL}?path=adabs&type=normal`);
-                const adabsNormalResult = await adabsNormalRes.json();
-                if (adabsNormalResult.success) {
-                    document.getElementById('total-adabs-normal').textContent = adabsNormalResult.data.filter(a => a.active).length;
-                }
-                
-                const adabsFridayRes = await fetch(`${API_URL}?path=adabs&type=friday`);
-                const adabsFridayResult = await adabsFridayRes.json();
-                if (adabsFridayResult.success) {
-                    document.getElementById('total-adabs-friday').textContent = adabsFridayResult.data.filter(a => a.active).length;
-                }
-                
-                // Check API status
-                try {
-                    const testRes = await fetch(`${API_URL}?path=config`);
-                    document.getElementById('api-status').textContent = testRes.ok ? 'Online' : 'Offline';
-                    document.getElementById('api-status').style.color = testRes.ok ? 'var(--success)' : 'var(--danger)';
-                } catch {
-                    document.getElementById('api-status').textContent = 'Offline';
-                    document.getElementById('api-status').style.color = 'var(--danger)';
+                    const activeWallpapers = wallpapersResult.data.filter(w => w.active);
+                    document.getElementById('total-wallpapers').textContent = activeWallpapers.length;
                 }
                 
                 document.getElementById('last-sync-time').textContent = new Date().toLocaleString('id-ID');
@@ -2134,7 +1937,7 @@
         // CONFIG
         // ========================================
         async function loadConfig() {
-            showLoading('Memuat konfigurasi...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=config`);
@@ -2168,12 +1971,11 @@
             const formData = new FormData(event.target);
             const config = Object.fromEntries(formData);
             
-            showLoading('Menyimpan konfigurasi...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=config&action=update-multiple`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(config)
                 });
                 const result = await response.json();
@@ -2196,7 +1998,7 @@
         // WISDOMS
         // ========================================
         async function loadWisdoms() {
-            showLoading('Memuat konten hikmah...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=wisdoms`);
@@ -2231,27 +2033,25 @@
             
             tbody.innerHTML = filtered.map(wisdom => `
                 <tr>
-                    <td><span class="day-badge ${wisdom.day === 'friday' ? 'friday-badge' : ''}">${translateDay(wisdom.day)}</span></td>
+                    <td>${translateDay(wisdom.day)}</td>
                     <td>${wisdom.order}</td>
                     <td class="text-truncate" title="${wisdom.text}">${wisdom.text}</td>
                     <td>${wisdom.reference}</td>
                     <td><span class="badge badge-${wisdom.type}">${wisdom.type === 'quran' ? 'Quran' : 'Hadith'}</span></td>
                     <td>
                         <label class="switch">
-                            <input type="checkbox" ${wisdom.active === true || wisdom.active === 'TRUE' || wisdom.active === 'true' ? 'checked' : ''} 
+                            <input type="checkbox" ${wisdom.active ? 'checked' : ''} 
                                    onchange="toggleWisdomStatus(${wisdom.id}, this.checked)">
                             <span class="slider"></span>
                         </label>
                     </td>
                     <td>
-                        <div class="action-buttons">
-                            <button onclick="editWisdom(${wisdom.id})" class="btn-icon" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deleteWisdom(${wisdom.id})" class="btn-icon btn-danger" title="Hapus">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+                        <button onclick="editWisdom(${wisdom.id})" class="btn-icon" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteWisdom(${wisdom.id})" class="btn-icon btn-danger" title="Hapus">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </td>
                 </tr>
             `).join('');
@@ -2265,9 +2065,7 @@
         function showAddWisdomModal() {
             document.getElementById('wisdom-modal-title').textContent = 'Tambah Hikmah';
             document.getElementById('wisdom-form').reset();
-            document.querySelector('#wisdom-form [name="id"]').value = '';
-            document.querySelector('#wisdom-form [name="type"][value="quran"]').checked = true;
-            document.querySelector('#wisdom-form [name="active"]').checked = true;
+            document.querySelector('[name="id"]').value = '';
             openModal('wisdom-modal');
         }
         
@@ -2279,12 +2077,12 @@
             const form = document.getElementById('wisdom-form');
             
             form.querySelector('[name="id"]').value = wisdom.id;
-            form.querySelector('[name="day"]').value = wisdom.day || 'monday';
-            form.querySelector('[name="order"]').value = wisdom.order || 1;
-            form.querySelector('[name="text"]').value = wisdom.text || '';
-            form.querySelector('[name="reference"]').value = wisdom.reference || '';
-            form.querySelector(`[name="type"][value="${wisdom.type || 'quran'}"]`).checked = true;
-            form.querySelector('[name="active"]').checked = wisdom.active === true || wisdom.active === 'TRUE' || wisdom.active === 'true';
+            form.querySelector('[name="day"]').value = wisdom.day;
+            form.querySelector('[name="order"]').value = wisdom.order;
+            form.querySelector('[name="text"]').value = wisdom.text;
+            form.querySelector('[name="reference"]').value = wisdom.reference;
+            form.querySelector(`[name="type"][value="${wisdom.type}"]`).checked = true;
+            form.querySelector('[name="active"]').checked = wisdom.active;
             
             openModal('wisdom-modal');
         }
@@ -2292,10 +2090,9 @@
         async function saveWisdom(event) {
             event.preventDefault();
             
-            const form = document.getElementById('wisdom-form');
-            const formData = new FormData(form);
+            const formData = new FormData(event.target);
             const wisdom = {
-                id: formData.get('id') || null,
+                id: formData.get('id') || undefined,
                 day: formData.get('day'),
                 order: parseInt(formData.get('order')),
                 text: formData.get('text'),
@@ -2306,12 +2103,11 @@
             
             const action = wisdom.id ? 'update' : 'add';
             
-            showLoading('Menyimpan...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=wisdom&action=${action}`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(wisdom)
                 });
                 const result = await response.json();
@@ -2340,7 +2136,6 @@
             try {
                 const response = await fetch(`${API_URL}?path=wisdom&action=update`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(wisdom)
                 });
                 const result = await response.json();
@@ -2349,7 +2144,7 @@
                     showToast('Status berhasil diubah', 'success');
                 } else {
                     showToast('Gagal mengubah status: ' + result.error, 'error');
-                    loadWisdoms();
+                    loadWisdoms(); // Reload to revert
                 }
             } catch (error) {
                 showToast('Error: ' + error.message, 'error');
@@ -2360,13 +2155,12 @@
         async function deleteWisdom(id) {
             if (!confirm('Yakin ingin menghapus hikmah ini?')) return;
             
-            showLoading('Menghapus...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=wisdom&action=delete`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ id: parseInt(id) })
+                    body: JSON.stringify({ id })
                 });
                 const result = await response.json();
                 
@@ -2388,7 +2182,7 @@
         // WALLPAPERS
         // ========================================
         async function loadWallpapers() {
-            showLoading('Memuat wallpaper...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=wallpapers`);
@@ -2411,35 +2205,30 @@
         function renderWallpapersGrid() {
             const grid = document.getElementById('wallpapers-grid');
             
-            if (!wallpapersData || wallpapersData.length === 0) {
-                grid.innerHTML = '<p style="text-align: center; padding: 40px;">Belum ada wallpaper. Upload sekarang!</p>';
+            if (wallpapersData.length === 0) {
+                grid.innerHTML = '<p>Belum ada wallpaper. Upload sekarang!</p>';
                 return;
             }
             
-            const sorted = [...wallpapersData].sort((a, b) => (a.order || 0) - (b.order || 0));
+            const sorted = wallpapersData.sort((a, b) => a.order - b.order);
             
             grid.innerHTML = sorted.map(wallpaper => `
                 <div class="image-card">
-                    <img src="${wallpaper.image_url}" alt="Wallpaper ${wallpaper.order}" 
-                         onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>Error</text></svg>'">
+                    <img src="${wallpaper.image_url}" alt="Wallpaper ${wallpaper.order}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>No Image</text></svg>'">
                     <div class="image-card-info">
                         <div class="image-card-order">
                             <label>Urutan:</label>
-                            <input type="number" value="${wallpaper.order || 1}" min="1"
+                            <input type="number" value="${wallpaper.order}" 
                                    onchange="updateWallpaperOrder(${wallpaper.id}, this.value)">
                         </div>
-                        <div class="image-card-status">
-                            <label class="switch">
-                                <input type="checkbox" ${wallpaper.active === true || wallpaper.active === 'TRUE' || wallpaper.active === 'true' ? 'checked' : ''}
-                                       onchange="toggleWallpaperStatus(${wallpaper.id}, this.checked)">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="action-buttons">
-                            <button onclick="deleteWallpaper(${wallpaper.id})" class="btn-icon btn-danger">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+                        <label class="switch">
+                            <input type="checkbox" ${wallpaper.active ? 'checked' : ''}
+                                   onchange="toggleWallpaperStatus(${wallpaper.id}, this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                        <button onclick="deleteWallpaper(${wallpaper.id})" class="btn-icon btn-danger">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             `).join('');
@@ -2450,35 +2239,34 @@
             document.getElementById('wallpaper-preview').style.display = 'none';
             document.getElementById('wallpaper-upload-area').style.display = 'block';
             document.getElementById('upload-progress').style.display = 'none';
-            document.getElementById('wallpaper-order').value = wallpapersData ? wallpapersData.length + 1 : 1;
+            document.getElementById('wallpaper-order').value = (wallpapersData.length + 1);
             openModal('upload-wallpaper-modal');
         }
         
         // Upload area handlers
         const wallpaperUploadArea = document.getElementById('wallpaper-upload-area');
-        if (wallpaperUploadArea) {
-            wallpaperUploadArea.addEventListener('click', () => {
-                document.getElementById('wallpaper-file').click();
-            });
-            
-            wallpaperUploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                wallpaperUploadArea.style.borderColor = 'var(--accent-blue)';
-            });
-            
-            wallpaperUploadArea.addEventListener('dragleave', () => {
-                wallpaperUploadArea.style.borderColor = '#ddd';
-            });
-            
-            wallpaperUploadArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                wallpaperUploadArea.style.borderColor = '#ddd';
-                const file = e.dataTransfer.files[0];
-                handleWallpaperFile(file);
-            });
-        }
         
-        document.getElementById('wallpaper-file')?.addEventListener('change', (e) => {
+        wallpaperUploadArea.addEventListener('click', () => {
+            document.getElementById('wallpaper-file').click();
+        });
+        
+        wallpaperUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            wallpaperUploadArea.style.borderColor = 'var(--accent-blue)';
+        });
+        
+        wallpaperUploadArea.addEventListener('dragleave', () => {
+            wallpaperUploadArea.style.borderColor = '#ddd';
+        });
+        
+        wallpaperUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            wallpaperUploadArea.style.borderColor = '#ddd';
+            const file = e.dataTransfer.files[0];
+            handleWallpaperFile(file);
+        });
+        
+        document.getElementById('wallpaper-file').addEventListener('change', (e) => {
             const file = e.target.files[0];
             handleWallpaperFile(file);
         });
@@ -2492,7 +2280,7 @@
                 return;
             }
             
-            if (file.size > 5 * 1024 * 1024) {
+            if (file.size > 5 * 1024 * 1024) { // 5MB
                 showToast('Ukuran file maksimal 5MB!', 'error');
                 return;
             }
@@ -2522,7 +2310,6 @@
             document.getElementById('upload-progress').style.display = 'block';
             document.getElementById('btn-upload-wallpaper').disabled = true;
             document.getElementById('upload-progress-fill').style.width = '0%';
-            document.getElementById('upload-progress-text').textContent = 'Memproses...';
             
             try {
                 // Resize image
@@ -2543,7 +2330,6 @@
                 
                 const uploadResponse = await fetch(`${API_URL}?path=upload`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
                         fileName: selectedWallpaperFile.name,
                         fileData: base64,
@@ -2562,7 +2348,6 @@
                 
                 const saveResponse = await fetch(`${API_URL}?path=wallpaper&action=add`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
                         order: parseInt(order),
                         image_url: uploadResult.data.url,
@@ -2576,7 +2361,6 @@
                 }
                 
                 document.getElementById('upload-progress-fill').style.width = '100%';
-                document.getElementById('upload-progress-text').textContent = 'Selesai!';
                 
                 showToast('Wallpaper berhasil diupload!', 'success');
                 closeModal('upload-wallpaper-modal');
@@ -2585,10 +2369,8 @@
             } catch (error) {
                 showToast('Upload gagal: ' + error.message, 'error');
             } finally {
-                setTimeout(() => {
-                    document.getElementById('upload-progress').style.display = 'none';
-                    document.getElementById('btn-upload-wallpaper').disabled = false;
-                }, 1000);
+                document.getElementById('upload-progress').style.display = 'none';
+                document.getElementById('btn-upload-wallpaper').disabled = false;
             }
         }
         
@@ -2603,6 +2385,7 @@
                         let width = img.width;
                         let height = img.height;
                         
+                        // Calculate new dimensions
                         if (width > maxWidth || height > maxHeight) {
                             const ratio = Math.min(maxWidth / width, maxHeight / height);
                             width = width * ratio;
@@ -2644,7 +2427,6 @@
             try {
                 const response = await fetch(`${API_URL}?path=wallpaper&action=update`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(wallpaper)
                 });
                 const result = await response.json();
@@ -2671,7 +2453,6 @@
             try {
                 const response = await fetch(`${API_URL}?path=wallpaper&action=update`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(wallpaper)
                 });
                 const result = await response.json();
@@ -2691,13 +2472,12 @@
         async function deleteWallpaper(id) {
             if (!confirm('Yakin ingin menghapus wallpaper ini?')) return;
             
-            showLoading('Menghapus wallpaper...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=wallpaper&action=delete`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ id: parseInt(id) })
+                    body: JSON.stringify({ id })
                 });
                 const result = await response.json();
                 
@@ -2716,10 +2496,272 @@
         }
         
         // ========================================
+        // ADABS
+        // ========================================
+        async function loadAdabs() {
+            await loadAdabsByType('normal');
+            await loadAdabsByType('friday');
+        }
+        
+        async function loadAdabsByType(type) {
+            showLoading();
+            
+            try {
+                const response = await fetch(`${API_URL}?path=adabs&type=${type}`);
+                const result = await response.json();
+                
+                hideLoading();
+                
+                if (result.success) {
+                    if (type === 'normal') {
+                        adabsNormalData = result.data;
+                    } else {
+                        adabsFridayData = result.data;
+                    }
+                    renderAdabsTable(type);
+                } else {
+                    showToast('Gagal load adabs: ' + result.error, 'error');
+                }
+            } catch (error) {
+                hideLoading();
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+        
+        function renderAdabsTable(type) {
+            const tbody = document.getElementById(`adabs-${type}-tbody`);
+            const data = type === 'normal' ? adabsNormalData : adabsFridayData;
+            
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Belum ada data</td></tr>';
+                return;
+            }
+            
+            const sorted = data.sort((a, b) => a.order - b.order);
+            
+            tbody.innerHTML = sorted.map(adab => `
+                <tr>
+                    <td>${adab.order}</td>
+                    <td>${adab.text}</td>
+                    <td><i class="${adab.icon}"></i> ${adab.icon}</td>
+                    <td>
+                        <label class="switch">
+                            <input type="checkbox" ${adab.active ? 'checked' : ''} 
+                                   onchange="toggleAdabStatus(${adab.id}, this.checked, '${type}')">
+                            <span class="slider"></span>
+                        </label>
+                    </td>
+                    <td>
+                        <button onclick="editAdab(${adab.id}, '${type}')" class="btn-icon" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteAdab(${adab.id}, '${type}')" class="btn-icon btn-danger" title="Hapus">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function switchAdabTab(event, type) {
+            // Update tabs
+            document.querySelectorAll('.tabs .tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`tab-adab-${type}`).classList.add('active');
+            
+            currentAdabType = type;
+        }
+        
+        function showAddAdabModal(type) {
+            currentAdabType = type;
+            document.getElementById('adab-modal-title').textContent = `Tambah Adab ${type === 'normal' ? 'Normal' : 'Jumat'}`;
+            document.getElementById('adab-form').reset();
+            document.querySelector('[name="id"]').value = '';
+            document.getElementById('adab-type').value = type;
+            openModal('adab-modal');
+        }
+        
+        function editAdab(id, type) {
+            const data = type === 'normal' ? adabsNormalData : adabsFridayData;
+            const adab = data.find(a => a.id == id);
+            if (!adab) return;
+            
+            currentAdabType = type;
+            document.getElementById('adab-modal-title').textContent = `Edit Adab ${type === 'normal' ? 'Normal' : 'Jumat'}`;
+            const form = document.getElementById('adab-form');
+            
+            form.querySelector('[name="id"]').value = adab.id;
+            form.querySelector('[name="order"]').value = adab.order;
+            form.querySelector('[name="text"]').value = adab.text;
+            form.querySelector('[name="icon"]').value = adab.icon;
+            form.querySelector('[name="active"]').checked = adab.active;
+            document.getElementById('adab-type').value = type;
+            
+            openModal('adab-modal');
+        }
+        
+        async function saveAdab(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const adab = {
+                id: formData.get('id') || undefined,
+                type: formData.get('type'),
+                order: parseInt(formData.get('order')),
+                text: formData.get('text'),
+                icon: formData.get('icon'),
+                active: formData.get('active') === 'on'
+            };
+            
+            const action = adab.id ? 'update' : 'add';
+            
+            showLoading();
+            
+            try {
+                const response = await fetch(`${API_URL}?path=adab&action=${action}`, {
+                    method: 'POST',
+                    body: JSON.stringify(adab)
+                });
+                const result = await response.json();
+                
+                hideLoading();
+                
+                if (result.success) {
+                    showToast(`Adab berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
+                    closeModal('adab-modal');
+                    loadAdabsByType(adab.type);
+                } else {
+                    showToast('Gagal: ' + result.error, 'error');
+                }
+            } catch (error) {
+                hideLoading();
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+        
+        async function toggleAdabStatus(id, active, type) {
+            const data = type === 'normal' ? adabsNormalData : adabsFridayData;
+            const adab = data.find(a => a.id == id);
+            if (!adab) return;
+            
+            adab.active = active;
+            
+            try {
+                const response = await fetch(`${API_URL}?path=adab&action=update`, {
+                    method: 'POST',
+                    body: JSON.stringify(adab)
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    showToast('Status berhasil diubah', 'success');
+                } else {
+                    showToast('Gagal mengubah status: ' + result.error, 'error');
+                    loadAdabsByType(type);
+                }
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+                loadAdabsByType(type);
+            }
+        }
+        
+        async function deleteAdab(id, type) {
+            if (!confirm('Yakin ingin menghapus adab ini?')) return;
+            
+            showLoading();
+            
+            try {
+                const response = await fetch(`${API_URL}?path=adab&action=delete`, {
+                    method: 'POST',
+                    body: JSON.stringify({ id })
+                });
+                const result = await response.json();
+                
+                hideLoading();
+                
+                if (result.success) {
+                    showToast('Adab berhasil dihapus!', 'success');
+                    loadAdabsByType(type);
+                } else {
+                    showToast('Gagal menghapus: ' + result.error, 'error');
+                }
+            } catch (error) {
+                hideLoading();
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+        
+        // ========================================
+        // FRIDAY SCHEDULE
+        // ========================================
+        async function loadFridaySchedule() {
+            showLoading();
+            
+            try {
+                const response = await fetch(`${API_URL}?path=friday-schedule`);
+                const result = await response.json();
+                
+                hideLoading();
+                
+                if (result.success) {
+                    const schedule = result.data;
+                    const form = document.getElementById('friday-schedule-form');
+                    
+                    form.querySelector('[name="khutbah_time"]').value = schedule.khutbah_time || '';
+                    form.querySelector('[name="iqamah_time"]').value = schedule.iqamah_time || '';
+                    form.querySelector('[name="imam_name"]').value = schedule.imam_name || '';
+                    form.querySelector('[name="khatib_name"]').value = schedule.khatib_name || '';
+                    form.querySelector('[name="muadzin1_name"]').value = schedule.muadzin1_name || '';
+                    form.querySelector('[name="muadzin2_name"]').value = schedule.muadzin2_name || '';
+                } else {
+                    showToast('Gagal load jadwal: ' + result.error, 'error');
+                }
+            } catch (error) {
+                hideLoading();
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+        
+        async function saveFridaySchedule(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const schedule = Object.fromEntries(formData);
+            
+            showLoading();
+            
+            try {
+                const response = await fetch(`${API_URL}?path=friday-schedule&action=update`, {
+                    method: 'POST',
+                    body: JSON.stringify(schedule)
+                });
+                const result = await response.json();
+                
+                hideLoading();
+                
+                if (result.success) {
+                    showToast('Jadwal Jumat berhasil disimpan!', 'success');
+                } else {
+                    showToast('Gagal menyimpan: ' + result.error, 'error');
+                }
+            } catch (error) {
+                hideLoading();
+                showToast('Error: ' + error.message, 'error');
+            }
+        }
+        
+        // ========================================
         // ANNOUNCEMENTS
         // ========================================
         async function loadAnnouncements() {
-            showLoading('Memuat pengumuman...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=announcements`);
@@ -2742,115 +2784,68 @@
         function renderAnnouncementsGrid() {
             const grid = document.getElementById('announcements-grid');
             
-            if (!announcementsData || announcementsData.length === 0) {
-                grid.innerHTML = '<p style="text-align: center; padding: 40px;">Belum ada pengumuman. Tambah sekarang!</p>';
+            if (announcementsData.length === 0) {
+                grid.innerHTML = '<p>Belum ada pengumuman. Upload sekarang!</p>';
                 return;
             }
             
-            const sorted = [...announcementsData].sort((a, b) => (a.order || 0) - (b.order || 0));
+            const sorted = announcementsData.sort((a, b) => a.order - b.order);
             
             grid.innerHTML = sorted.map(announcement => `
                 <div class="image-card">
-                    ${announcement.image_url ? 
-                        `<img src="${announcement.image_url}" alt="Pengumuman ${announcement.order}" 
-                              onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>Error</text></svg>'">` : 
-                        `<div style="height: 200px; background: var(--bg-light); display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-bullhorn" style="font-size: 48px; color: var(--accent-blue);"></i>
-                        </div>`
-                    }
+                    <img src="${announcement.image_url}" alt="Pengumuman ${announcement.order}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect fill=%22%23ddd%22 width=%22200%22 height=%22200%22/><text fill=%22%23999%22 x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 dy=%22.3em%22>No Image</text></svg>'">
                     <div class="image-card-info">
-                        <div style="flex: 1;">
-                            <strong>Urutan: ${announcement.order || 1}</strong>
-                            <div class="text-truncate" style="margin-top: 5px;" title="${announcement.text}">
-                                ${announcement.text}
-                            </div>
-                            <div style="margin-top: 10px;">
-                                <label class="switch">
-                                    <input type="checkbox" ${announcement.active === true || announcement.active === 'TRUE' || announcement.active === 'true' ? 'checked' : ''}
-                                           onchange="toggleAnnouncementStatus(${announcement.id}, this.checked)">
-                                    <span class="slider"></span>
-                                </label>
-                                <span style="margin-left: 8px; font-size: 0.85rem;">Aktif</span>
-                            </div>
+                        <div class="image-card-order">
+                            <label>Urutan:</label>
+                            <input type="number" value="${announcement.order}" 
+                                   onchange="updateAnnouncementOrder(${announcement.id}, this.value)">
                         </div>
-                        <div class="action-buttons">
-                            <button onclick="editAnnouncement(${announcement.id})" class="btn-icon" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deleteAnnouncement(${announcement.id})" class="btn-icon btn-danger" title="Hapus">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+                        <label class="switch">
+                            <input type="checkbox" ${announcement.active ? 'checked' : ''}
+                                   onchange="toggleAnnouncementStatus(${announcement.id}, this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                        <button onclick="deleteAnnouncement(${announcement.id})" class="btn-icon btn-danger">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </div>
             `).join('');
         }
         
-        function showAddAnnouncementModal() {
-            document.getElementById('announcement-modal-title').textContent = 'Tambah Pengumuman';
-            document.getElementById('announcement-form').reset();
-            document.querySelector('#announcement-form [name="id"]').value = '';
-            document.querySelector('#announcement-form [name="image_url"]').value = '';
-            document.querySelector('#announcement-form [name="active"]').checked = true;
+        function showUploadAnnouncementModal() {
+            selectedAnnouncementFile = null;
             document.getElementById('announcement-preview').style.display = 'none';
             document.getElementById('announcement-upload-area').style.display = 'block';
-            selectedAnnouncementFile = null;
-            openModal('announcement-modal');
-        }
-        
-        function editAnnouncement(id) {
-            const announcement = announcementsData.find(a => a.id == id);
-            if (!announcement) return;
-            
-            document.getElementById('announcement-modal-title').textContent = 'Edit Pengumuman';
-            const form = document.getElementById('announcement-form');
-            
-            form.querySelector('[name="id"]').value = announcement.id;
-            form.querySelector('[name="order"]').value = announcement.order || 1;
-            form.querySelector('[name="text"]').value = announcement.text || '';
-            form.querySelector('[name="active"]').checked = announcement.active === true || announcement.active === 'TRUE' || announcement.active === 'true';
-            form.querySelector('[name="image_url"]').value = announcement.image_url || '';
-            
-            // Preview jika ada gambar
-            if (announcement.image_url) {
-                document.getElementById('announcement-preview-img').src = announcement.image_url;
-                document.getElementById('announcement-filename').textContent = 'Gambar saat ini';
-                document.getElementById('announcement-upload-area').style.display = 'none';
-                document.getElementById('announcement-preview').style.display = 'block';
-            } else {
-                document.getElementById('announcement-preview').style.display = 'none';
-                document.getElementById('announcement-upload-area').style.display = 'block';
-            }
-            
-            selectedAnnouncementFile = null;
-            openModal('announcement-modal');
+            document.getElementById('announcement-upload-progress').style.display = 'none';
+            document.getElementById('announcement-order').value = (announcementsData.length + 1);
+            openModal('upload-announcement-modal');
         }
         
         // Announcement upload handlers
         const announcementUploadArea = document.getElementById('announcement-upload-area');
-        if (announcementUploadArea) {
-            announcementUploadArea.addEventListener('click', () => {
-                document.getElementById('announcement-file').click();
-            });
-            
-            announcementUploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                announcementUploadArea.style.borderColor = 'var(--accent-blue)';
-            });
-            
-            announcementUploadArea.addEventListener('dragleave', () => {
-                announcementUploadArea.style.borderColor = '#ddd';
-            });
-            
-            announcementUploadArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                announcementUploadArea.style.borderColor = '#ddd';
-                const file = e.dataTransfer.files[0];
-                handleAnnouncementFile(file);
-            });
-        }
         
-        document.getElementById('announcement-file')?.addEventListener('change', (e) => {
+        announcementUploadArea.addEventListener('click', () => {
+            document.getElementById('announcement-file').click();
+        });
+        
+        announcementUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            announcementUploadArea.style.borderColor = 'var(--accent-blue)';
+        });
+        
+        announcementUploadArea.addEventListener('dragleave', () => {
+            announcementUploadArea.style.borderColor = '#ddd';
+        });
+        
+        announcementUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            announcementUploadArea.style.borderColor = '#ddd';
+            const file = e.dataTransfer.files[0];
+            handleAnnouncementFile(file);
+        });
+        
+        document.getElementById('announcement-file').addEventListener('change', (e) => {
             const file = e.target.files[0];
             handleAnnouncementFile(file);
         });
@@ -2880,76 +2875,101 @@
             reader.readAsDataURL(file);
         }
         
-        async function saveAnnouncement(event) {
-            event.preventDefault();
-            
-            const form = document.getElementById('announcement-form');
-            const formData = new FormData(form);
-            const id = formData.get('id');
-            const order = formData.get('order');
-            const text = formData.get('text');
-            const active = formData.get('active') === 'on';
-            
-            if (!text || !order) {
-                showToast('Teks dan urutan harus diisi!', 'error');
+        async function uploadAnnouncement() {
+            if (!selectedAnnouncementFile) {
+                showToast('Pilih file terlebih dahulu!', 'error');
                 return;
             }
             
-            showLoading('Menyimpan pengumuman...');
+            const order = document.getElementById('announcement-order').value;
+            
+            document.getElementById('announcement-upload-progress').style.display = 'block';
+            document.getElementById('btn-upload-announcement').disabled = true;
+            document.getElementById('announcement-progress-fill').style.width = '0%';
             
             try {
-                let imageUrl = formData.get('image_url') || '';
+                document.getElementById('announcement-progress-text').textContent = 'Resizing image...';
+                document.getElementById('announcement-progress-fill').style.width = '20%';
                 
-                // Upload gambar baru jika ada
-                if (selectedAnnouncementFile) {
-                    const resizedFile = await resizeImage(selectedAnnouncementFile, 800, 600);
-                    const base64 = await fileToBase64(resizedFile);
-                    
-                    const uploadResponse = await fetch(`${API_URL}?path=upload`, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({
-                            fileName: selectedAnnouncementFile.name,
-                            fileData: base64,
-                            folder: 'announcements'
-                        })
-                    });
-                    const uploadResult = await uploadResponse.json();
-                    
-                    if (uploadResult.success) {
-                        imageUrl = uploadResult.data.url;
-                    }
+                const resizedFile = await resizeImage(selectedAnnouncementFile, 1920, 1080);
+                
+                document.getElementById('announcement-progress-text').textContent = 'Converting to base64...';
+                document.getElementById('announcement-progress-fill').style.width = '40%';
+                
+                const base64 = await fileToBase64(resizedFile);
+                
+                document.getElementById('announcement-progress-text').textContent = 'Uploading to Google Drive...';
+                document.getElementById('announcement-progress-fill').style.width = '60%';
+                
+                const uploadResponse = await fetch(`${API_URL}?path=upload`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        fileName: selectedAnnouncementFile.name,
+                        fileData: base64,
+                        folder: 'announcements'
+                    })
+                });
+                const uploadResult = await uploadResponse.json();
+                
+                if (!uploadResult.success) {
+                    throw new Error(uploadResult.error);
                 }
                 
-                const announcement = {
-                    id: id || null,
-                    order: parseInt(order),
-                    text: text,
-                    image_url: imageUrl,
-                    active: active
-                };
+                document.getElementById('announcement-progress-text').textContent = 'Saving to database...';
+                document.getElementById('announcement-progress-fill').style.width = '80%';
                 
-                const action = id ? 'update' : 'add';
-                
-                const response = await fetch(`${API_URL}?path=announcement&action=${action}`, {
+                const saveResponse = await fetch(`${API_URL}?path=announcement&action=add`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        order: parseInt(order),
+                        text: '',
+                        image_url: uploadResult.data.url,
+                        active: true
+                    })
+                });
+                const saveResult = await saveResponse.json();
+                
+                if (!saveResult.success) {
+                    throw new Error(saveResult.error);
+                }
+                
+                document.getElementById('announcement-progress-fill').style.width = '100%';
+                
+                showToast('Pengumuman berhasil diupload!', 'success');
+                closeModal('upload-announcement-modal');
+                loadAnnouncements();
+                
+            } catch (error) {
+                showToast('Upload gagal: ' + error.message, 'error');
+            } finally {
+                document.getElementById('announcement-upload-progress').style.display = 'none';
+                document.getElementById('btn-upload-announcement').disabled = false;
+            }
+        }
+        
+        async function updateAnnouncementOrder(id, newOrder) {
+            const announcement = announcementsData.find(a => a.id == id);
+            if (!announcement) return;
+            
+            announcement.order = parseInt(newOrder);
+            
+            try {
+                const response = await fetch(`${API_URL}?path=announcement&action=update`, {
+                    method: 'POST',
                     body: JSON.stringify(announcement)
                 });
                 const result = await response.json();
                 
-                hideLoading();
-                
                 if (result.success) {
-                    showToast(`Pengumuman berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
-                    closeModal('announcement-modal');
+                    showToast('Urutan berhasil diubah', 'success');
                     loadAnnouncements();
                 } else {
-                    showToast('Gagal: ' + result.error, 'error');
+                    showToast('Gagal mengubah urutan: ' + result.error, 'error');
+                    loadAnnouncements();
                 }
             } catch (error) {
-                hideLoading();
                 showToast('Error: ' + error.message, 'error');
+                loadAnnouncements();
             }
         }
         
@@ -2962,7 +2982,6 @@
             try {
                 const response = await fetch(`${API_URL}?path=announcement&action=update`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(announcement)
                 });
                 const result = await response.json();
@@ -2982,13 +3001,12 @@
         async function deleteAnnouncement(id) {
             if (!confirm('Yakin ingin menghapus pengumuman ini?')) return;
             
-            showLoading('Menghapus pengumuman...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=announcement&action=delete`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ id: parseInt(id) })
+                    body: JSON.stringify({ id })
                 });
                 const result = await response.json();
                 
@@ -3007,294 +3025,10 @@
         }
         
         // ========================================
-        // ADABS
-        // ========================================
-        function showAdabTab(type) {
-            // Update tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            if (type === 'normal') {
-                document.querySelector('.tab:first-child').classList.add('active');
-            } else {
-                document.querySelector('.tab:last-child').classList.add('active');
-            }
-            
-            // Show/hide sections
-            document.getElementById('adab-normal-section').style.display = type === 'normal' ? 'block' : 'none';
-            document.getElementById('adab-friday-section').style.display = type === 'friday' ? 'block' : 'none';
-            
-            // Load data
-            if (type === 'normal') {
-                loadAdabs('normal');
-            } else {
-                loadAdabs('friday');
-            }
-        }
-        
-        async function loadAdabs(type) {
-            showLoading(`Memuat adab ${type === 'normal' ? 'normal' : 'Jumat'}...`);
-            
-            try {
-                const response = await fetch(`${API_URL}?path=adabs&type=${type}`);
-                const result = await response.json();
-                
-                hideLoading();
-                
-                if (result.success) {
-                    if (type === 'normal') {
-                        adabsNormalData = result.data;
-                        renderAdabsTable('normal', adabsNormalData);
-                    } else {
-                        adabsFridayData = result.data;
-                        renderAdabsTable('friday', adabsFridayData);
-                    }
-                } else {
-                    showToast('Gagal load adab: ' + result.error, 'error');
-                }
-            } catch (error) {
-                hideLoading();
-                showToast('Error: ' + error.message, 'error');
-            }
-        }
-        
-        function renderAdabsTable(type, adabs) {
-            const tbodyId = type === 'normal' ? 'adab-normal-tbody' : 'adab-friday-tbody';
-            const tbody = document.getElementById(tbodyId);
-            
-            if (!adabs || adabs.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Tidak ada data</td></tr>';
-                return;
-            }
-            
-            const sorted = [...adabs].sort((a, b) => (a.order || 0) - (b.order || 0));
-            
-            tbody.innerHTML = sorted.map(adab => `
-                <tr>
-                    <td>${adab.order}</td>
-                    <td>${adab.text}</td>
-                    <td><i class="${adab.icon || 'fas fa-info-circle'}"></i> ${adab.icon || ''}</td>
-                    <td>
-                        <label class="switch">
-                            <input type="checkbox" ${adab.active === true || adab.active === 'TRUE' || adab.active === 'true' ? 'checked' : ''}
-                                   onchange="toggleAdabStatus(${adab.id}, this.checked, '${type}')">
-                            <span class="slider"></span>
-                        </label>
-                    </td>
-                    <td>
-                        <div class="action-buttons">
-                            <button onclick="editAdab(${adab.id}, '${type}')" class="btn-icon" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deleteAdab(${adab.id}, '${type}')" class="btn-icon btn-danger" title="Hapus">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
-        }
-        
-        function showAddAdabModal(type) {
-            document.getElementById('adab-modal-title').textContent = `Tambah Adab ${type === 'normal' ? 'Normal' : 'Jumat'}`;
-            document.getElementById('adab-form').reset();
-            document.querySelector('#adab-form [name="id"]').value = '';
-            document.getElementById('adab-type').value = type;
-            document.querySelector('#adab-form [name="active"]').checked = true;
-            openModal('adab-modal');
-        }
-        
-        function editAdab(id, type) {
-            const adabData = type === 'normal' ? adabsNormalData : adabsFridayData;
-            const adab = adabData.find(a => a.id == id);
-            if (!adab) return;
-            
-            document.getElementById('adab-modal-title').textContent = `Edit Adab ${type === 'normal' ? 'Normal' : 'Jumat'}`;
-            const form = document.getElementById('adab-form');
-            
-            form.querySelector('[name="id"]').value = adab.id;
-            form.querySelector('[name="order"]').value = adab.order || 1;
-            form.querySelector('[name="text"]').value = adab.text || '';
-            form.querySelector('[name="icon"]').value = adab.icon || 'fas fa-door-open';
-            form.querySelector('[name="active"]').checked = adab.active === true || adab.active === 'TRUE' || adab.active === 'true';
-            document.getElementById('adab-type').value = type;
-            
-            openModal('adab-modal');
-        }
-        
-        async function saveAdab(event) {
-            event.preventDefault();
-            
-            const form = document.getElementById('adab-form');
-            const formData = new FormData(form);
-            const id = formData.get('id');
-            const type = document.getElementById('adab-type').value;
-            const order = formData.get('order');
-            const text = formData.get('text');
-            const icon = formData.get('icon');
-            const active = formData.get('active') === 'on';
-            
-            if (!text || !order || !icon) {
-                showToast('Semua field harus diisi!', 'error');
-                return;
-            }
-            
-            const adab = {
-                id: id || null,
-                type: type,
-                order: parseInt(order),
-                text: text,
-                icon: icon,
-                active: active
-            };
-            
-            const action = id ? 'update' : 'add';
-            
-            showLoading('Menyimpan adab...');
-            
-            try {
-                const response = await fetch(`${API_URL}?path=adab&action=${action}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(adab)
-                });
-                const result = await response.json();
-                
-                hideLoading();
-                
-                if (result.success) {
-                    showToast(`Adab berhasil ${action === 'add' ? 'ditambahkan' : 'diupdate'}!`, 'success');
-                    closeModal('adab-modal');
-                    loadAdabs(type);
-                } else {
-                    showToast('Gagal: ' + result.error, 'error');
-                }
-            } catch (error) {
-                hideLoading();
-                showToast('Error: ' + error.message, 'error');
-            }
-        }
-        
-        async function toggleAdabStatus(id, active, type) {
-            const adabData = type === 'normal' ? adabsNormalData : adabsFridayData;
-            const adab = adabData.find(a => a.id == id);
-            if (!adab) return;
-            
-            adab.active = active;
-            
-            try {
-                const response = await fetch(`${API_URL}?path=adab&action=update`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(adab)
-                });
-                const result = await response.json();
-                
-                if (result.success) {
-                    showToast('Status berhasil diubah', 'success');
-                } else {
-                    showToast('Gagal mengubah status: ' + result.error, 'error');
-                    loadAdabs(type);
-                }
-            } catch (error) {
-                showToast('Error: ' + error.message, 'error');
-                loadAdabs(type);
-            }
-        }
-        
-        async function deleteAdab(id, type) {
-            if (!confirm('Yakin ingin menghapus adab ini?')) return;
-            
-            showLoading('Menghapus adab...');
-            
-            try {
-                const response = await fetch(`${API_URL}?path=adab&action=delete`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ id: parseInt(id) })
-                });
-                const result = await response.json();
-                
-                hideLoading();
-                
-                if (result.success) {
-                    showToast('Adab berhasil dihapus!', 'success');
-                    loadAdabs(type);
-                } else {
-                    showToast('Gagal menghapus: ' + result.error, 'error');
-                }
-            } catch (error) {
-                hideLoading();
-                showToast('Error: ' + error.message, 'error');
-            }
-        }
-        
-        // ========================================
-        // FRIDAY SCHEDULE
-        // ========================================
-        async function loadFridaySchedule() {
-            showLoading('Memuat jadwal Jumat...');
-            
-            try {
-                const response = await fetch(`${API_URL}?path=friday-schedule`);
-                const result = await response.json();
-                
-                hideLoading();
-                
-                if (result.success) {
-                    fridayScheduleData = result.data;
-                    const form = document.getElementById('friday-schedule-form');
-                    
-                    for (const key in fridayScheduleData) {
-                        const input = form.querySelector(`[name="${key}"]`);
-                        if (input) {
-                            input.value = fridayScheduleData[key];
-                        }
-                    }
-                } else {
-                    showToast('Gagal load jadwal: ' + result.error, 'error');
-                }
-            } catch (error) {
-                hideLoading();
-                showToast('Error: ' + error.message, 'error');
-            }
-        }
-        
-        async function saveFridaySchedule(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(event.target);
-            const schedule = Object.fromEntries(formData);
-            
-            showLoading('Menyimpan jadwal...');
-            
-            try {
-                const response = await fetch(`${API_URL}?path=friday-schedule&action=update`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(schedule)
-                });
-                const result = await response.json();
-                
-                hideLoading();
-                
-                if (result.success) {
-                    showToast('Jadwal Jumat berhasil disimpan!', 'success');
-                    fridayScheduleData = schedule;
-                } else {
-                    showToast('Gagal menyimpan: ' + result.error, 'error');
-                }
-            } catch (error) {
-                hideLoading();
-                showToast('Error: ' + error.message, 'error');
-            }
-        }
-        
-        // ========================================
         // FRIDAY WISDOMS
         // ========================================
         async function loadFridayWisdoms() {
-            showLoading('Memuat hadis Jumat...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=friday-wisdoms`);
@@ -3306,7 +3040,7 @@
                     fridayWisdomsData = result.data;
                     renderFridayWisdomsTable();
                 } else {
-                    showToast('Gagal load hadis: ' + result.error, 'error');
+                    showToast('Gagal load hadis Jumat: ' + result.error, 'error');
                 }
             } catch (error) {
                 hideLoading();
@@ -3317,12 +3051,12 @@
         function renderFridayWisdomsTable() {
             const tbody = document.getElementById('friday-wisdoms-tbody');
             
-            if (!fridayWisdomsData || fridayWisdomsData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Tidak ada data</td></tr>';
+            if (fridayWisdomsData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Belum ada data</td></tr>';
                 return;
             }
             
-            const sorted = [...fridayWisdomsData].sort((a, b) => (a.order || 0) - (b.order || 0));
+            const sorted = fridayWisdomsData.sort((a, b) => a.order - b.order);
             
             tbody.innerHTML = sorted.map(wisdom => `
                 <tr>
@@ -3331,20 +3065,18 @@
                     <td>${wisdom.reference}</td>
                     <td>
                         <label class="switch">
-                            <input type="checkbox" ${wisdom.active === true || wisdom.active === 'TRUE' || wisdom.active === 'true' ? 'checked' : ''}
+                            <input type="checkbox" ${wisdom.active ? 'checked' : ''} 
                                    onchange="toggleFridayWisdomStatus(${wisdom.id}, this.checked)">
                             <span class="slider"></span>
                         </label>
                     </td>
                     <td>
-                        <div class="action-buttons">
-                            <button onclick="editFridayWisdom(${wisdom.id})" class="btn-icon" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button onclick="deleteFridayWisdom(${wisdom.id})" class="btn-icon btn-danger" title="Hapus">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+                        <button onclick="editFridayWisdom(${wisdom.id})" class="btn-icon" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteFridayWisdom(${wisdom.id})" class="btn-icon btn-danger" title="Hapus">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </td>
                 </tr>
             `).join('');
@@ -3354,7 +3086,6 @@
             document.getElementById('friday-wisdom-modal-title').textContent = 'Tambah Hadis Jumat';
             document.getElementById('friday-wisdom-form').reset();
             document.querySelector('#friday-wisdom-form [name="id"]').value = '';
-            document.querySelector('#friday-wisdom-form [name="active"]').checked = true;
             openModal('friday-wisdom-modal');
         }
         
@@ -3366,10 +3097,10 @@
             const form = document.getElementById('friday-wisdom-form');
             
             form.querySelector('[name="id"]').value = wisdom.id;
-            form.querySelector('[name="order"]').value = wisdom.order || 1;
-            form.querySelector('[name="text"]').value = wisdom.text || '';
-            form.querySelector('[name="reference"]').value = wisdom.reference || '';
-            form.querySelector('[name="active"]').checked = wisdom.active === true || wisdom.active === 'TRUE' || wisdom.active === 'true';
+            form.querySelector('[name="order"]').value = wisdom.order;
+            form.querySelector('[name="text"]').value = wisdom.text;
+            form.querySelector('[name="reference"]').value = wisdom.reference;
+            form.querySelector('[name="active"]').checked = wisdom.active;
             
             openModal('friday-wisdom-modal');
         }
@@ -3377,35 +3108,22 @@
         async function saveFridayWisdom(event) {
             event.preventDefault();
             
-            const form = document.getElementById('friday-wisdom-form');
-            const formData = new FormData(form);
-            const id = formData.get('id');
-            const order = formData.get('order');
-            const text = formData.get('text');
-            const reference = formData.get('reference');
-            const active = formData.get('active') === 'on';
-            
-            if (!text || !reference || !order) {
-                showToast('Semua field harus diisi!', 'error');
-                return;
-            }
-            
+            const formData = new FormData(event.target);
             const wisdom = {
-                id: id || null,
-                order: parseInt(order),
-                text: text,
-                reference: reference,
-                active: active
+                id: formData.get('id') || undefined,
+                order: parseInt(formData.get('order')),
+                text: formData.get('text'),
+                reference: formData.get('reference'),
+                active: formData.get('active') === 'on'
             };
             
-            const action = id ? 'update' : 'add';
+            const action = wisdom.id ? 'update' : 'add';
             
-            showLoading('Menyimpan hadis...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=friday-wisdom&action=${action}`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(wisdom)
                 });
                 const result = await response.json();
@@ -3434,7 +3152,6 @@
             try {
                 const response = await fetch(`${API_URL}?path=friday-wisdom&action=update`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(wisdom)
                 });
                 const result = await response.json();
@@ -3454,13 +3171,12 @@
         async function deleteFridayWisdom(id) {
             if (!confirm('Yakin ingin menghapus hadis ini?')) return;
             
-            showLoading('Menghapus hadis...');
+            showLoading();
             
             try {
                 const response = await fetch(`${API_URL}?path=friday-wisdom&action=delete`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ id: parseInt(id) })
+                    body: JSON.stringify({ id })
                 });
                 const result = await response.json();
                 
@@ -3483,8 +3199,10 @@
         // ========================================
         document.addEventListener('DOMContentLoaded', function() {
             checkAuth();
+            
+            // Initialize event listeners for upload areas
+            // These are already defined above
         });
     </script>
 </body>
 </html>
-
