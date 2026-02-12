@@ -876,7 +876,6 @@
             box-shadow: 0 10px 25px rgba(46, 119, 187, 0.4);
         }
         
-        /* ========== RESPONSIVE ========== */
         @media (min-width: 1921px) {
             body { font-size: 1.2rem; }
             .header { padding: 25px 50px; min-height: 100px; }
@@ -1056,7 +1055,7 @@
 
     <script>
         // ========================================
-        // API CONFIGURATION - ✅ SUDAH DIGANTI DENGAN URL DARI REFERENSI!
+        // API CONFIGURATION
         // ========================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzyGqJ0H2u2s-PDA0LV_H06Cb8KbT2KcG8TF9SPkgehkZuKMvI6H1W5clX9hMye9GUN/exec";
         
@@ -1086,8 +1085,8 @@
         let iqamahTimer;
         let salahTimer;
         let currentPrayerName = "";
-        let hijriDateString = "";
-        let gregorianDateString = "";
+        let hijriDateString = "Loading..."; // Initialize with loading
+        let gregorianDateString = "Loading...";
         let currentDayName = "";
         let lastApiFetch = 0;
         const API_CACHE_TIME = 60 * 60 * 1000; // 1 jam cache
@@ -1097,9 +1096,10 @@
         // ========================================
         async function fetchAllData() {
             try {
-                console.log("🔄 Fetching all data from API...");
+                console.log("🔄 [1/8] Fetching all data from API...");
                 
                 // Fetch Config
+                console.log("📡 [1/8] Fetching config...");
                 const configRes = await fetch(`${API_URL}?path=config`);
                 const configResult = await configRes.json();
                 
@@ -1110,45 +1110,53 @@
                     // Update UI
                     document.getElementById('masjid-name').textContent = configData.masjid_name || 'Masjid';
                     document.getElementById('masjid-address').textContent = configData.masjid_address || '';
+                    document.getElementById('timezone').textContent = configData.timezone || 'WIB';
+                } else {
+                    console.warn("⚠️ Config fetch failed, using defaults");
                 }
                 
                 // Fetch Wisdoms
+                console.log("📡 [2/8] Fetching wisdoms...");
                 const wisdomsRes = await fetch(`${API_URL}?path=wisdoms`);
                 const wisdomsResult = await wisdomsRes.json();
                 
                 if (wisdomsResult.success) {
                     wisdomsData = wisdomsResult.data.filter(w => w.active);
-                    console.log("✅ Wisdoms loaded:", wisdomsData.length);
+                    console.log(`✅ Wisdoms loaded: ${wisdomsData.length} active`);
                 }
                 
                 // Fetch Friday Wisdoms
+                console.log("📡 [3/8] Fetching Friday wisdoms...");
                 const fridayWisdomsRes = await fetch(`${API_URL}?path=friday-wisdoms`);
                 const fridayWisdomsResult = await fridayWisdomsRes.json();
                 
                 if (fridayWisdomsResult.success) {
                     fridayWisdomsData = fridayWisdomsResult.data.filter(w => w.active);
-                    console.log("✅ Friday wisdoms loaded:", fridayWisdomsData.length);
+                    console.log(`✅ Friday wisdoms loaded: ${fridayWisdomsData.length} active`);
                 }
                 
                 // Fetch Adabs Normal
+                console.log("📡 [4/8] Fetching normal adabs...");
                 const adabsNormalRes = await fetch(`${API_URL}?path=adabs&type=normal`);
                 const adabsNormalResult = await adabsNormalRes.json();
                 
                 if (adabsNormalResult.success) {
                     adabsNormalData = adabsNormalResult.data.filter(a => a.active);
-                    console.log("✅ Normal adabs loaded:", adabsNormalData.length);
+                    console.log(`✅ Normal adabs loaded: ${adabsNormalData.length} active`);
                 }
                 
                 // Fetch Adabs Friday
+                console.log("📡 [5/8] Fetching Friday adabs...");
                 const adabsFridayRes = await fetch(`${API_URL}?path=adabs&type=friday`);
                 const adabsFridayResult = await adabsFridayRes.json();
                 
                 if (adabsFridayResult.success) {
                     adabsFridayData = adabsFridayResult.data.filter(a => a.active);
-                    console.log("✅ Friday adabs loaded:", adabsFridayData.length);
+                    console.log(`✅ Friday adabs loaded: ${adabsFridayData.length} active`);
                 }
                 
                 // Fetch Friday Schedule
+                console.log("📡 [6/8] Fetching Friday schedule...");
                 const scheduleRes = await fetch(`${API_URL}?path=friday-schedule`);
                 const scheduleResult = await scheduleRes.json();
                 
@@ -1166,6 +1174,7 @@
                 }
                 
                 // Fetch Announcements
+                console.log("📡 [7/8] Fetching announcements...");
                 const announcementsRes = await fetch(`${API_URL}?path=announcements`);
                 const announcementsResult = await announcementsRes.json();
                 
@@ -1173,11 +1182,12 @@
                     announcementsData = announcementsResult.data
                         .filter(a => a.active)
                         .sort((a, b) => a.order - b.order);
-                    console.log("✅ Announcements loaded:", announcementsData.length);
+                    console.log(`✅ Announcements loaded: ${announcementsData.length} active`);
                     renderAnnouncements();
                 }
                 
                 // Fetch Wallpapers
+                console.log("📡 [8/8] Fetching wallpapers...");
                 const wallpapersRes = await fetch(`${API_URL}?path=wallpapers`);
                 const wallpapersResult = await wallpapersRes.json();
                 
@@ -1185,7 +1195,7 @@
                     wallpapersData = wallpapersResult.data
                         .filter(w => w.active)
                         .sort((a, b) => a.order - b.order);
-                    console.log("✅ Wallpapers loaded:", wallpapersData.length);
+                    console.log(`✅ Wallpapers loaded: ${wallpapersData.length} active`);
                     renderWallpapers();
                 }
                 
@@ -1193,19 +1203,20 @@
                 lastApiFetch = Date.now();
                 
             } catch (error) {
-                console.error("❌ Error fetching data:", error);
+                console.error("❌ Error fetching data:", error.message);
             }
         }
         
         // ========================================
-        // RENDER FUNCTIONS
+        // RENDER FUNCTIONS - IMPROVED ERROR HANDLING
         // ========================================
         function renderWallpapers() {
             const container = document.getElementById('wallpaper-slider');
             container.innerHTML = '';
             
             if (wallpapersData.length === 0) {
-                // Fallback wallpapers
+                console.warn("⚠️ No wallpapers data, using fallback");
+                // Fallback wallpapers - Unsplash Masjid images
                 wallpapersData = [
                     { image_url: 'https://images.unsplash.com/photo-1548013146-72479768bada?w=1920' },
                     { image_url: 'https://images.unsplash.com/photo-1562774053-701939374585?w=1920' },
@@ -1214,22 +1225,45 @@
             }
             
             wallpapersData.forEach((wallpaper, index) => {
+                console.log(`🖼️ Rendering wallpaper ${index + 1}:`, wallpaper.image_url);
+                
                 const slide = document.createElement('div');
                 slide.className = `wallpaper-slide ${index === 0 ? 'active' : ''}`;
+                
+                // Use background-image for better compatibility
                 slide.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('${wallpaper.image_url}')`;
+                slide.style.backgroundSize = 'cover';
+                slide.style.backgroundPosition = 'center';
+                
+                // Error handling via Image object
+                const img = new Image();
+                img.onload = () => console.log(`✅ Wallpaper ${index + 1} loaded`);
+                img.onerror = () => console.error(`❌ Failed to load wallpaper ${index + 1}:`, wallpaper.image_url);
+                img.src = wallpaper.image_url;
+                
                 container.appendChild(slide);
             });
         }
         
         function renderAnnouncements() {
             const container = document.querySelector('.jumat-announcements');
+            if (!container) {
+                console.error("❌ Announcements container not found");
+                return;
+            }
+            
             const title = container.querySelector('h3');
             container.innerHTML = '';
             container.appendChild(title);
             
-            if (announcementsData.length === 0) return;
+            if (announcementsData.length === 0) {
+                console.warn("⚠️ No announcements data");
+                return;
+            }
             
             announcementsData.forEach((announcement, index) => {
+                console.log(`📢 Rendering announcement ${index + 1}:`, announcement.image_url || 'No image');
+                
                 const slide = document.createElement('div');
                 slide.className = `announcement-slide ${index === 0 ? 'active' : ''}`;
                 
@@ -1237,6 +1271,25 @@
                     const img = document.createElement('img');
                     img.src = announcement.image_url;
                     img.alt = `Pengumuman ${index + 1}`;
+                    img.style.maxWidth = '100%';
+                    img.style.maxHeight = '100%';
+                    img.style.objectFit = 'contain';
+                    
+                    img.onload = () => console.log(`✅ Announcement ${index + 1} loaded`);
+                    img.onerror = (e) => {
+                        console.error(`❌ Failed to load announcement ${index + 1}:`, announcement.image_url);
+                        // Create fallback text
+                        const div = document.createElement('div');
+                        div.className = 'announcement-text';
+                        div.textContent = announcement.text || `Pengumuman ${index + 1}`;
+                        div.style.fontSize = '1.2rem';
+                        div.style.color = 'var(--friday-dark)';
+                        div.style.fontWeight = '600';
+                        div.style.padding = '20px';
+                        slide.innerHTML = '';
+                        slide.appendChild(div);
+                    };
+                    
                     slide.appendChild(img);
                 } else if (announcement.text) {
                     const div = document.createElement('div');
@@ -1245,6 +1298,7 @@
                     div.style.fontSize = '1.2rem';
                     div.style.color = 'var(--friday-dark)';
                     div.style.fontWeight = '600';
+                    div.style.padding = '20px';
                     slide.appendChild(div);
                 }
                 
@@ -1254,11 +1308,36 @@
         
         function createAdabMarquee() {
             const marqueeTrack = document.getElementById('marquee-track');
+            if (!marqueeTrack) return;
+            
             marqueeTrack.innerHTML = '';
             
             const currentAdabs = currentMode === "friday" ? adabsFridayData : adabsNormalData;
             
-            if (currentAdabs.length === 0) return;
+            if (currentAdabs.length === 0) {
+                // Fallback adab
+                const fallbackAdab = [
+                    { icon: 'fas fa-door-open', text: 'Masuk masjid dengan membaca doa dan kaki kanan terlebih dahulu' },
+                    { icon: 'fas fa-broom', text: 'Jaga kebersihan masjid' },
+                    { icon: 'fas fa-mobile-alt', text: 'Matikan atau silent handphone' }
+                ];
+                
+                for (let i = 0; i < 2; i++) {
+                    fallbackAdab.forEach((adab) => {
+                        const adabItem = document.createElement('div');
+                        adabItem.className = 'adab-item';
+                        adabItem.innerHTML = `<i class="${adab.icon}"></i> ${adab.text}`;
+                        marqueeTrack.appendChild(adabItem);
+                        
+                        const space = document.createElement('div');
+                        space.style.padding = '0 150px';
+                        marqueeTrack.appendChild(space);
+                    });
+                }
+                
+                console.warn("⚠️ Using fallback adabs");
+                return;
+            }
             
             const sortedAdabs = currentAdabs.sort((a, b) => a.order - b.order);
             
@@ -1281,10 +1360,12 @@
                 (configData.marquee_speed_friday || 400) : 
                 (configData.marquee_speed || 300);
             marquee.style.animationDuration = speed + 's';
+            
+            console.log(`✅ Marquee created with ${sortedAdabs.length} adabs, speed: ${speed}s`);
         }
         
         // ========================================
-        // ALADHAN API INTEGRATION
+        // ALADHAN API INTEGRATION - FIXED HIJRI DATE
         // ========================================
         
         function formatDateToDDMMYYYY(date) {
@@ -1299,8 +1380,9 @@
                 const now = new Date();
                 const dateString = formatDateToDDMMYYYY(now);
                 
-                const latitude = configData.latitude || -6.59444;
-                const longitude = configData.longitude || 106.78917;
+                // FIXED: Default coordinates untuk Dramaga, Bogor (bukan -6.59444, 106.78917)
+                const latitude = configData.latitude || -6.5456;  // Dramaga, Bogor
+                const longitude = configData.longitude || 106.7367; // Dramaga, Bogor
                 const method = configData.api_method || 11;
                 const timezone = configData.timezone || 'Asia/Jakarta';
                 
@@ -1314,8 +1396,8 @@
                 if (data.code === 200 && data.data) {
                     console.log("✅ Prayer times API success!");
                     
+                    // Parse timings
                     const timings = data.data.timings;
-                    
                     prayerTimesData = {
                         "Subuh": timings.Fajr,
                         "Syuruq": timings.Sunrise,
@@ -1324,12 +1406,18 @@
                         "Maghrib": timings.Maghrib,
                         "Isya": timings.Isha
                     };
+                    console.log("📅 Prayer times:", prayerTimesData);
                     
-                    // Hijri date
+                    // ===== CRITICAL FIX: Parse Hijri date properly =====
                     const hijri = data.data.date.hijri;
-                    hijriDateString = `${hijri.day} ${hijri.month.en} ${hijri.year} H`;
+                    const hijriDay = hijri.day;
+                    const hijriMonth = hijri.month.ar; // Arabic month name
+                    const hijriYear = hijri.year;
                     
-                    // Gregorian date
+                    hijriDateString = `${hijriDay} ${hijriMonth} ${hijriYear} H`;
+                    console.log("📅 Hijri date (parsed):", hijriDateString);
+                    
+                    // ===== Parse Gregorian date =====
                     const gregorian = data.data.date.gregorian;
                     const dayNames = {
                         "Monday": "Senin", "Tuesday": "Selasa", "Wednesday": "Rabu",
@@ -1341,11 +1429,13 @@
                     currentDayName = dayNames[gregorian.weekday.en] || "Hari";
                     const monthIndex = parseInt(gregorian.month.number) - 1;
                     gregorianDateString = `${currentDayName}, ${parseInt(gregorian.day)} ${monthNames[monthIndex]} ${gregorian.year}`;
+                    console.log("📅 Gregorian date:", gregorianDateString);
                     
-                    updatePrayerScheduleUI();
+                    // Update UI
                     updateDatesUI();
+                    updatePrayerScheduleUI();
                     
-                    console.log("✅ Prayer times updated");
+                    console.log("✅ Prayer times updated successfully");
                     lastApiFetch = Date.now();
                     return true;
                     
@@ -1355,7 +1445,7 @@
                 }
                 
             } catch (error) {
-                console.error("❌ Error fetching prayer times:", error);
+                console.error("❌ Error fetching prayer times:", error.message);
                 return useFallbackPrayerTimes();
             }
         }
@@ -1363,6 +1453,7 @@
         function useFallbackPrayerTimes() {
             console.warn("⚠️ Using fallback prayer times");
             
+            // Fallback prayer times (Dramaga, Bogor approximation)
             prayerTimesData = {
                 "Subuh": "04:30",
                 "Syuruq": "05:45",
@@ -1372,6 +1463,7 @@
                 "Isya": "19:15"
             };
             
+            // Gregorian date from local
             const now = new Date();
             const dayNames = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
             const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
@@ -1379,10 +1471,16 @@
             
             currentDayName = dayNames[now.getDay()];
             gregorianDateString = `${currentDayName}, ${now.getDate()} ${monthNames[now.getMonth()]} ${now.getFullYear()}`;
-            hijriDateString = "Loading...";
+            
+            // FIXED: Fallback hijri date yang lebih informatif
+            hijriDateString = "Tanggal Hijriah (Offline Mode)";
             
             updatePrayerScheduleUI();
             updateDatesUI();
+            
+            console.log("⚠️ Fallback prayer times loaded");
+            console.log("📅 Gregorian (fallback):", gregorianDateString);
+            console.log("📅 Hijri (fallback):", hijriDateString);
             
             return false;
         }
@@ -1400,11 +1498,23 @@
                     }
                 }
             });
+            
+            console.log("🕋 Prayer schedule UI updated");
         }
         
         function updateDatesUI() {
-            document.getElementById('hijri-date').textContent = hijriDateString;
-            document.getElementById('gregorian-date').textContent = gregorianDateString;
+            const hijriElement = document.getElementById('hijri-date');
+            const gregorianElement = document.getElementById('gregorian-date');
+            
+            if (hijriElement) {
+                hijriElement.textContent = hijriDateString;
+                console.log("📅 Hijri UI updated:", hijriDateString);
+            }
+            
+            if (gregorianElement) {
+                gregorianElement.textContent = gregorianDateString;
+                console.log("📅 Gregorian UI updated:", gregorianDateString);
+            }
         }
         
         async function refreshApiData() {
@@ -1543,6 +1653,9 @@
             if (todayWisdoms.length > 0) {
                 wisdomIndex = 0;
                 updateWisdomContent(todayWisdoms);
+                console.log(`📖 Daily content loaded: ${todayWisdoms.length} wisdoms for ${dayMap[dayOfWeek]}`);
+            } else {
+                console.warn(`⚠️ No wisdoms for ${dayMap[dayOfWeek]}`);
             }
         }
         
@@ -1690,6 +1803,7 @@
                 const hadith = fridayWisdomsData[fridayHadithIndex];
                 document.getElementById('wisdom-text').textContent = hadith.text;
                 document.getElementById('wisdom-reference').textContent = hadith.reference;
+                console.log("🕌 Friday mode activated");
             }
             
             createAdabMarquee();
@@ -1706,6 +1820,7 @@
             
             initDailyContent();
             createAdabMarquee();
+            console.log("🕋 Normal mode activated");
         }
         
         // ========================================
@@ -1912,8 +2027,9 @@
                         oscillator.stop(audioContext.currentTime + 0.1);
                     }
                 };
+                console.log("✅ Audio initialized");
             } catch (error) {
-                console.error("Audio tidak didukung:", error);
+                console.error("❌ Audio tidak didukung:", error.message);
             }
         }
         
@@ -1950,60 +2066,77 @@
         }
         
         // ========================================
-        // INITIALIZATION
+        // INITIALIZATION - IMPROVED FLOW
         // ========================================
         
         document.addEventListener('DOMContentLoaded', async function() {
-            console.log("🚀 Starting Display Digital Masjid...");
+            console.log("🚀 ========== STARTING DISPLAY DIGITAL MASJID ==========");
             
-            // Fetch all data from API
-            await fetchAllData();
-            
-            // Fetch prayer times
-            await fetchPrayerTimes();
-            
-            // Init audio
-            initAudio();
-            
-            // Init daily content
-            initDailyContent();
-            
-            // Create adab marquee
-            createAdabMarquee();
-            
-            // Update datetime immediately
-            updateDateTime();
-            
-            // Setup fullscreen
-            setTimeout(() => {
-                if (!document.fullscreenElement) {
-                    document.getElementById('fullscreen-overlay').style.display = 'flex';
-                }
-            }, 2000);
-            
-            document.getElementById('enter-fullscreen-btn').addEventListener('click', function() {
-                enterFullscreen();
-                document.getElementById('fullscreen-overlay').style.display = 'none';
-            });
-            
-            document.addEventListener('click', function firstClick() {
-                if (!document.fullscreenElement) {
+            try {
+                // STEP 1: Fetch config first
+                console.log("📌 STEP 1/6: Fetching config data...");
+                await fetchAllData();
+                
+                // STEP 2: Fetch prayer times (depends on config)
+                console.log("📌 STEP 2/6: Fetching prayer times...");
+                await fetchPrayerTimes();
+                
+                // STEP 3: Initialize audio
+                console.log("📌 STEP 3/6: Initializing audio...");
+                initAudio();
+                
+                // STEP 4: Initialize daily content
+                console.log("📌 STEP 4/6: Initializing daily content...");
+                initDailyContent();
+                
+                // STEP 5: Create marquee
+                console.log("📌 STEP 5/6: Creating adab marquee...");
+                createAdabMarquee();
+                
+                // STEP 6: Start timers
+                console.log("📌 STEP 6/6: Starting timers...");
+                updateDateTime();
+                
+                // Setup fullscreen
+                setTimeout(() => {
+                    if (!document.fullscreenElement) {
+                        document.getElementById('fullscreen-overlay').style.display = 'flex';
+                    }
+                }, 2000);
+                
+                document.getElementById('enter-fullscreen-btn').addEventListener('click', function() {
                     enterFullscreen();
                     document.getElementById('fullscreen-overlay').style.display = 'none';
-                }
-                document.removeEventListener('click', firstClick);
-            });
-            
-            // Start intervals
-            setInterval(updateDateTime, 1000);
-            setInterval(rotateWisdom, (configData.wisdom_duration || 60) * 1000);
-            setInterval(rotateWallpaper, (configData.wallpaper_duration || 30) * 1000);
-            setInterval(rotateAnnouncement, (configData.announcement_duration || 30) * 1000);
-            setInterval(checkFridayMode, 60000);
-            setInterval(checkAzanMode, 1000);
-            setInterval(refreshApiData, 3600000); // 1 hour
-            
-            console.log("✅ Display initialized successfully!");
+                });
+                
+                // Click anywhere to enter fullscreen (first click)
+                document.addEventListener('click', function firstClick() {
+                    if (!document.fullscreenElement) {
+                        enterFullscreen();
+                        document.getElementById('fullscreen-overlay').style.display = 'none';
+                    }
+                    document.removeEventListener('click', firstClick);
+                }, { once: true });
+                
+                // Start intervals
+                setInterval(updateDateTime, 1000);
+                setInterval(rotateWisdom, (configData.wisdom_duration || 60) * 1000);
+                setInterval(rotateWallpaper, (configData.wallpaper_duration || 30) * 1000);
+                setInterval(rotateAnnouncement, (configData.announcement_duration || 30) * 1000);
+                setInterval(checkFridayMode, 60000);
+                setInterval(checkAzanMode, 1000);
+                setInterval(refreshApiData, 3600000); // 1 hour
+                
+                console.log("✅ ========== DISPLAY INITIALIZED SUCCESSFULLY ==========");
+                console.log("📅 Current Hijri:", hijriDateString);
+                console.log("📅 Current Gregorian:", gregorianDateString);
+                console.log("🕋 Prayer times:", prayerTimesData);
+                
+            } catch (error) {
+                console.error("❌ ========== INITIALIZATION ERROR ==========");
+                console.error("Error details:", error.message);
+                console.error("Stack:", error.stack);
+            }
         });
     </script>
 </body>
