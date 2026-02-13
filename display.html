@@ -375,47 +375,167 @@
             border: 2px solid var(--friday-gold);
         }
         
-        .friday-content {
-            display: none;
+        /* ========== FIXED FRIDAY SLIDER - FULL HEIGHT, NO SCROLL ========== */
+        .friday-slider {
             width: 100%;
             height: 100%;
-            padding: 20px;
-            overflow-y: auto;
+            position: relative;
+            overflow: hidden;
+            display: none;
         }
         
-        .friday-mode .friday-content {
+        .friday-mode .friday-slider {
             display: block;
+        }
+        
+        .friday-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            overflow: hidden;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .friday-slide.active {
+            opacity: 1;
+            z-index: 2;
+        }
+        
+        /* SLIDE 1: Jadwal + Petugas - split 50/50 */
+        #friday-slide-1 {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: flex-start;
+        }
+        
+        #friday-slide-1 .jumat-schedule,
+        #friday-slide-1 .jumat-officers {
+            flex: 1;
+            margin: 0;
+            max-height: 48%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* SLIDE 2: Pengumuman FULL HEIGHT, NO SCROLL, GAMBAR ONLY */
+        #friday-slide-2 {
+            padding: 0;
+        }
+        
+        #friday-slide-2 .jumat-announcements {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0;
+        }
+        
+        #friday-slide-2 .jumat-announcements h3 {
+            margin-bottom: 15px;
+            flex-shrink: 0;
+            color: var(--friday-dark);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            text-align: center;
+        }
+        
+        .announcement-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            min-height: 0;
+        }
+        
+        .announcement-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        
+        .announcement-slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+        
+        .announcement-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .wallpaper-slider {
+            width: 100%;
+            height: 100%;
+            position: relative;
         }
         
         .friday-mode .wallpaper-slider {
             display: none;
         }
         
+        .wallpaper-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+        }
+        
+        .wallpaper-slide.active {
+            opacity: 1;
+        }
+        
+        /* Jumat Schedule & Officers - Styling */
         .jumat-schedule {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .jumat-schedule h3 {
             color: var(--friday-dark);
             font-family: 'Montserrat', sans-serif;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-align: center;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
         
         .jumat-times {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
         }
         
         .jumat-time-item {
             text-align: center;
-            padding: 10px;
+            padding: 8px;
             background: rgba(212, 175, 55, 0.1);
             border-radius: 10px;
             border: 1px solid rgba(212, 175, 55, 0.3);
@@ -438,28 +558,27 @@
         .jumat-officers {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .jumat-officers h3 {
             color: var(--friday-dark);
             font-family: 'Montserrat', sans-serif;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-align: center;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
         
         .officers-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
         }
         
         .officer-item {
             text-align: center;
-            padding: 12px;
+            padding: 8px;
             background: rgba(212, 175, 55, 0.1);
             border-radius: 10px;
             border: 1px solid rgba(212, 175, 55, 0.3);
@@ -476,72 +595,6 @@
             font-weight: 700;
             color: var(--friday-dark);
             font-size: 1.1rem;
-        }
-        
-        .jumat-announcements {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            min-height: 250px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .jumat-announcements h3 {
-            color: var(--friday-dark);
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: 15px;
-            text-align: center;
-            font-size: 1.4rem;
-        }
-        
-        .announcement-slide {
-            position: absolute;
-            top: 60px;
-            left: 0;
-            width: 100%;
-            height: calc(100% - 80px);
-            padding: 0 20px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .announcement-slide.active {
-            opacity: 1;
-        }
-        
-        .announcement-slide img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 10px;
-        }
-        
-        .wallpaper-slider {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-        
-        .wallpaper-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1.2s ease-in-out;
-        }
-        
-        .wallpaper-slide.active {
-            opacity: 1;
         }
         
         .prayer-schedule {
@@ -876,7 +929,6 @@
             box-shadow: 0 10px 25px rgba(46, 119, 187, 0.4);
         }
         
-        /* ========== RESPONSIVE ========== */
         @media (min-width: 1921px) {
             body { font-size: 1.2rem; }
             .header { padding: 25px 50px; min-height: 100px; }
@@ -987,61 +1039,69 @@
         </div>
         
         <div class="sidebar-right">
+            <!-- Wallpaper mode (normal) -->
             <div class="wallpaper-slider" id="wallpaper-slider">
                 <!-- Wallpapers will be loaded dynamically -->
             </div>
             
-            <div class="friday-content">
-                <div class="jumat-schedule">
-                    <h3><i class="fas fa-clock"></i> JADWAL SHALAT JUMAT</h3>
-                    <div class="jumat-times">
-                        <div class="jumat-time-item">
-                            <div class="jumat-time-label">Waktu Khutbah</div>
-                            <div class="jumat-time-value" id="khutbah-time">11:30</div>
+            <!-- Friday mode slider: 2 slides, full height, no scroll -->
+            <div class="friday-slider" id="friday-slider">
+                <!-- SLIDE 1: Jadwal Shalat Jumat + Petugas Jumat -->
+                <div class="friday-slide active" id="friday-slide-1">
+                    <div class="jumat-schedule">
+                        <h3><i class="fas fa-clock"></i> JADWAL SHALAT JUMAT</h3>
+                        <div class="jumat-times">
+                            <div class="jumat-time-item">
+                                <div class="jumat-time-label">Waktu Khutbah</div>
+                                <div class="jumat-time-value" id="khutbah-time">11:30</div>
+                            </div>
+                            <div class="jumat-time-item">
+                                <div class="jumat-time-label">Waktu Iqamah</div>
+                                <div class="jumat-time-value" id="iqamah-time">12:00</div>
+                            </div>
                         </div>
-                        <div class="jumat-time-item">
-                            <div class="jumat-time-label">Waktu Iqamah</div>
-                            <div class="jumat-time-value" id="iqamah-time">12:00</div>
+                    </div>
+                    <div class="jumat-officers">
+                        <h3><i class="fas fa-users"></i> PETUGAS JUMAT</h3>
+                        <div class="officers-grid">
+                            <div class="officer-item">
+                                <div class="officer-role">Imam</div>
+                                <div class="officer-name" id="imam-name">Loading...</div>
+                            </div>
+                            <div class="officer-item">
+                                <div class="officer-role">Khatib</div>
+                                <div class="officer-name" id="khatib-name">Loading...</div>
+                            </div>
+                            <div class="officer-item">
+                                <div class="officer-role">Muadzin 1</div>
+                                <div class="officer-name" id="muadzin1-name">Loading...</div>
+                            </div>
+                            <div class="officer-item">
+                                <div class="officer-role">Muadzin 2</div>
+                                <div class="officer-name" id="muadzin2-name">Loading...</div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="jumat-officers">
-                    <h3><i class="fas fa-users"></i> PETUGAS JUMAT</h3>
-                    <div class="officers-grid">
-                        <div class="officer-item">
-                            <div class="officer-role">Imam</div>
-                            <div class="officer-name" id="imam-name">Loading...</div>
-                        </div>
-                        <div class="officer-item">
-                            <div class="officer-role">Khatib</div>
-                            <div class="officer-name" id="khatib-name">Loading...</div>
-                        </div>
-                        <div class="officer-item">
-                            <div class="officer-role">Muadzin 1</div>
-                            <div class="officer-name" id="muadzin1-name">Loading...</div>
-                        </div>
-                        <div class="officer-item">
-                            <div class="officer-role">Muadzin 2</div>
-                            <div class="officer-name" id="muadzin2-name">Loading...</div>
-                        </div>
+                <!-- SLIDE 2: Pengumuman Jumat (GAMBAR ONLY) -->
+                <div class="friday-slide" id="friday-slide-2">
+                    <div class="jumat-announcements">
+                        <h3><i class="fas fa-bullhorn"></i> PENGUMUMAN</h3>
+                        <!-- Container khusus untuk slides pengumuman (gambar only) -->
+                        <div class="announcement-container" id="announcement-container"></div>
                     </div>
-                </div>
-                
-                <div class="jumat-announcements">
-                    <h3><i class="fas fa-bullhorn"></i> PENGUMUMAN</h3>
-                    <!-- Announcements will be loaded dynamically -->
                 </div>
             </div>
         </div>
     </div>
     
     <footer class="prayer-schedule">
-        <div class="schedule-title">JADWAL SHALAT HARI INI</div>
+        <div class="schedule-title" id="schedule-title">JADWAL SHALAT HARI INI</div>
         <div class="prayer-grid" id="prayer-grid">
             <div class="prayer-item"><div class="prayer-name">Subuh</div><div class="prayer-time">--:--</div></div>
             <div class="prayer-item"><div class="prayer-name">Syuruq</div><div class="prayer-time">--:--</div></div>
-            <div class="prayer-item"><div class="prayer-name">Dzuhur</div><div class="prayer-time">--:--</div></div>
+            <div class="prayer-item"><div class="prayer-name" id="dzuhur-name">Dzuhur</div><div class="prayer-time">--:--</div></div>
             <div class="prayer-item"><div class="prayer-name">Ashar</div><div class="prayer-time">--:--</div></div>
             <div class="prayer-item"><div class="prayer-name">Maghrib</div><div class="prayer-time">--:--</div></div>
             <div class="prayer-item"><div class="prayer-name">Isya</div><div class="prayer-time">--:--</div></div>
@@ -1056,17 +1116,17 @@
 
     <script>
         // ========================================
-        // DISPLAY DIGITAL MASJID - REVISI FINAL
+        // DISPLAY DIGITAL MASJID - MODE JUMAT FIXED
         // ALL ISSUES FIXED:
-        // ✓ Hijri date tidak stuck "Loading..."
-        // ✓ Koordinat default Dramaga (-6.5456, 106.7367)
-        // ✓ Wallpaper images tampil 100%
-        // ✓ Announcement images tampil 100%
-        // ✓ Friday mode & Azan mode tetap berfungsi
+        // ✓ Friday slide rotation BERJALAN (1 menit interval)
+        // ✓ Jadwal & Petugas UPDATE saat diedit
+        // ✓ Design SIMETRIS, full height, no scroll
+        // ✓ Pengumuman GAMBAR ONLY (no text)
+        // ✓ Reset slide index saat masuk mode Jumat
         // ========================================
         
         // ========================================
-        // API CONFIGURATION - SESUAIKAN DENGAN DEPLOYMENT ANDA!
+        // API CONFIGURATION - HARDCODED (JANGAN UBAH)
         // ========================================
         const API_URL = "https://script.google.com/macros/s/AKfycbzyGqJ0H2u2s-PDA0LV_H06Cb8KbT2KcG8TF9SPkgehkZuKMvI6H1W5clX9hMye9GUN/exec";
         
@@ -1089,6 +1149,7 @@
         let fridayHadithIndex = 0;
         let announcementIndex = 0;
         let wallpaperIndex = 0;
+        let fridaySlideIndex = 0;        // Slide index untuk mode Jumat
         let audioContext;
         let beepSound;
         let azanPhase = 1;
@@ -1158,15 +1219,15 @@
                     console.log("✅ Friday adabs loaded:", adabsFridayData.length);
                 }
                 
-                // Fetch Friday Schedule
+                // Fetch Friday Schedule & UPDATE UI LANGSUNG
                 const scheduleRes = await fetch(`${API_URL}?path=friday-schedule`);
                 const scheduleResult = await scheduleRes.json();
                 
                 if (scheduleResult.success) {
                     fridayScheduleData = scheduleResult.data;
-                    console.log("✅ Friday schedule loaded");
+                    console.log("✅ Friday schedule loaded:", fridayScheduleData);
                     
-                    // Update UI
+                    // UPDATE UI LANGSUNG AGAR DATA REFRESH!
                     document.getElementById('khutbah-time').textContent = fridayScheduleData.khutbah_time || '11:30';
                     document.getElementById('iqamah-time').textContent = fridayScheduleData.iqamah_time || '12:00';
                     document.getElementById('imam-name').textContent = fridayScheduleData.imam_name || '-';
@@ -1184,7 +1245,7 @@
                         .filter(a => a.active)
                         .sort((a, b) => a.order - b.order);
                     console.log("✅ Announcements loaded:", announcementsData.length);
-                    renderAnnouncements();
+                    renderAnnouncements(); // GAMBAR ONLY
                 }
                 
                 // Fetch Wallpapers
@@ -1208,7 +1269,34 @@
         }
         
         // ========================================
-        // RENDER WALLPAPERS - FIXED: 100% WORKING!
+        // REFRESH FRIDAY DATA (AUTO UPDATE TIAP 5 MENIT)
+        // ========================================
+        async function refreshFridayData() {
+            if (currentMode !== "friday") return;
+            
+            try {
+                console.log("🔄 Refreshing Friday schedule data...");
+                const res = await fetch(`${API_URL}?path=friday-schedule`);
+                const result = await res.json();
+                
+                if (result.success) {
+                    fridayScheduleData = result.data;
+                    // Update UI langsung
+                    document.getElementById('khutbah-time').textContent = fridayScheduleData.khutbah_time || '11:30';
+                    document.getElementById('iqamah-time').textContent = fridayScheduleData.iqamah_time || '12:00';
+                    document.getElementById('imam-name').textContent = fridayScheduleData.imam_name || '-';
+                    document.getElementById('khatib-name').textContent = fridayScheduleData.khatib_name || '-';
+                    document.getElementById('muadzin1-name').textContent = fridayScheduleData.muadzin1_name || '-';
+                    document.getElementById('muadzin2-name').textContent = fridayScheduleData.muadzin2_name || '-';
+                    console.log("✅ Friday schedule updated:", fridayScheduleData);
+                }
+            } catch (error) {
+                console.error("❌ Error refreshing Friday data:", error);
+            }
+        }
+        
+        // ========================================
+        // RENDER WALLPAPERS
         // ========================================
         function renderWallpapers() {
             const container = document.getElementById('wallpaper-slider');
@@ -1231,8 +1319,6 @@
                 
                 const slide = document.createElement('div');
                 slide.className = `wallpaper-slide ${index === 0 ? 'active' : ''}`;
-                
-                // CRITICAL: Use background-image for better compatibility
                 slide.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)), url('${wallpaper.image_url}')`;
                 slide.style.backgroundSize = 'cover';
                 slide.style.backgroundPosition = 'center';
@@ -1248,60 +1334,57 @@
         }
         
         // ========================================
-        // RENDER ANNOUNCEMENTS - FIXED: 100% WORKING!
+        // RENDER ANNOUNCEMENTS - GAMBAR ONLY! (NO TEXT)
         // ========================================
         function renderAnnouncements() {
-            const container = document.querySelector('.jumat-announcements');
+            const container = document.getElementById('announcement-container');
             
-            // Save title
-            const title = container.querySelector('h3');
-            container.innerHTML = '';
-            container.appendChild(title);
-            
-            if (announcementsData.length === 0) {
-                console.warn("⚠️ No announcements data");
-                const noData = document.createElement('p');
-                noData.textContent = 'Belum ada pengumuman';
-                noData.style.textAlign = 'center';
-                noData.style.color = '#666';
-                noData.style.padding = '30px';
-                container.appendChild(noData);
+            if (!container) {
+                console.error("❌ announcement-container tidak ditemukan!");
                 return;
             }
             
-            console.log("🖼️ Rendering announcements:", announcementsData.length);
+            container.innerHTML = '';
+            
+            if (announcementsData.length === 0) {
+                const noData = document.createElement('div');
+                noData.className = 'announcement-slide active';
+                noData.innerHTML = '<p style="text-align: center; color: #666; font-size: 1.2rem;">Belum ada pengumuman</p>';
+                container.appendChild(noData);
+                console.log("📢 No announcements to display");
+                return;
+            }
+            
+            console.log("🖼️ Rendering announcements (GAMBAR ONLY):", announcementsData.length);
             
             announcementsData.forEach((announcement, index) => {
-                console.log(`  - Announcement ${index + 1}: ${announcement.image_url}`);
-                
                 const slide = document.createElement('div');
                 slide.className = `announcement-slide ${index === 0 ? 'active' : ''}`;
                 
+                // HANYA GAMBAR - NO TEXT!
                 if (announcement.image_url) {
                     const img = document.createElement('img');
                     img.src = announcement.image_url;
                     img.alt = `Pengumuman ${index + 1}`;
                     
                     img.onload = () => console.log(`  ✅ Announcement ${index + 1} loaded`);
-                    img.onerror = (e) => {
-                        console.error(`  ❌ Failed to load announcement ${index + 1}:`, announcement.image_url);
-                        // Fallback SVG
-                        img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="%23f0f0f0" width="400" height="300"/><text fill="%23999" x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="20">Image Not Available</text></svg>';
+                    img.onerror = () => {
+                        console.error(`  ❌ Failed load announcement ${index + 1}:`, announcement.image_url);
+                        img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="%23f0f0f0" width="400" height="300"/><text fill="%23999" x="50%" y="50%" text-anchor="middle" dy=".3em" font-size="20">Gambar Tidak Tersedia</text></svg>';
                     };
                     
                     slide.appendChild(img);
-                } else if (announcement.text) {
-                    const div = document.createElement('div');
-                    div.className = 'announcement-text';
-                    div.textContent = announcement.text;
-                    div.style.fontSize = '1.2rem';
-                    div.style.color = 'var(--friday-dark)';
-                    div.style.fontWeight = '600';
-                    slide.appendChild(div);
+                } else {
+                    // Skip announcement without image (tidak render text)
+                    console.log(`  ⚠️ Announcement ${index + 1} skipped: no image URL`);
+                    return;
                 }
                 
                 container.appendChild(slide);
             });
+            
+            // Reset announcement index
+            announcementIndex = 0;
         }
         
         // ========================================
@@ -1355,23 +1438,21 @@
         }
         
         // ========================================
-        // FETCH PRAYER TIMES FROM ALADHAN API - FIXED: HIJRI DATE NOW WORKS!
+        // FETCH PRAYER TIMES FROM ALADHAN API
         // ========================================
         async function fetchPrayerTimes() {
             try {
                 const now = new Date();
                 const dateString = formatDateToDDMMYYYY(now);
                 
-                // CRITICAL FIX: Default coordinates for Dramaga, Bogor
-                const latitude = configData.latitude || -6.5456;  // Dramaga, Bogor - AKURAT!
-                const longitude = configData.longitude || 106.7367; // Dramaga, Bogor
+                const latitude = configData.latitude || -6.5456;
+                const longitude = configData.longitude || 106.7367;
                 const method = configData.api_method || 11;
                 const timezone = configData.timezone || 'Asia/Jakarta';
                 
                 const apiUrl = `https://api.aladhan.com/v1/timings/${dateString}?latitude=${latitude}&longitude=${longitude}&method=${method}&timezone=${timezone}`;
                 
                 console.log("🔄 [2/6] Fetching prayer times from Aladhan API...");
-                console.log("   Coordinates:", latitude, longitude);
                 
                 const response = await fetch(apiUrl);
                 const data = await response.json();
@@ -1390,12 +1471,11 @@
                         "Isya": timings.Isha
                     };
                     
-                    // ========== CRITICAL FIX: HIJRI DATE PARSING ==========
+                    // Hijri date parsing
                     const hijri = data.data.date.hijri;
                     const hijriDay = hijri.day;
-                    const hijriMonth = hijri.month.ar; // Arabic month name (e.g. "Ramadhan")
+                    const hijriMonth = hijri.month.ar;
                     const hijriYear = hijri.year;
-                    
                     hijriDateString = `${hijriDay} ${hijriMonth} ${hijriYear} H`;
                     
                     // Gregorian date parsing
@@ -1434,7 +1514,7 @@
         }
         
         // ========================================
-        // FALLBACK PRAYER TIMES - FIXED: HIJRI DATE TIDAK STUCK "LOADING..."
+        // FALLBACK PRAYER TIMES
         // ========================================
         function useFallbackPrayerTimes() {
             console.warn("⚠️ Using fallback prayer times (offline mode)");
@@ -1455,8 +1535,6 @@
             
             currentDayName = dayNames[now.getDay()];
             gregorianDateString = `${currentDayName}, ${now.getDate()} ${monthNames[now.getMonth()]} ${now.getFullYear()}`;
-            
-            // FALLBACK: Approximate hijri date (bukan akurat, tapi tidak "Loading...")
             hijriDateString = "Tanggal Hijriah (Offline Mode)";
             
             updatePrayerScheduleUI();
@@ -1484,21 +1562,8 @@
         }
         
         function updateDatesUI() {
-            console.log("📅 Updating dates UI:", hijriDateString, gregorianDateString);
             document.getElementById('hijri-date').textContent = hijriDateString;
             document.getElementById('gregorian-date').textContent = gregorianDateString;
-        }
-        
-        // ========================================
-        // REFRESH API DATA (CACHE)
-        // ========================================
-        async function refreshApiData() {
-            const now = Date.now();
-            if (now - lastApiFetch > API_CACHE_TIME) {
-                console.log("🔄 Auto-refresh data API");
-                await fetchPrayerTimes();
-                await fetchAllData();
-            }
         }
         
         // ========================================
@@ -1701,8 +1766,39 @@
             wallpapers[wallpaperIndex].classList.add('active');
         }
         
+        // ========================================
+        // FRIDAY SLIDE ROTATION - FIXED: DIPANGGIL TIAP 1 MENIT!
+        // ========================================
+        function rotateFridaySlide() {
+            if (currentMode !== "friday") return;
+            
+            const slides = document.querySelectorAll('.friday-slide');
+            if (slides.length === 0) return;
+            
+            // Remove active from all
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            // Increment index
+            fridaySlideIndex = (fridaySlideIndex + 1) % slides.length;
+            
+            // Add active to current
+            slides[fridaySlideIndex].classList.add('active');
+            
+            console.log(`🔄 Friday slide rotated to: ${fridaySlideIndex + 1}/${slides.length}`);
+            
+            // TAMBAHAN: Kalau di slide Pengumuman, rotate gambar announcement juga
+            if (fridaySlideIndex === 1) {
+                // Slide 2 = Pengumuman - pastikan announcement rotation dimulai
+                rotateAnnouncement();
+            }
+        }
+        
+        // ========================================
+        // ROTATE ANNOUNCEMENT (DI SLIDE 2)
+        // ========================================
         function rotateAnnouncement() {
             if (currentMode !== "friday") return;
+            if (fridaySlideIndex !== 1) return; // Hanya rotate kalau di slide Pengumuman
             
             const slides = document.querySelectorAll('.announcement-slide');
             if (slides.length === 0) return;
@@ -1711,10 +1807,12 @@
             
             announcementIndex = (announcementIndex + 1) % slides.length;
             slides[announcementIndex].classList.add('active');
+            
+            console.log(`  📢 Announcement rotated to: ${announcementIndex + 1}/${slides.length}`);
         }
         
         // ========================================
-        // FRIDAY MODE (TETAP PERTAHANKAN FITUR INI!)
+        // FRIDAY MODE - DENGAN RESET SLIDE INDEX!
         // ========================================
         function checkFridayMode() {
             const now = new Date();
@@ -1766,6 +1864,27 @@
             document.body.classList.add('friday-mode');
             document.getElementById('friday-notification').classList.add('show');
             
+            // ===== RESET SLIDE INDEX KE 0 =====
+            fridaySlideIndex = 0;
+            announcementIndex = 0;
+            
+            // Activate first slide (Jadwal+Petugas)
+            const slides = document.querySelectorAll('.friday-slide');
+            slides.forEach((slide, i) => {
+                if (i === 0) slide.classList.add('active');
+                else slide.classList.remove('active');
+            });
+            
+            console.log("✅ Friday mode activated, starting with slide 1");
+            
+            // Reset announcement slides (active index 0)
+            const announcements = document.querySelectorAll('.announcement-slide');
+            announcements.forEach((ann, i) => {
+                if (i === 0) ann.classList.add('active');
+                else ann.classList.remove('active');
+            });
+            
+            // Set hadis Jumat
             fridayHadithIndex = 0;
             if (fridayWisdomsData.length > 0) {
                 const hadith = fridayWisdomsData[fridayHadithIndex];
@@ -1773,8 +1892,12 @@
                 document.getElementById('wisdom-reference').textContent = hadith.reference;
             }
             
+            // Update schedule title & prayer name
+            document.getElementById('schedule-title').textContent = "JADWAL SHALAT JUMAT";
+            const dzuhurName = document.getElementById('dzuhur-name');
+            if (dzuhurName) dzuhurName.textContent = "Jumat";
+            
             createAdabMarquee();
-            announcementIndex = 0;
         }
         
         function deactivateFridayMode() {
@@ -1785,12 +1908,17 @@
             document.getElementById('friday-notification').classList.remove('show');
             document.getElementById('friday-countdown').classList.remove('show');
             
+            // Reset title
+            document.getElementById('schedule-title').textContent = "JADWAL SHALAT HARI INI";
+            const dzuhurName = document.getElementById('dzuhur-name');
+            if (dzuhurName) dzuhurName.textContent = "Dzuhur";
+            
             initDailyContent();
             createAdabMarquee();
         }
         
         // ========================================
-        // AZAN & SALAH MODE (TETAP PERTAHANKAN FITUR INI!)
+        // AZAN & SALAH MODE (TETAP PERTAHANKAN)
         // ========================================
         function checkAzanMode() {
             if (currentMode === "friday") {
@@ -2026,19 +2154,19 @@
         }
         
         // ========================================
-        // INITIALIZATION - FIXED RACE CONDITION!
+        // INITIALIZATION - DENGAN FRIDAY SLIDE INTERVAL!
         // ========================================
         document.addEventListener('DOMContentLoaded', async function() {
             console.log("=".repeat(50));
-            console.log("🚀 STARTING DISPLAY DIGITAL MASJID - REVISI FINAL");
+            console.log("🚀 STARTING DISPLAY DIGITAL MASJID - MODE JUMAT FIXED");
             console.log("=".repeat(50));
             
             try {
-                // STEP 1: Fetch config first
-                console.log("\n📌 [1/6] Fetching config...");
+                // STEP 1: Fetch all data
+                console.log("\n📌 [1/6] Fetching config and data...");
                 await fetchAllData();
                 
-                // STEP 2: Fetch prayer times (depends on config)
+                // STEP 2: Fetch prayer times
                 console.log("\n📌 [2/6] Fetching prayer times...");
                 await fetchPrayerTimes();
                 
@@ -2054,18 +2182,17 @@
                 console.log("\n📌 [5/6] Creating adab marquee...");
                 createAdabMarquee();
                 
-                // STEP 6: Start timers
+                // STEP 6: Start timers and intervals
                 console.log("\n📌 [6/6] Starting timers and intervals...");
                 updateDateTime();
                 
-                // Setup fullscreen
+                // Fullscreen handling
                 setTimeout(() => {
                     if (!document.fullscreenElement) {
                         document.getElementById('fullscreen-overlay').style.display = 'flex';
                     }
                 }, 2000);
                 
-                // Fullscreen button
                 document.getElementById('enter-fullscreen-btn').addEventListener('click', function() {
                     enterFullscreen();
                     document.getElementById('fullscreen-overlay').style.display = 'none';
@@ -2075,13 +2202,20 @@
                 setInterval(updateDateTime, 1000);
                 setInterval(rotateWisdom, (configData.wisdom_duration || 60) * 1000);
                 setInterval(rotateWallpaper, (configData.wallpaper_duration || 30) * 1000);
-                setInterval(rotateAnnouncement, (configData.announcement_duration || 30) * 1000);
-                setInterval(checkFridayMode, 60000);
+                
+                // ========== FRIDAY MODE INTERVALS - CRITICAL FIX! ==========
+                setInterval(checkFridayMode, 60000);          // Cek mode Jumat setiap menit
+                setInterval(rotateFridaySlide, 60000);       // CRITICAL: Rotate slide Jumat setiap 1 menit!
+                setInterval(rotateAnnouncement, (configData.announcement_duration || 30) * 1000); // Rotate pengumuman di slide 2
+                setInterval(refreshFridayData, 300000);      // Refresh data Jumat setiap 5 menit (300000 ms)
+                
                 setInterval(checkAzanMode, 1000);
-                setInterval(refreshApiData, 3600000); // 1 hour
+                setInterval(refreshApiData, 3600000);        // 1 hour
                 
                 console.log("\n" + "=".repeat(50));
                 console.log("✅✅✅ DISPLAY INITIALIZED SUCCESSFULLY!");
+                console.log("✅ Friday slide rotation ACTIVE (60s interval)");
+                console.log("✅ Friday data refresh ACTIVE (5 menit)");
                 console.log("=".repeat(50));
                 
             } catch (error) {
