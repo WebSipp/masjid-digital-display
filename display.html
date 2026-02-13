@@ -1235,31 +1235,15 @@
                 const dateString = formatDateToDDMMYYYY(now);
                 
                 const latitude = configData.latitude || -6.5456;
-                const longitude = configData.longitude || 106.7367;
-                
-                // ✅ FIX: PAKSA METHOD 20 (Kemenag RI - verified untuk Bogor)
-                const method = 20;
-                
-                const timezone = configData.timezone || 'Asia/Jakarta';
-                
-                console.log(`🕋 Fetching prayer times for Bogor (${latitude}, ${longitude}) with method ${method}`);
-                
-                // ✅ FIX: TAMBAH &adjustment=1 UNTUK AKURASI BOGOR
-                const apiUrl = `https://api.aladhan.com/v1/timings/${dateString}?latitude=${latitude}&longitude=${longitude}&method=${method}&timezone=${timezone}&adjustment=1`;
-                
-                const response = await fetch(apiUrl, {
-                    method: 'GET',
-                    mode: 'cors',
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
+    const longitude = configData.longitude || 106.7367;
+    
+    // ✅ PAKAI BACKEND LU SENDIRI!
+    const url = `${API_URL}?path=prayer-times&date=${dateString}&lat=${latitude}&lng=${longitude}`;
+    
+    console.log('🕋 Fetching via backend proxy:', url);
+    
+    const response = await fetch(url);
+    const result = await response.json();
                 
                 if (data.code === 200 && data.data) {
                     console.log("✅ Prayer times API success! Method:", method);
