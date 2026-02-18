@@ -1,4 +1,4 @@
-<!-- FILE 2: display.html -->
+<!-- FILE 2: display.html - REVISI SELESAI -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -931,14 +931,19 @@
             background: rgba(212, 175, 55, 0.05);
         }
 
+        /* ===== REVISI 3: HIGHLIGHT KONTRAS ===== */
         .prayer-vertical-box-item.active {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-            border-color: var(--gold);
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            transform: scale(1.05);
         }
 
         .prayer-vertical-box-item.active .name,
         .prayer-vertical-box-item.active .time {
-            color: white;
+            color: #1A4D8C;
+            font-weight: 800;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
         }
 
         .prayer-vertical-box-item .name {
@@ -1182,10 +1187,11 @@
             width: 100%;
         }
 
+        /* ===== REVISI 1: MARQUEE SEQUENTIAL ===== */
         .marquee-track {
             display: inline-block;
             white-space: nowrap;
-            animation: marquee var(--marquee-speed) linear infinite;
+            animation: marquee var(--marquee-speed) linear forwards;
             padding-left: 100%;
         }
 
@@ -1196,7 +1202,7 @@
 
         .adab-item {
             display: inline-block;
-            margin: 0 40px;
+            white-space: nowrap;
         }
 
         .adab-item i {
@@ -1397,7 +1403,7 @@
 
     <script>
         // ========== KONFIGURASI ==========
-        const API_URL = "https://script.google.com/macros/s/AKfycbw1XBxMEwMl6PhEf1lCeBZvqPHsj2tAa73GL3Z5pfOzaL_Df_DTPC1kJiYcec2hUUNI/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycbw1XBxMEwMl6PhEf1lCeBZvqPHsj2tAa73GL3Z5pfOzaL_Df_DTPC1kJiYcec2hUUNI/exec"; 
 
         // ========== GLOBAL VARIABLES ==========
         const prayerOrder = ["Subuh", "Syuruq", "Dzuhur", "Ashar", "Maghrib", "Isya"];
@@ -1427,6 +1433,10 @@
         let wallpaperIndex = 0;
         let backgroundIndex = 0;
         let currentMode = "normal";
+        
+        // ===== REVISI 1: VARIABEL UNTUK RUNNING TEXT SEQUENTIAL =====
+        let adabIndex = 0;
+        let marqueeInterval = null;
         
         // Audio context for beep
         let audioContext = null;
@@ -1553,6 +1563,12 @@
                     // Update marquee speed
                     const marqueeSpeed = configData.marquee_speed || 300;
                     document.documentElement.style.setProperty('--marquee-speed', marqueeSpeed + 's');
+                    
+                    // ===== REVISI 1: RESTART MARQUEE INTERVAL =====
+                    if (marqueeInterval) {
+                        clearInterval(marqueeInterval);
+                    }
+                    marqueeInterval = setInterval(showNextAdab, marqueeSpeed * 1000);
                 }
                 
                 // Load prayer times
@@ -1570,6 +1586,11 @@
                 const adabsResult = await adabsRes.json();
                 if (adabsResult.success) {
                     adabsData = adabsResult.data.filter(a => a.active);
+                    
+                    // ===== REVISI 1: TAMPILKAN ADAB PERTAMA =====
+                    if (adabsData.length > 0) {
+                        showNextAdab();
+                    }
                 }
                 
                 // Load donation info
@@ -1586,7 +1607,6 @@
                 // Update UI
                 updateMasjidInfo();
                 updatePrayerVerticalBoxList();
-                updateGlobalMarquee();
                 
                 console.log("✅ All data loaded successfully!");
                 
@@ -1785,7 +1805,7 @@
             });
         }
 
-        // ========== CLOCK & ACTIVE PRAYER ==========
+        // ========== CLOCK & NEXT PRAYER ==========
         function updateDateTime() {
             const now = new Date();
             
@@ -1816,7 +1836,7 @@
             
             if (!modeActive) {
                 updateNextPrayer(now);
-                updateActivePrayer(now);
+                updateActivePrayer(now); // ===== REVISI 2: PAKAI FUNGSI BARU =====
             }
         }
         
@@ -1863,6 +1883,7 @@
             if (slide2Seconds) slide2Seconds.textContent = secondsStr;
         }
         
+        // ===== REVISI 2: FUNGSI BARU - HIGHLIGHT SHALAT BERIKUTNYA =====
         function updateActivePrayer(now) {
             const currentTime = now.getHours() * 60 + now.getMinutes();
             
@@ -1872,42 +1893,37 @@
             
             footerItems.forEach(item => item.classList.remove('active'));
             
-            for (let i = prayerOrder.length - 1; i >= 0; i--) {
+            // CARI SHALAT BERIKUTNYA (yang belum lewat)
+            let nextPrayerIndex = -1;
+            
+            for (let i = 0; i < prayerOrder.length; i++) {
                 const prayer = prayerOrder[i];
                 const [hour, minute] = prayerTimesData[prayer].split(':').map(Number);
                 const prayerTime = hour * 60 + minute;
                 
-                if (currentTime >= prayerTime) {
-                    if (footerItems[i]) {
-                        footerItems[i].classList.add('active');
-                    }
+                // Jika waktu shalat masih di depan, ini dia yang berikutnya
+                if (prayerTime > currentTime) {
+                    nextPrayerIndex = i;
                     break;
                 }
             }
             
-            if (!document.querySelector('#footer-prayer-grid .prayer-footer-item.active') && footerItems[5]) {
-                footerItems[5].classList.add('active');
+            // Kalau semua shalat udah lewat, berarti next = Subuh besok
+            if (nextPrayerIndex === -1) {
+                nextPrayerIndex = 0; // Subuh (index 0)
             }
             
-            // Update vertical box active prayer
+            // Highlight next prayer di footer
+            if (footerItems[nextPrayerIndex]) {
+                footerItems[nextPrayerIndex].classList.add('active');
+            }
+            
+            // Update vertical box juga (slide 3)
             const verticalItems = document.querySelectorAll('.prayer-vertical-box-item');
             verticalItems.forEach(item => item.classList.remove('active'));
             
-            for (let i = prayerOrder.length - 1; i >= 0; i--) {
-                const prayer = prayerOrder[i];
-                const [hour, minute] = prayerTimesData[prayer].split(':').map(Number);
-                const prayerTime = hour * 60 + minute;
-                
-                if (currentTime >= prayerTime) {
-                    if (verticalItems[i]) {
-                        verticalItems[i].classList.add('active');
-                    }
-                    break;
-                }
-            }
-            
-            if (!document.querySelector('.prayer-vertical-box-item.active') && verticalItems[5]) {
-                verticalItems[5].classList.add('active');
+            if (verticalItems[nextPrayerIndex]) {
+                verticalItems[nextPrayerIndex].classList.add('active');
             }
         }
 
@@ -2085,27 +2101,28 @@
             }
         }
 
-        // ========== GLOBAL MARQUEE ==========
-        function updateGlobalMarquee() {
+        // ===== REVISI 1: FUNGSI UNTUK MENAMPILKAN ADAB SATU PER SATU =====
+        function showNextAdab() {
             const track = document.getElementById('global-marquee-track');
             track.innerHTML = '';
             
             if (adabsData.length === 0) {
-                track.innerHTML = '<span class="adab-item"><i class="fas fa-mosque"></i> Selamat datang di Masjid</span>';
+                const item = document.createElement('span');
+                item.className = 'adab-item';
+                item.innerHTML = '<i class="fas fa-mosque"></i> Selamat datang di Masjid';
+                track.appendChild(item);
                 return;
             }
             
-            adabsData.sort((a, b) => a.order - b.order);
+            // Render SATU item saja sesuai index
+            const adab = adabsData[adabIndex];
+            const item = document.createElement('span');
+            item.className = 'adab-item';
+            item.innerHTML = `<i class="${adab.icon}"></i> ${adab.text}`;
+            track.appendChild(item);
             
-            // Duplicate for smooth scrolling
-            for (let i = 0; i < 3; i++) {
-                adabsData.forEach(adab => {
-                    const item = document.createElement('span');
-                    item.className = 'adab-item';
-                    item.innerHTML = `<i class="${adab.icon}"></i> ${adab.text}`;
-                    track.appendChild(item);
-                });
-            }
+            // Update index untuk item berikutnya
+            adabIndex = (adabIndex + 1) % adabsData.length;
         }
 
         // ========== SLIDE ROTATION ==========
